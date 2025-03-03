@@ -1,10 +1,14 @@
 "use client";
 import ".././globals.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import TDSR_logo from "../../pictures/tdsr-full-logo.svg";
+
 interface CarRevealButtonProps {
   onClick?: () => void;
 }
+
 /**
  * A red, oval-shaped button that displays "CAR REVEAL LIVE"
  * with a small arrow pointing to the top-right.
@@ -14,10 +18,11 @@ export default function CarRevealButton({ onClick }: CarRevealButtonProps) {
     <button
       onClick={onClick}
       style={{
-        background: 'linear-gradient(to top right, var(--red), var(--red), var(--orange))',
+        background:
+          'linear-gradient(to top right, var(--red), var(--red), var(--orange))',
         color: 'white',
         border: 'none',
-        borderRadius: '9999px',    // Large radius for an oval/pill shape
+        borderRadius: '9999px', // Oval/pill shape
         padding: '0.5rem 1rem',
         display: 'inline-flex',
         alignItems: 'center',
@@ -26,7 +31,6 @@ export default function CarRevealButton({ onClick }: CarRevealButtonProps) {
       }}
     >
       LIVE
-      {/* SVG arrow pointing top-right */}
       <span style={{ marginLeft: '8px', display: 'inline-flex' }}>
         <svg
           width="16"
@@ -36,8 +40,6 @@ export default function CarRevealButton({ onClick }: CarRevealButtonProps) {
           xmlns="http://www.w3.org/2000/svg"
           style={{
             transform: 'rotate(0deg)',
-            // If you want to emphasize a top-right direction,
-            // you can adjust rotation or path for a steeper angle
           }}
         >
           <path
@@ -59,51 +61,91 @@ export default function CarRevealButton({ onClick }: CarRevealButtonProps) {
     </button>
   );
 }
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // When scroll exceeds 100px, show the small logo in the navbar
+      if (window.scrollY > 100) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-black text-white">
-      <div className="absolute top-5 left-10">
-        <CarRevealButton/>
-      </div>
-      
-      <nav className="absolute top-5 right-10 --background text-white">
-        <div className="flex items-center justify-end p-4">
-          {/* Hamburger Menu */}
-          <button
-            className="block focus:outline-none"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <div className="space-y-2">
-              <span className="block w-8 h-1 bg-white"></span>
-              <span className="block w-8 h-1 bg-white"></span>
-              <span className="block w-8 h-1 bg-white"></span>
-            </div>
-          </button>
+    <header className="sticky top-0 z-50 w-full  text-white">
+      <div className="flex items-center justify-between p-4">
+        {/* Left Section: CarRevealButton */}
+        <div>
+          <CarRevealButton />
         </div>
 
-        {/* Folded Menu */}
-        {isOpen && (
-          <div className="absolute top-full right-0 w-64 --background">
-            <div className="flex flex-col items-start p-4 space-y-4">
-              <Link href="/" className="w-full text-left hover:text-gray-300" onClick={() => setIsOpen(false)}>
-                Home
-              </Link>
-              <Link href="/about" className="w-full text-left hover:text-gray-300" onClick={() => setIsOpen(false)}>
-                About
-              </Link>
-              <Link href="/services" className="w-full text-left hover:text-gray-300" onClick={() => setIsOpen(false)}>
-                Services
-              </Link>
-              <Link href="/contact" className="w-full text-left hover:text-gray-300" onClick={() => setIsOpen(false)}>
-                Contact
-              </Link>
+        {/* Center Section: Small Logo, visible when scrolled */}
+        <div className="flex-1 flex justify-center">
+          {scrolled && (
+            <div className="w-32">
+              <Image
+                src={TDSR_logo}
+                alt="TDSR logo"
+                className="w-full"
+                priority
+              />
             </div>
+          )}
+        </div>
+        <button
+          className="block focus:outline-none"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <div className="space-y-2">
+            <span className="block w-8 h-1 bg-white"></span>
+            <span className="block w-8 h-1 bg-white"></span>
+            <span className="block w-8 h-1 bg-white"></span>
           </div>
-        )}
-      </nav>
+        </button>
+      </div>
+
+      {isOpen && (
+        <div className="fixed md:absolute inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-80 h-screen bg-[var(--background)] z-40">
+          <div className="flex flex-col items-center md:items-start pt-20 p-4 space-y-4">
+            <Link
+              href="/"
+              className="w-full text-center md:text-left hover:text-gray-300"
+              onClick={() => setIsOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/about"
+              className="w-full text-center md:text-left hover:text-gray-300"
+              onClick={() => setIsOpen(false)}
+            >
+              About
+            </Link>
+            <Link
+              href="/services"
+              className="w-full text-center md:text-left hover:text-gray-300"
+              onClick={() => setIsOpen(false)}
+            >
+              Services
+            </Link>
+            <Link
+              href="/contact"
+              className="w-full text-center md:text-left hover:text-gray-300"
+              onClick={() => setIsOpen(false)}
+            >
+              Contact
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
-
