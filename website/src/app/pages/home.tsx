@@ -4,6 +4,9 @@ import { Navbar } from './navbar';
 import CarReveal from "./car_reveal";
 import Stories from "./stories";
 import ScrollProgressBar from "../util/sideBar";
+import Supporters from './sponsors';
+import ImageScroller from './bottomPage';
+import Footer from '../util/footer';
 // Scroll Progress Bar Component
 
 export default function HomePage() {
@@ -22,8 +25,15 @@ export default function HomePage() {
         <div className="row-start-4 row-end-5">
             <Stories/>
         </div>
+        <div className="row-start-5 row-end-6">
+            <Supporters/>
+        </div>
+        <div className="row-start-6 row-end-7">
+          <ImageScroller/>
+        </div>
         {/* Scroll Progress Bar */}
         <ScrollProgressBar />
+        <Footer />
       </div>
     </>
   );

@@ -27,10 +27,17 @@ const CarReveal = () => {
         }}
       />
 
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center">
-        <h1 className="text-2xl font-bold">⏳ BWSC Timer</h1>
-        <CountdownTimer/>
+    <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center flex flex-col items-center space-y-2">
+      <div
+        className="text-white px-4 py-2 rounded-md shadow-md font-semibold"
+        style={{
+          backgroundImage: "linear-gradient(to right, var(--green1), var(--green3))",
+        }}
+      >
+        Time until race: <CountdownTimer />
       </div>
+
+    </div>
 
     </div>
   );

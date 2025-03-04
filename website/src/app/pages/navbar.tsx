@@ -83,13 +83,13 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full  text-white">
       <div className="flex items-center justify-between p-4">
         {/* Left Section: CarRevealButton */}
-        <div>
+        <div className="z-50 w-16">	
           <CarRevealButton />
         </div>
 
         {/* Center Section: Small Logo, visible when scrolled */}
-        <div className="flex-1 flex justify-center">
-          {scrolled && (
+        <div className="z-50 flex">
+          {(scrolled||(isOpen)) && (
             <div className="w-32">
               <Image
                 src={TDSR_logo}
@@ -100,19 +100,22 @@ export function Navbar() {
             </div>
           )}
         </div>
-        <button
-          className="block focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <div className="space-y-2">
-            <span className="block w-8 h-1 bg-white"></span>
-            <span className="block w-8 h-1 bg-white"></span>
-            <span className="block w-8 h-1 bg-white"></span>
-          </div>
-        </button>
+        <div className="flex w-16 justify-end">
+          <button
+            className="block focus:outline-none z-50"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <div className="space-y-2">
+              <span className="block w-8 h-1 bg-white"></span>
+              <span className="block w-8 h-1 bg-white"></span>
+              <span className="block w-8 h-1 bg-white"></span>
+            </div>
+          </button>
+        </div>
       </div>
 
       {isOpen && (
+        
         <div className="fixed md:absolute inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-80 h-screen bg-[var(--background)] z-40">
           <div className="flex flex-col items-center md:items-start pt-20 p-4 space-y-4">
             <Link

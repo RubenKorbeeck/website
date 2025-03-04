@@ -37,7 +37,7 @@ const ScrollProgressBar = () => {
 
   return (
     <div
-      className="fixed right-2 top-14 bottom-5 transform -translate-x-1/2 cursor-pointer"
+      className="fixed right-2 top-20 bottom-5 transform -translate-x-1/2 cursor-pointer"
       onClick={handleClick}
     >
       <div className="w-2 h-full bg-transparent border-4 border-gray-300 rounded-full">
