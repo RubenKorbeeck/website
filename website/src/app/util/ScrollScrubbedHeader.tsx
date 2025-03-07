@@ -56,22 +56,25 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
   const currentHeight = 100 - (100 - 20) * normalizedProgress;
   // Inner element width: from 75% to 0%.
   const currentWidth = 75 - (75 - 0) * normalizedProgress;
+
+  const currentOpacity = Math.max(1 - 2*normalizedProgress, 0);
   // Inner element vertical movement: from 0px to -150px.
   const currentTranslateY = -150 * normalizedProgress;
 
   return (
     <div
-      className="relative flex flex-col items-center justify-start transition-all duration-200 linear"
+      className="relative flex flex-col items-center justify-start transition-all duration-500 linear"
       style={{ height: `${currentHeight}vh` }}
     >
       {/* Debug output for progress */}
       
       <main className="flex flex-col gap-8 items-center mt-[200px] w-full">
         <div
-          className="flex justify-center items-center transition-all duration-200 ease-in-out"
+          className="flex justify-center items-center transition-all duration-500 linear"
           style={{
             width: `${currentWidth}%`,
             transform: `translateY(${currentTranslateY}px)`,
+            opacity: `${currentOpacity}`,
           }}
         >
           <Image
