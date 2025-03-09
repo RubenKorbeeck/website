@@ -89,16 +89,13 @@ export function Navbar() {
 
         {/* Center Section: Small Logo, visible when scrolled */}
         <div className="z-50 flex">
-          {(scrolled||(isOpen)) && (
-            <div className="w-32">
-              <Image
-                src={TDSR_logo}
-                alt="TDSR logo"
-                className="w-full"
-                priority
-              />
-            </div>
-          )}
+          <div
+            className={`w-32 transition-all duration-500 linear ${
+              scrolled || isOpen ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Image src={TDSR_logo} alt="TDSR logo" className="w-full" priority />
+          </div>
         </div>
         <div className="flex w-16 justify-end">
           <button
