@@ -4,10 +4,10 @@ import Image from "next/image";
 
 // Replace these with your actual image paths and alt text.
 const images = [
-  { src: "/images/photo1.jpg", alt: "Photo 1" },
-  { src: "/images/photo2.jpg", alt: "Photo 2" },
-  { src: "/images/photo3.jpg", alt: "Photo 3" },
-  { src: "/images/photo4.jpg", alt: "Photo 4" },
+  { src: "/pictures/scrollPictures/picture1.jpg", alt: "Photo 1" },
+  { src: "/pictures/scrollPictures/picture2.jpg", alt: "Photo 2" },
+  { src: "/pictures/scrollPictures/picture3.jpg", alt: "Photo 3" },
+  { src: "/pictures/scrollPictures/picture4.jpg", alt: "Photo 4" },
 ];
 
 const ImageScroller: React.FC = () => {
