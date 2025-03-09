@@ -1,7 +1,8 @@
 "use client";
 import LandPage from './landpage';
 import { Navbar } from './navbar';
-import CarReveal from "./car_reveal";
+import CarRevealMobile from "./carRevealMobile";
+import CarRevealDesktop from "./carRevealDesktop";
 import Stories from "./stories";
 import ScrollProgressBar from "../util/sideBar";
 import Supporters from './sponsors';
@@ -20,7 +21,8 @@ export default function HomePage() {
         </div>
         {/* CarReveal Section */}
         <div className="row-start-3 row-end-4 overflow-hidden">
-          <CarReveal />
+          <CarRevealMobile/>
+          <CarRevealDesktop/>
         </div>
         <div className="row-start-4 row-end-5">
             <Stories/>

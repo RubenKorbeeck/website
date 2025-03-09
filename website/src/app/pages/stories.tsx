@@ -17,20 +17,6 @@ const stories = [
     image: "https://via.placeholder.com/400",
     reverse: false,
   },
-  {
-    id: 3,
-    title: "Story Two",
-    description: "This is the second story with an image on the left.",
-    image: "https://via.placeholder.com/400",
-    reverse: false,
-  },
-  {
-    id: 4,
-    title: "Story Two",
-    description: "This is the second story with an image on the left.",
-    image: "https://via.placeholder.com/400",
-    reverse: false,
-  },
 ];
 
 const Stories = () => {
