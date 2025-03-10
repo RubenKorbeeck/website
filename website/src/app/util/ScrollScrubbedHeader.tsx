@@ -85,9 +85,9 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
           />
         </div>
       </main>
-      <div className="absolute bottom-0 left-0 p-2 bg-white/70 text-black">
+      {/* <div className="absolute bottom-0 left-0 p-2 bg-white/70 text-black">
         {normalizedProgress.toFixed(2)}
-      </div>
+      </div> */}
     </div>
   );
 };
