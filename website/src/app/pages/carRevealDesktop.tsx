@@ -7,7 +7,7 @@ import CountdownTimer from '../util/timer';
 
 const CarRevealDesktop = () => {
   return (
-    <div
+    <div className="hidden md:block"
       style={{
         width: '100vw',
         height: '100vh',
