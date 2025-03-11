@@ -143,6 +143,13 @@ export function Navbar() {
             >
               Contact
             </Link>
+            <Link
+              href="/team25"
+              className="w-full text-center md:text-left hover:text-gray-300"
+              onClick={() => setIsOpen(false)}
+            >
+              Teams
+            </Link>
           </div>
         </div>
       )}
