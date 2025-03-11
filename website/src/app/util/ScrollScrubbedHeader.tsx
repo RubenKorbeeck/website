@@ -29,10 +29,7 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
       const Hf = 0.2 * H0; // final header height = 20vh
       const delta = H0 - Hf; // total shrink in px (should be 0.8 * H0)
 
-      // To cancel out the header shrink effect, we adjust the scroll progress by
-      // dividing by a factor that accounts for the lost height.
-      // That factor is: (1 - delta/threshold)
-      // Ensure threshold > delta, otherwise fallback to no adjustment.
+      // Adjust the scroll progress by dividing by a factor that accounts for the lost height.
       const factor = threshold > delta ? 1 - delta / threshold : 1;
       const adjustedProgress = scrolled / (threshold * factor);
       const clamped = Math.min(Math.max(adjustedProgress, 0), 1);
@@ -52,22 +49,16 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
   );
 
   // Interpolated style values.
-  // Header height: from 100vh to 20vh.
-  const currentHeight = 100 - (100 - 20) * normalizedProgress;
-  // Inner element width: from 75% to 0%.
-  const currentWidth = 75 - (75 - 0) * normalizedProgress;
-
-  const currentOpacity = Math.max(1 - 2*normalizedProgress, 0);
-  // Inner element vertical movement: from 0px to -150px.
-  const currentTranslateY = -150 * normalizedProgress;
+  const currentHeight = 100 - (100 - 20) * normalizedProgress; // from 100vh to 20vh.
+  const currentWidth = 75 - (75 - 0) * normalizedProgress; // from 75% to 0%.
+  const currentOpacity = Math.max(1 - 2 * normalizedProgress, 0);
+  const currentTranslateY = -150 * normalizedProgress; // from 0px to -150px.
 
   return (
     <div
       className="relative flex flex-col items-center justify-start transition-all duration-500 linear"
       style={{ height: `${currentHeight}vh` }}
     >
-      {/* Debug output for progress */}
-      
       <main className="flex flex-col gap-8 items-center mt-[200px] w-full">
         <div
           className="flex justify-center items-center transition-all duration-500 linear"
@@ -85,9 +76,7 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
           />
         </div>
       </main>
-      {/* <div className="absolute bottom-0 left-0 p-2 bg-white/70 text-black">
-        {normalizedProgress.toFixed(2)}
-      </div> */}
+      {/* Green blur line at the bottom with stronger upward blur */}
     </div>
   );
 };
