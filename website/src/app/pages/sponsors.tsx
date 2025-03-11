@@ -46,17 +46,17 @@ const logos = [
   { src: RDW,          top: "50%", left: "2vw",  speed: 1.9, width: 100 },
   { src: sony,         top: "4%",  left: "90vw", speed: 1.1, width: 100 },
   { src: assen,        top: "0%",  left: "35vw", speed: 1.8, width: 100 },
-  { src: cablemasters, top: "90%", left: "20vw", speed: 0.7, width: 100 },
-  { src: koopman,      top: "90%", left: "5vw",  speed: 1.2, width: 100 },
+  { src: cablemasters, top: "80%", left: "20vw", speed: 0.7, width: 100 },
+  { src: koopman,      top: "77%", left: "5vw",  speed: 1.2, width: 100 },
   { src: pouw,         top: "2%",  left: "4vw",  speed: 1.0, width: 100 },
-  { src: rabobank,     top: "92%", left: "70vw", speed: 1.3, width: 100 },
+  { src: rabobank,     top: "78%", left: "70vw", speed: 1.3, width: 100 },
 ];
 
 export default function Supporters() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   // The scroll position at which the effect starts
-  const scrollStart = 1200;
+  const scrollStart = 1050;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -83,7 +83,7 @@ export default function Supporters() {
   const adjustedScroll = Math.max(scrollY - scrollStart, 0);
 
   return (
-    <div className="relative w-full h-[100vh] bg-black text-white overflow-hidden">
+    <div className="relative w-full h-[100vh] text-white overflow-hidden">
       {/* Centered text */}
       <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl md:text-2xl font-bold text-center">
         Thanks to all the supporters

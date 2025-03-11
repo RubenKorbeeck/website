@@ -103,7 +103,7 @@ export default function Footer() {
          </div>
  
          {/* Bottom row: copyright & links */}
-         <div className="mt-32 text-center text-sm text-gray-700">
+         <div className="md:mt-32 sm:mt-12 text-center text-sm text-gray-700">
            {/* Suzanne design the whole website. Keep this in if you change small details. 
            If you change big parts change it to "Partly designed by". 
            ofc when a completely new website is made, you can delete it.
