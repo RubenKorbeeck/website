@@ -112,11 +112,18 @@ const CarRevealDesktop = () => {
           style={{ objectFit: "contain" }}
         />
         <Image
+          src={greenfalcon}
+          alt="Green Thunder"
+          fill
+          style={{ objectFit: "contain",filter: "Brightness(0.01)", ...topImageStyle }}
+        />
+        <Image
           src={greenThunder}
           alt="Green Thunder"
           fill
           style={{ objectFit: "contain", ...topImageStyle }}
         />
+        
       </div>
 
       {/* Render interactive pins only if the mouse is inside and within the mask circle */}
