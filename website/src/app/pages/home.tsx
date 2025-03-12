@@ -9,6 +9,7 @@ import ScrollProgressBar from "../util/sideBar";
 import Supporters from "./sponsors";
 import ImageScroller from "./bottomPage";
 import Footer from "../util/footer";
+import Scrollbar from "smooth-scrollbar";
 
 export default function HomePage() {
   // State to track if the <Stories> section is in view.
@@ -22,7 +23,7 @@ export default function HomePage() {
       ([entry]) => {
         setStoriesInView(entry.isIntersecting);
       },
-      { threshold: 0.80 } // Trigger when 75% of <Stories> is visible
+      { threshold: 0.80 } // Trigger when 80% of <Stories> is visible
     );
 
     if (storiesRef.current) {
@@ -37,41 +38,57 @@ export default function HomePage() {
     };
   }, []);
 
+  // Initialize Smooth Scrollbar for inertial scrolling
+  useEffect(() => {
+    const scrollContainer = document.querySelector('#scroll-container');
+    if (scrollContainer) {
+      const scrollbar = Scrollbar.init(scrollContainer, {
+        damping: 0.08, // Lower values yield a longer glide effect
+      });
+      // Cleanup the scrollbar on unmount
+      return () => {
+        scrollbar.destroy();
+      };
+    }
+  }, []);
+
   return (
-    <div
-      className="relative"
-      style={{
-        transition: "background-color 1s ease",
-        backgroundColor: storiesInView
-          ? "var(--foreground)"
-          : "var(--background)",
-      }}
-    >
-      <Navbar />
-      {/* LandPage Section */}
-      <div className="relative row-start-2 items-center">
-        <LandPage />
+    <div id="scroll-container" style={{ height: "100vh", overflow: "hidden" }}>
+      <div
+        className="relative"
+        style={{
+          transition: "background-color 1s ease",
+          backgroundColor: storiesInView
+            ? "var(--foreground)"
+            : "var(--background)",
+        }}
+      >
+        <Navbar />
+        {/* LandPage Section */}
+        <div className="relative row-start-2 items-center">
+          <LandPage />
+        </div>
+        {/* CarReveal Section */}
+        <div className="row-start-3 overflow-hidden">
+          <CarRevealMobile />
+          <CarRevealDesktop />
+        </div>
+        {/* Stories Section */}
+        <div ref={storiesRef} className="row-start-4">
+          <Stories />
+        </div>
+        {/* Supporters Section */}
+        <div className="row-start-5">
+          <Supporters />
+        </div>
+        {/* ImageScroller Section */}
+        <div className="row-start-6">
+          <ImageScroller />
+        </div>
+        {/* Scroll Progress Bar */}
+        <ScrollProgressBar />
+        <Footer />
       </div>
-      {/* CarReveal Section */}
-      <div className="row-start-3 overflow-hidden">
-        <CarRevealMobile />
-        <CarRevealDesktop />
-      </div>
-      {/* Stories Section */}
-      <div ref={storiesRef} className="row-start-4">
-        <Stories />
-      </div>
-      {/* Supporters Section */}
-      <div className="row-start-5">
-        <Supporters />
-      </div>
-      {/* ImageScroller Section */}
-      <div className="row-start-6">
-        <ImageScroller />
-      </div>
-      {/* Scroll Progress Bar */}
-      <ScrollProgressBar />
-      <Footer />
     </div>
   );
 }
