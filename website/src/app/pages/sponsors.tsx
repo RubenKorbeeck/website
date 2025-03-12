@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Scrollbar from "smooth-scrollbar";
 
 const offset = 1000;
-
 // Import logos
 import rug from "../../pictures/partners/rug.svg";
 import hanze from "../../pictures/partners/hanze.svg";
@@ -25,7 +25,6 @@ import koopman from "../../pictures/partners/koopman.svg";
 import pouw from "../../pictures/partners/pouw.svg";
 import rabobank from "../../pictures/partners/rabobank.svg";
 
-// Updated logos array with locations exactly as provided.
 const logos = [
   // "green" group
   { src: hanze,        top: "10%",  left: "65vw", speed: 1.8, width: 150 },
@@ -51,46 +50,54 @@ const logos = [
   { src: pouw,         top: "2%",  left: "4vw",  speed: 1.0, width: 100 },
   { src: rabobank,     top: "78%", left: "70vw", speed: 1.3, width: 100 },
 ];
+// Import logos
+// ... (your logos array as defined earlier)
 
 export default function Supporters() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  // The scroll position at which the effect starts
   const scrollStart = 1050;
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener("scroll", handleScroll);
-    // Run once on mount
-    handleScroll();
+    let scrollbarInstance = null;
+    // Poll for the scrollbar instance every 100ms
+    const interval = setInterval(() => {
+      const scrollContainer = document.querySelector("#scroll-container");
+      if (scrollContainer) {
+        scrollbarInstance = Scrollbar.get(scrollContainer);
+        if (scrollbarInstance) {
+          const handleScrollbarScroll = ({ offset }) => {
+            setScrollY(offset.y);
+          };
+          scrollbarInstance.addListener(handleScrollbarScroll);
+          clearInterval(interval);
+          // Cleanup: remove listener when the component unmounts
+          return () => {
+            scrollbarInstance.removeListener(handleScrollbarScroll);
+          };
+        }
+      }
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
 
-    // Determine if the device is considered mobile.
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Apply scroll effect only after reaching scrollStart
   const adjustedScroll = Math.max(scrollY - scrollStart, 0);
 
   return (
     <div className="relative w-full h-[100vh] text-white overflow-hidden">
-      {/* Centered text */}
       <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl md:text-2xl font-bold text-center">
         Thanks to all the supporters
       </h1>
-      {/* Render each logo with floating effect */}
       {logos.map((logo, index) => {
-        // Compute adjusted width for mobile devices.
         const adjustedWidth = isMobile ? logo.width / 2 : logo.width;
         return (
           <div
@@ -109,7 +116,7 @@ export default function Supporters() {
               height={adjustedWidth}
               style={{
                 objectFit: "contain",
-                filter: "brightness(0) invert(1)", // makes the image appear white
+                filter: "brightness(0) invert(1)",
               }}
             />
           </div>

@@ -30,6 +30,11 @@ body {
 ::-webkit-scrollbar {
   display: none; 
 }
+/* Hide Smooth Scrollbar UI elements */
+.scrollbar-track,
+.scrollbar-thumb {
+  display: none !important;
+}
 
 body {
   scrollbar-width: none; 

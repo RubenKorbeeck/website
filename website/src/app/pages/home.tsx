@@ -53,42 +53,44 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div id="scroll-container" style={{ height: "100vh", overflow: "hidden" }}>
-      <div
-        className="relative"
-        style={{
-          transition: "background-color 1s ease",
-          backgroundColor: storiesInView
-            ? "var(--foreground)"
-            : "var(--background)",
-        }}
-      >
-        <Navbar />
-        {/* LandPage Section */}
-        <div className="relative row-start-2 items-center">
-          <LandPage />
+    <div className="relative"
+    style={{
+      transition: "background-color 1s ease",
+      backgroundColor: storiesInView
+        ? "var(--foreground)"
+        : "var(--background)",
+    }}>
+      <Navbar />
+      <div id="scroll-container" style={{ height: "100vh", overflow: "hidden" }}>
+        <div>
+          
+          {/* LandPage Section */}
+          <div className="relative row-start-2 items-center">
+            <LandPage />
+          </div>
+          {/* CarReveal Section */}
+          <div className="row-start-3 overflow-hidden">
+            <CarRevealMobile />
+            <CarRevealDesktop />
+          </div>
+          {/* Stories Section */}
+          <div ref={storiesRef} className="row-start-4">
+            <Stories />
+          </div>
+          {/* Supporters Section */}
+          <div className="row-start-5">
+            <Supporters />
+          </div>
+          {/* ImageScroller Section */}
+          <div className="row-start-6">
+            <ImageScroller />
+          </div>
+          {/* Scroll Progress Bar */}
+          <Footer />
         </div>
-        {/* CarReveal Section */}
-        <div className="row-start-3 overflow-hidden">
-          <CarRevealMobile />
-          <CarRevealDesktop />
-        </div>
-        {/* Stories Section */}
-        <div ref={storiesRef} className="row-start-4">
-          <Stories />
-        </div>
-        {/* Supporters Section */}
-        <div className="row-start-5">
-          <Supporters />
-        </div>
-        {/* ImageScroller Section */}
-        <div className="row-start-6">
-          <ImageScroller />
-        </div>
-        {/* Scroll Progress Bar */}
-        <ScrollProgressBar />
-        <Footer />
       </div>
+      <ScrollProgressBar />
+      
     </div>
   );
 }

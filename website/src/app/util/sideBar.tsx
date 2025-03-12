@@ -1,42 +1,77 @@
 "use client";
 import { useEffect, useState } from "react";
+import Scrollbar from "smooth-scrollbar";
 
 const ScrollProgressBar = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  const updateScrollProgress = () => {
-    const scrollTop = window.scrollY;
-    const documentHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-    const totalScrollableHeight = documentHeight - clientHeight;
-    const progress = (scrollTop / totalScrollableHeight) * 100;
-    setScrollProgress(Math.min(progress, 100)); // Clamp value between 0-100%
-  };
-
+  // Update scroll progress based on the Smooth Scrollbar offset.
   useEffect(() => {
-    window.addEventListener("scroll", updateScrollProgress);
-    return () => window.removeEventListener("scroll", updateScrollProgress);
+    let scrollbarInstance = null;
+    const updateScrollProgressFromOffset = ({ offset }) => {
+      const scrollTop = offset.y;
+      // Use the scroll container to determine the total scrollable height.
+      const scrollContainer = document.querySelector("#scroll-container");
+      if (scrollContainer) {
+        const containerHeight = scrollContainer.scrollHeight;
+        const clientHeight = scrollContainer.clientHeight;
+        const totalScrollableHeight = containerHeight - clientHeight;
+        const progress = (scrollTop / totalScrollableHeight) * 100;
+        setScrollProgress(Math.min(progress, 100));
+      }
+    };
+
+    const interval = setInterval(() => {
+      const scrollContainer = document.querySelector("#scroll-container");
+      if (scrollContainer) {
+        scrollbarInstance = Scrollbar.get(scrollContainer);
+        if (scrollbarInstance) {
+          scrollbarInstance.addListener(updateScrollProgressFromOffset);
+          // Set the initial progress.
+          updateScrollProgressFromOffset({ offset: scrollbarInstance.offset });
+          clearInterval(interval);
+        }
+      }
+    }, 100);
+
+    return () => {
+      clearInterval(interval);
+      if (scrollbarInstance) {
+        scrollbarInstance.removeListener(updateScrollProgressFromOffset);
+      }
+    };
   }, []);
 
-  // Click on the progress bar to scroll to that position.
+  // Helper to scroll to a given percentage using Smooth Scrollbar.
+  const scrollToPercentage = (percentage) => {
+    const scrollContainer = document.querySelector("#scroll-container");
+    if (scrollContainer) {
+      const scrollbarInstance = Scrollbar.get(scrollContainer);
+      if (scrollbarInstance) {
+        const containerHeight = scrollContainer.scrollHeight;
+        const clientHeight = scrollContainer.clientHeight;
+        const totalScrollableHeight = containerHeight - clientHeight;
+        const scrollToY = (percentage / 100) * totalScrollableHeight;
+        scrollbarInstance.scrollTo(0, scrollToY, 500); // 500ms duration
+      }
+    }
+  };
+
+  // Clicking on the progress bar background scrolls to the clicked position.
   const handleClick = (event) => {
     const progressBar = event.currentTarget;
     const clickY = event.clientY - progressBar.getBoundingClientRect().top;
     const progressBarHeight = progressBar.clientHeight;
-    const scrollPercentage = clickY / progressBarHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-    const totalScrollableHeight = documentHeight - clientHeight;
-    const scrollToY = scrollPercentage * totalScrollableHeight;
-    window.scrollTo({ top: scrollToY, behavior: "smooth" });
+    const scrollPercentage = (clickY / progressBarHeight) * 100;
+    scrollToPercentage(scrollPercentage);
   };
 
   // Markers with fixed percentages.
   const markers = [
-    { label: "start", percentage: 0 },
+    { label: "start", percentage: -1 },
     { label: "car", percentage: 7.938 },
     { label: "stories", percentage: 38.9 },
-    { label: "partners", percentage: 70.412 },
+    { label: "partners", percentage: 71.412 },
     { label: "bottom", percentage: 100 },
   ];
 
@@ -52,18 +87,13 @@ const ScrollProgressBar = () => {
             key={marker.label}
             className="absolute right-0 w-3 h-3 rounded-full bg-[var(--green2)] cursor-pointer"
             style={{
-              top: `calc(${marker.percentage}% - 9px)`, // Offset to center the circle
+              top: `calc(${marker.percentage}% - 9px)`, // Center the marker vertically.
               transform: "translateY(50%) translateX(30%)",
             }}
             onClick={(e) => {
-              // Prevent the parent's onClick handler from triggering.
+              // Prevent parent's onClick from firing.
               e.stopPropagation();
-              const documentHeight = document.documentElement.scrollHeight;
-              const clientHeight = document.documentElement.clientHeight;
-              const totalScrollableHeight = documentHeight - clientHeight;
-              const scrollToY =
-                (marker.percentage / 100) * totalScrollableHeight;
-              window.scrollTo({ top: scrollToY, behavior: "smooth" });
+              scrollToPercentage(marker.percentage);
             }}
           />
         ))}
@@ -75,7 +105,6 @@ const ScrollProgressBar = () => {
             transition: "height 0.1s ease-out",
           }}
         />
-        {/* Moving circle indicator for current scroll progress */}
       </div>
     </div>
   );

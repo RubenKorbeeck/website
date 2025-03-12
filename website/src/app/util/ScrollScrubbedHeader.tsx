@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Scrollbar from "smooth-scrollbar";
 import TDSR_logo from "../../pictures/tdsr-full-logo.svg"; // adjust the path as needed
 
 interface ScrollScrubbedHeaderProps {
@@ -23,32 +24,51 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrolled = window.scrollY;
-      const H0 = window.innerHeight; // initial header height (in px)
-      const Hf = 0.2 * H0; // final header height = 20vh
-      const delta = H0 - Hf; // total shrink in px (should be 0.8 * H0)
+    let scrollbarInstance: Scrollbar | null = null;
 
-      // Adjust the scroll progress by dividing by a factor that accounts for the lost height.
+    // Define the scroll handler to compute progress based on the scrollbar's offset
+    const handleScrollbarScroll = ({ offset }: { offset: { x: number; y: number } }) => {
+      const scrolled = offset.y;
+      const H0 = window.innerHeight; // initial header height in px
+      const Hf = 0.2 * H0; // final header height = 20vh
+      const delta = H0 - Hf; // total shrink in px (≈ 0.8 * H0)
+      // Adjust the progress by accounting for the lost height.
       const factor = threshold > delta ? 1 - delta / threshold : 1;
       const adjustedProgress = scrolled / (threshold * factor);
       const clamped = Math.min(Math.max(adjustedProgress, 0), 1);
       setProgress(clamped);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    // Run once on mount.
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Poll for the scrollbar instance every 100ms in case it's not immediately available.
+    const interval = setInterval(() => {
+      const scrollContainer = document.querySelector("#scroll-container");
+      if (scrollContainer) {
+        scrollbarInstance = Scrollbar.get(scrollContainer);
+        if (scrollbarInstance) {
+          scrollbarInstance.addListener(handleScrollbarScroll);
+          // Run once with the current offset.
+          handleScrollbarScroll({ offset: scrollbarInstance.offset });
+          clearInterval(interval);
+        }
+      }
+    }, 100);
+
+    // Cleanup the listener on unmount.
+    return () => {
+      clearInterval(interval);
+      if (scrollbarInstance) {
+        scrollbarInstance.removeListener(handleScrollbarScroll);
+      }
+    };
   }, [threshold]);
 
-  // Further refine with optional start and end thresholds.
+  // Further refine the progress using the optional start and end thresholds.
   const normalizedProgress = Math.min(
     Math.max((progress - start) / (end - start), 0),
     1
   );
 
-  // Interpolated style values.
+  // Interpolate the style values based on normalizedProgress.
   const currentHeight = 100 - (100 - 20) * normalizedProgress; // from 100vh to 20vh.
   const currentWidth = 75 - (75 - 0) * normalizedProgress; // from 75% to 0%.
   const currentOpacity = Math.max(1 - 2 * normalizedProgress, 0);
@@ -65,7 +85,7 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
           style={{
             width: `${currentWidth}%`,
             transform: `translateY(${currentTranslateY}px)`,
-            opacity: `${currentOpacity}`,
+            opacity: currentOpacity,
           }}
         >
           <Image
@@ -76,7 +96,6 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
           />
         </div>
       </main>
-      {/* Green blur line at the bottom with stronger upward blur */}
     </div>
   );
 };
