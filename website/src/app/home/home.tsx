@@ -1,0 +1,96 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import LandPage from "./landpage";
+import { Navbar } from "./navbarHome";
+import CarRevealMobile from "./carRevealMobile";
+import CarRevealDesktop from "./carRevealDesktop";
+import Stories from "./stories";
+import ScrollProgressBar from "../util/sideBar";
+import Supporters from "./sponsors";
+import ImageScroller from "./bottomPage";
+import Footer from "../util/footer";
+import Scrollbar from "smooth-scrollbar";
+
+export default function HomePage() {
+  // State to track if the <Stories> section is in view.
+  const [storiesInView, setStoriesInView] = useState(false);
+  // Ref attached to the <Stories> section.
+  const storiesRef = useRef(null);
+
+  useEffect(() => {
+    // Create an Intersection Observer to monitor the <Stories> section.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setStoriesInView(entry.isIntersecting);
+      },
+      { threshold: 0.80 } // Trigger when 80% of <Stories> is visible
+    );
+
+    if (storiesRef.current) {
+      observer.observe(storiesRef.current);
+    }
+
+    // Cleanup the observer on component unmount.
+    return () => {
+      if (storiesRef.current) {
+        observer.unobserve(storiesRef.current);
+      }
+    };
+  }, []);
+
+  // Initialize Smooth Scrollbar for inertial scrolling
+  useEffect(() => {
+    const scrollContainer = document.querySelector('#scroll-container');
+    if (scrollContainer) {
+      const scrollbar = Scrollbar.init(scrollContainer, {
+        damping: 0.08, // Lower values yield a longer glide effect
+      });
+      // Cleanup the scrollbar on unmount
+      return () => {
+        scrollbar.destroy();
+      };
+    }
+  }, []);
+
+  return (
+    <div className="relative"
+    style={{
+      transition: "background-color 1s ease",
+      backgroundColor: storiesInView
+        ? "var(--foreground)"
+        : "var(--background)",
+    }}>
+      <Navbar />
+      <div id="scroll-container" style={{ height: "100vh", overflow: "hidden" }}>
+        <div>
+          
+          {/* LandPage Section */}
+          <div className="relative row-start-2 items-center">
+            <LandPage />
+          </div>
+          {/* CarReveal Section */}
+          <div className="row-start-3 overflow-hidden">
+            <CarRevealMobile />
+            <CarRevealDesktop />
+          </div>
+          {/* Stories Section */}
+          <div ref={storiesRef} className="row-start-4">
+            <Stories />
+          </div>
+          {/* Supporters Section */}
+          <div className="row-start-5">
+            <Supporters />
+          </div>
+          {/* ImageScroller Section */}
+          <div className="row-start-6">
+            <ImageScroller />
+          </div>
+          {/* Scroll Progress Bar */}
+          <Footer />
+        </div>
+      </div>
+      <ScrollProgressBar />
+      
+    </div>
+  );
+}
