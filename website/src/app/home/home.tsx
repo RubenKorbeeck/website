@@ -1,8 +1,14 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Navbar } from "../util/navbar";
+import LandPage from "./landpage";
+import { Navbar } from "./navbarHome";
+import CarRevealMobile from "./carRevealMobile";
+import CarRevealDesktop from "./carRevealDesktop";
+import Stories from "./stories";
+import ScrollProgressBar from "../util/sideBar";
+import Supporters from "./sponsors";
+import ImageScroller from "./bottomPage";
 import Footer from "../util/footer";
-import Teams from "./teams";
 
 export default function HomePage() {
   // State to track if the <Stories> section is in view.
@@ -44,10 +50,28 @@ export default function HomePage() {
       <Navbar />
       {/* LandPage Section */}
       <div className="relative row-start-2 items-center">
-        <Teams />
+        <LandPage />
+      </div>
+      {/* CarReveal Section */}
+      <div className="row-start-3 overflow-hidden">
+        <CarRevealMobile />
+        <CarRevealDesktop />
+      </div>
+      {/* Stories Section */}
+      <div ref={storiesRef} className="row-start-4">
+        <Stories />
+      </div>
+      {/* Supporters Section */}
+      <div className="row-start-5">
+        <Supporters />
+      </div>
+      {/* ImageScroller Section */}
+      <div className="row-start-6">
+        <ImageScroller />
+      </div>
       {/* Scroll Progress Bar */}
+      <ScrollProgressBar />
       <Footer />
-    </div>
     </div>
   );
 }
