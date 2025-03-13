@@ -170,26 +170,31 @@ function TeamSection({ id, preEmphasis, emphasis, postEmphasis, members }) {
 
   return (
     <section id={id} className="container mx-auto py-12">
-      <div className="text-center mb-8 ">
-        <h1 className="text-2xl font-bold text-black ">
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-bold text-black">
           {preEmphasis}
           <span className="text-[var(--green2)]">{emphasis}</span>
           {postEmphasis}
         </h1>
       </div>
-       {/* Dynamically adjust grid layout */}
-       <div className={`grid grid-cols-1 ${numMembers >= 2 ? "md:grid-cols-2" : ""} gap-8`}>
-        {members.slice(0, 2).map((member, index) => (
-          <div key={index} className="flex justify-center items-center">
+      {/* Dynamically adjust grid layout */}
+      <div className={`grid grid-cols-1 ${numMembers >= 2 ? "md:grid-cols-2" : ""} gap-8`}>
+        {members.map((member, index) => (
+          <div
+            key={index}
+            className={`flex justify-center items-center ${
+              index % 2 === 0 ? 'justify-start' : 'justify-end'
+            }`}
+          >
             {member}
           </div>
         ))}
-        
-        {numMembers >2 && (
+
+        {/* {numMembers > 2 && (
           <div className="col-span-2 flex justify-center items-center">
             {members[2]}
           </div>
-        )}
+        )} */}
       </div>
     </section>
   );
@@ -530,10 +535,11 @@ function Teams() {
           layout="fill"
           objectFit="cover"
           quality={100}
+          style={{ transform: "translateY(-10%)" }}
           priority
         />
         {/* Optional overlay for improved text contrast */}
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 bg-black opacity-50" style={{ transform: "translateY(-10%)" }} ></div>
         <div className="relative z-10 flex items-center justify-center h-full">
           <h1 className="text-4xl text-white font-bold">
             <Image
