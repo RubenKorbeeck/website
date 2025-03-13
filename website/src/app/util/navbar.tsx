@@ -67,7 +67,7 @@ const NavbarMenu = ({ onClick }: { onClick: () => void }) => (
     <div className="flex flex-col items-center md:items-start pt-20 p-4 space-y-4">
       <NavLink href="/" onClick={onClick}>Home</NavLink>
       <NavLink href="/about" onClick={onClick}>About Us</NavLink>
-      <NavLink href="/team25" onClick={onClick}>Team</NavLink>
+      <NavLink href="/teams" onClick={onClick}>Team</NavLink>
       <NavLink href="/green-falcon" onClick={onClick}>Cars</NavLink>
       <NavLink href="/partners" onClick={onClick}>Partners</NavLink>
     </div>
@@ -103,7 +103,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full text-white bg-transparent">
+    <header className="fixed top-0 left-0 w-full z-50 text-white">
       <div className="flex items-center justify-between p-4">
         {/* Left Section: CarRevealButton */}
         <div className="z-50 w-16">
@@ -122,7 +122,13 @@ export function Navbar() {
       </div>
 
       {/* Navbar Menu */}
-      {isOpen && <NavbarMenu onClick={() => setIsOpen(false)} />}
+      <div
+        className={`fixed md:absolute bg-[var(--background)] inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-80 h-screen z-40 transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {isOpen && <NavbarMenu onClick={() => setIsOpen(false)} />}
+      </div>
     </header>
   );
 }
