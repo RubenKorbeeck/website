@@ -101,7 +101,7 @@ export function Navbar() {
   }, [scrollY]);
 
   return (
-    <header className="top-0 z-50 w-full text-white">
+    <header className="fixed top-0 z-50 w-full text-white">
       <div className="flex items-center bg-transparent justify-between p-4">
         {/* Left Section: CarRevealButton */}
         <div className="z-50 w-16">
@@ -140,40 +140,28 @@ export function Navbar() {
       </div>
 
       {/* Mobile menu overlay (if you want no background here as well, remove the bg class) */}
-      {isOpen && (
-        <div className="fixed md:absolute bg-[var(--background)] inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-80 h-screen z-40">
-          <div className="flex flex-col items-center md:items-start pt-20 p-4 space-y-4">
-            <Link
-              href="/"
-              className="w-full text-center md:text-left hover:text-gray-300"
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              className="w-full text-center md:text-left hover:text-gray-300"
-              onClick={() => setIsOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              href="/services"
-              className="w-full text-center md:text-left hover:text-gray-300"
-              onClick={() => setIsOpen(false)}
-            >
-              Services
-            </Link>
-            <Link
-              href="/contact"
-              className="w-full text-center md:text-left hover:text-gray-300"
-              onClick={() => setIsOpen(false)}
-            >
-              Contact
-            </Link>
-          </div>
+      <div
+        className={`fixed md:absolute bg-[var(--background)] inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-80 h-screen z-40 transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col items-center md:items-start pt-20 p-4 space-y-4">
+          <Link
+            href="/"
+            className="w-full text-center md:text-left hover:text-gray-300"
+            onClick={() => setIsOpen(false)}
+          >
+            Home
+          </Link>
+          <Link
+            href="/teams"
+            className="w-full text-center md:text-left hover:text-gray-300"
+            onClick={() => setIsOpen(false)}
+          >
+            Teams
+          </Link>
         </div>
-      )}
+      </div>
     </header>
   );
 }

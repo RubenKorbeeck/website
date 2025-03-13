@@ -69,16 +69,16 @@ const ScrollProgressBar = () => {
   // Markers with fixed percentages.
   const markers = [
     { label: "start", percentage: -1 },
-    { label: "car", percentage: 7.938 },
-    { label: "stories", percentage: 38.9 },
-    { label: "partners", percentage: 71.412 },
+    { label: "car", percentage: 6.138 },
+    { label: "stories", percentage: 37 },
+    { label: "partners", percentage: 68.2377 },
     { label: "bottom", percentage: 100 },
   ];
 
   return (
     <div
-      className="fixed right-2 top-20 bottom-5 transform text-white -translate-x-1/2 cursor-pointer"
-      onClick={handleClick}
+      className="fixed right-2 top-20 bottom-5 transform text-white -translate-x-1/2"
+      
     >
       <div className="absolute right-0 top-0 w-1 h-full bg-gray-200 rounded-full">
         {/* Render clickable markers */}
@@ -91,8 +91,7 @@ const ScrollProgressBar = () => {
               transform: "translateY(50%) translateX(30%)",
             }}
             onClick={(e) => {
-              // Prevent parent's onClick from firing.
-              e.stopPropagation();
+              scrollToPercentage(marker.percentage);
               scrollToPercentage(marker.percentage);
             }}
           />

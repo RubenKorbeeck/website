@@ -5,14 +5,14 @@ import { SiTiktok } from "react-icons/si";
 
 export default function Footer() {
   return (
-    <footer className="bg-[var(--background)] text-white py-8">
-       <div className="max-w-7xl mx-auto px-4">
+    <footer className="bg-[var(--background)] h-[40vh] overflow-hidden  text-white py-8">
+       <div className="max-w-7xl  mx-auto px-4">
          {/* Top row: 3 columns */}
-         <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+         <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-8">
            {/* Contact Us Column */}
            <div>
-             <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
-             <ul className="space-y-1 text-sm leading-relaxed">
+             <h3 className="text-m md:text-lg font-semibold mb-2">Contact Us</h3>
+             <ul className="space-y-0 md:space-y-1 text-sm leading-relaxed">
                <li>
                  <span className="text-[var(--green1)] font-medium">Bestuur:</span>{" "}
                  <a
@@ -45,15 +45,15 @@ export default function Footer() {
  
            {/* Address Column */}
            <div>
-             <h3 className="text-lg font-semibold mb-2">Address</h3>
-             <p className="text-[var(--green1)] font-medium">Top Dutch Solar Racing</p>
-             <p>Zernikelaan 7, 9747 AA</p>
-             <p>Groningen</p>
+             <h3 className="text-m md:text-lg font-semibold mb-2">Address</h3>
+             <p className="text-sm md:text-m text-[var(--green1)] font-medium">Top Dutch Solar Racing</p>
+             <p className="text-sm md:text-m">Zernikelaan 7, 9747 AA</p>
+             <p className="text-sm md:text-m">Groningen</p>
            </div>
  
            {/* Social Media Column */}
            <div>
-             <h3 className="text-lg font-semibold mb-2">Social Media</h3>
+             <h3 className="text-m md:text-lg font-semibold mb-2">Social Media</h3>
              <div className="flex space-x-4">
                {/* Example links: replace # with your social URLs */}
                <a
@@ -61,76 +61,76 @@ export default function Footer() {
                  aria-label="Facebook"
                  className="text-[var(--green1)] hover:text-green-700"
                >
-                 <FaFacebook size={32} />
+                 <FaFacebook className="w-6 h-6 md:w-8 md:h-8" />
                </a>
                <a
                  href="#"
                  aria-label="Twitter"
                  className="text-[var(--green1)] hover:text-green-700"
                >
-                 <FaTwitter size={32} />
+                 <FaTwitter className="w-6 h-6 md:w-8 md:h-8" />
                </a>
                <a
                  href="#"
                  aria-label="Instagram"
                  className="text-[var(--green1)] hover:text-green-700"
                >
-                 <FaInstagram size={32} />
+                 <FaInstagram className="w-6 h-6 md:w-8 md:h-8" />
                </a>
                <a
                  href="#"
                  aria-label="LinkedIn"
                  className="text-[var(--green1)] hover:text-green-700"
                >
-                 <FaLinkedin size={32} />
+                 <FaLinkedin className="w-6 h-6 md:w-8 md:h-8" />
                </a>
                <a 
                  href="#" 
                  aria-label="YouTube" 
                  className="text-[var(--green1)] hover:text-green-700"
                >
-                 <FaYoutube size={32} />
+                 <FaYoutube className="w-6 h-6 md:w-8 md:h-8" />
                </a>
                <a 
                  href="#" 
                  aria-label="TikTok" 
                  className="text-[var(--green1)] hover:text-green-700"
                >
-                 <SiTiktok size={32} />
+                 <SiTiktok className="w-6 h-6 md:w-8 md:h-8" />
                </a>
              </div>
            </div>
          </div>
  
          {/* Bottom row: copyright & links */}
-         <div className="md:mt-32 sm:mt-12 text-center text-sm text-gray-700">
-           {/* Suzanne design the whole website. Keep this in if you change small details. 
-           If you change big parts change it to "Partly designed by". 
-           ofc when a completely new website is made, you can delete it.
-           */}
-           <div className="mt-2 ">
-           Website designed by:{" "}
+         <div className="md:mt-32 sm:mt-12 text-center text-xs md:text-sm text-gray-700">
+          {/* Suzanne design the whole website. Keep this in if you change small details. 
+              If you change big parts change it to "Partly designed by". 
+              ofc when a completely new website is made, you can delete it.
+          */}
+          <div className="mt-2">
+            Website designed by:{" "}
             <a href="#" className="hover:underline text-gray-400">
-               Suzanne Korbeeck
+              Suzanne Korbeeck
             </a>
-           </div>
-           <div>
-             © 2025 Top Dutch Solar Racing - Software Engineering Department
-           </div>
-           <div className="space-x-2">
-             <a href="#" className="hover:underline">
-               Privacy Policy
-             </a>
-             <span>|</span>
-             <a href="#" className="hover:underline">
-               Terms and Conditions (EN)
-             </a>
-             <span>|</span>
-             <a href="#" className="hover:underline">
-               Terms and Conditions (NL)
-             </a>
-           </div>
-         </div>
+          </div>
+          <div>
+            © 2025 Top Dutch Solar Racing - Software Engineering Department
+          </div>
+          <div className="space-x-2">
+            <a href="#" className="hover:underline">
+              Privacy Policy
+            </a>
+            <span>|</span>
+            <a href="#" className="hover:underline">
+              Terms and Conditions (EN)
+            </a>
+            <span>|</span>
+            <a href="#" className="hover:underline">
+              Terms and Conditions (NL)
+            </a>
+          </div>
+        </div>
        </div>
     </footer>
   );

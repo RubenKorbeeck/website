@@ -30,7 +30,7 @@ const logos = [
   { src: hanze,        top: "10%",  left: "65vw", speed: 1.8, width: 150 },
   { src: provGron,     top: "54%", left: "27vw", speed: 1.3, width: 150 },
   { src: vanGroningen, top: "60%", left: "55vw", speed: 1.0, width: 150 },
-  { src: rug,          top: "35%", left: "25vw", speed: 1.2, width: 150 },
+  { src: rug,          top: "31%", left: "25vw", speed: 1.2, width: 150 },
   // "knowledge" group
   { src: alfa,         top: "6%",  left: "15vw", speed: 1.7, width: 120 },
   { src: firda,        top: "84%", left: "42vw", speed: 0.5, width: 120 },
@@ -56,7 +56,7 @@ const logos = [
 export default function Supporters() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const scrollStart = 1050;
+  const scrollStart = window.innerHeight * 1.1;
 
   useEffect(() => {
     let scrollbarInstance = null;

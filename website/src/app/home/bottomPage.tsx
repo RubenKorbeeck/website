@@ -58,7 +58,7 @@ const ImageScroller: React.FC = () => {
         {scrollerItems.map((item, index) => (
           <div
             key={index}
-            className="relative inline-block flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 aspect-[30/41]"
+            className="relative inline-block flex-shrink-0 h-[50vh] sm:h-[50vh] md:h-[60vh] lg:h-[60vh] aspect-[30/41]"
           >
             <Image
               src={item.src}
