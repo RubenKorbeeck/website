@@ -1,8 +1,12 @@
-"use client"; // This directive makes the component a Client Component
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
-// import team pics
+// ------------------------
+// Import team pictures (full versions)
+import Ruben from "../../pictures/team_photos_25_webp/ruben.webp";
+import Julian from "../../pictures/team_photos_25_webp/julian.webp";
 import Willy from "../../pictures/team_photos_25_webp/willy.webp";
 import Tom from "../../pictures/team_photos_25_webp/tom.webp";
 import Julliette from "../../pictures/team_photos_25_webp/julliette.webp";
@@ -21,9 +25,7 @@ import Lorenzo from "../../pictures/team_photos_25_webp/lorenzo.webp";
 import Merijn from "../../pictures/team_photos_25_webp/merijn.webp";
 import Mohammed from "../../pictures/team_photos_25_webp/mohammed.webp";
 import Nienke from "../../pictures/team_photos_25_webp/nienke.webp";
-import Julian from "../../pictures/team_photos_25_webp/julian.webp";
 import Rolf from "../../pictures/team_photos_25_webp/rolf.webp";
-import Ruben from "../../pictures/team_photos_25_webp/ruben.webp";
 import Steven from "../../pictures/team_photos_25_webp/steven.webp";
 import Sander from "../../pictures/team_photos_25_webp/sander.webp";
 import Stijn from "../../pictures/team_photos_25_webp/stijn.webp";
@@ -31,6 +33,10 @@ import Timo from "../../pictures/team_photos_25_webp/timo.webp";
 import Yannick from "../../pictures/team_photos_25_webp/yannick.webp";
 import Erik from "../../pictures/team_photos_25_webp/erik.webp";
 
+// ------------------------
+// Import team pictures (small versions)
+import Ruben_alt from "../../pictures/team_photos_25_webp_small/ruben.webp";
+import Julian_alt from "../../pictures/team_photos_25_webp_small/julian.webp";
 import Willy_alt from "../../pictures/team_photos_25_webp_small/willy.webp";
 import Tom_alt from "../../pictures/team_photos_25_webp_small/tom.webp";
 import Julliette_alt from "../../pictures/team_photos_25_webp_small/julliette.webp";
@@ -49,9 +55,7 @@ import Lorenzo_alt from "../../pictures/team_photos_25_webp_small/lorenzo.webp";
 import Merijn_alt from "../../pictures/team_photos_25_webp_small/merijn.webp";
 import Mohammed_alt from "../../pictures/team_photos_25_webp_small/mohammed.webp";
 import Nienke_alt from "../../pictures/team_photos_25_webp_small/nienke.webp";
-import Julian_alt from "../../pictures/team_photos_25_webp_small/julian.webp";
 import Rolf_alt from "../../pictures/team_photos_25_webp_small/rolf.webp";
-import Ruben_alt from "../../pictures/team_photos_25_webp_small/ruben.webp";
 import Steven_alt from "../../pictures/team_photos_25_webp_small/steven.webp";
 import Sander_alt from "../../pictures/team_photos_25_webp_small/sander.webp";
 import Stijn_alt from "../../pictures/team_photos_25_webp_small/stijn.webp";
@@ -59,10 +63,14 @@ import Timo_alt from "../../pictures/team_photos_25_webp_small/timo.webp";
 import Yannick_alt from "../../pictures/team_photos_25_webp_small/yannick.webp";
 import Erik_alt from "../../pictures/team_photos_25_webp_small/erik.webp";
 
-import we_are_tdsr from "../../pictures/teamphoto/we_are_25.svg";
+// ------------------------
+// Other assets
 import team25 from "../../pictures/teamphoto/team25.webp";
+import we_are_tdsr from "../../pictures/teamphoto/we_are_25.svg";
 
-// get team linkedin links
+// ------------------------
+// Team LinkedIn links
+// ------------------------
 const linkErik = "https://www.linkedin.com/in/erik-westerhoff-452b1111/";
 const linkWilly = "http://www.linkedin.com/in/daan-boonstra-";
 const linkTom = "http://www.linkedin.com/in/tom-noordanus/";
@@ -94,6 +102,7 @@ const linkDaan = "";
 const linkEtjen = "https://www.linkedin.com/in/etjenreme/";
 const linkNienke = "";
 
+
 const navSections = [
   { id: "management", name: "Management Team" },
   { id: "software", name: "Software Team" },
@@ -107,12 +116,12 @@ const navSections = [
   { id: "electronics", name: "Electronics Team" },
   { id: "coach", name: "Team Coach" },
 ];
-
-
-// Team member component using Next.js Image and Tailwind classes
+// ------------------------
+// Reusable TeamMember component
+// ------------------------
 function TeamMember({ name, role, pic, pic_alt, link }) {
   return (
-    <div className="flex flex-col items-center m-4 text-gray-700">
+    <div className="flex flex-col items-center m-4 text-black">
       <a href={link} target="_blank" rel="noreferrer" className="group">
         <div className="relative w-80 h-80">
           <Image
@@ -123,19 +132,21 @@ function TeamMember({ name, role, pic, pic_alt, link }) {
             className="rounded-full"
           />
         </div>
-        <h3 className="mt-2 text-xl font-semibold text-center group-hover:text-[var(--green2)]">{name}</h3>
-      <p className="text-md text-center group-hover:text-[var(--green2)]">{role}</p>
+        <h3 className="mt-2 text-xl font-semibold text-black">{name}</h3>
+        <p className="text-md text-black">{role}</p>
       </a>
     </div>
   );
 }
 
-// Navigation bar component with Tailwind styling
+// ------------------------
+// NavigationMenu component
+// ------------------------
 function NavigationMenu({ sections }) {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      const yOffset = -200; // Adjust as needed
+      const yOffset = -200;
       const yPosition =
         element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: yPosition, behavior: "smooth" });
@@ -145,8 +156,8 @@ function NavigationMenu({ sections }) {
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-around items-center mb-4">
-        <h1 className="text-3xl font-bold">
-          Find us with a <span className="text-[var(--green2)]">/click</span>
+        <h1 className="text-3xl font-bold text-black">
+          Find us with a <span className="text-black">/click</span>
         </h1>
       </div>
       <div className="flex flex-wrap justify-center">
@@ -154,7 +165,7 @@ function NavigationMenu({ sections }) {
           <button
             key={section.id}
             onClick={() => scrollToSection(section.id)}
-            className="px-6 py-4 m-2 bg-[var(--green2)] text-white rounded-xl hover:bg-blue-600 transition"
+            className="px-6 py-4 m-2 bg-[var(--green2)] text-black rounded-xl hover:bg-blue-600 transition"
           >
             {section.name}
           </button>
@@ -164,46 +175,102 @@ function NavigationMenu({ sections }) {
   );
 }
 
-// Team section component using Tailwind grid and text utilities
-function TeamSection({ id, preEmphasis, emphasis, postEmphasis, members }) {
-  const numMembers = members.length;
+// ------------------------
+// TeamCluster component with title next to images and layout animations
+// ------------------------
+function TeamCluster({ id, preEmphasis, emphasis, postEmphasis, members, align }) {
+  const [expanded, setExpanded] = useState(false);
+  const toggleExpanded = () => setExpanded(!expanded);
 
-  return (
-    <section id={id} className="container mx-auto py-12">
-      <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-black">
-          {preEmphasis}
-          <span className="text-[var(--green2)]">{emphasis}</span>
-          {postEmphasis}
-        </h1>
-      </div>
-      {/* Dynamically adjust grid layout */}
-      <div className={`grid grid-cols-1 ${numMembers >= 2 ? "md:grid-cols-2" : ""} gap-8`}>
-        {members.map((member, index) => (
+  // Collapsed view: a collage of bigger, organically overlapping images.
+  // This example uses exactly three images arranged in a triangular style.
+  const collapsedLayout = (
+    <div className="relative w-[400px] h-[400px] mx-auto">
+      {members.slice(0, 4).map((member, index) => {
+        let positionClass = "";
+        if (index === 0) {
+          positionClass = "top-0 left-1/2 transform -translate-x-1/2";
+        } else if (index === 1) {
+          positionClass = "top-1/4 left-0";
+        } else if (index === 2) {
+          positionClass = "top-1/4 right-0";
+        } else if (index === 3) {
+          positionClass = "bottom-0 left-1/2 transform -translate-x-1/2";
+        }
+        return (
           <div
             key={index}
-            className={`flex justify-center items-center ${
-              index % 2 === 0 ? 'justify-start' : 'justify-end'
-            }`}
+            className={`absolute ${positionClass} w-[200px] h-[200px] rounded-full overflow-hidden`}
           >
-            {member}
+            <Image
+              src={member.props.pic}
+              alt={member.props.name}
+              layout="fill"
+              objectFit="cover"
+            />
           </div>
-        ))}
+        );
+      })}
+    </div>
+  );
 
-        {/* {numMembers > 2 && (
-          <div className="col-span-2 flex justify-center items-center">
-            {members[2]}
+  // Expanded view: horizontal layout of each member with large image and details.
+  const expandedLayout = (
+    <div className="flex flex-row space-x-8 overflow-x-auto">
+      {members.map((member, index) => (
+        <div key={index} className="flex flex-col items-center flex-shrink-0">
+          <div className="relative w-80 h-80">
+            <Image
+              src={member.props.pic}
+              alt={member.props.name}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-full"
+            />
           </div>
-        )} */}
+          <h3 className="mt-4 text-2xl font-semibold text-black">
+            {member.props.name}
+          </h3>
+          <p className="text-lg text-black">{member.props.role}</p>
+        </div>
+      ))}
+    </div>
+  );
+
+  // Title element placed next to the images.
+  const titleElement = (
+    <div className="p-4">
+      <h1 className="text-3xl font-bold text-white">
+        {preEmphasis}
+        <span className="text-white">{emphasis}</span>
+        {postEmphasis}
+      </h1>
+      <div className="text-3xl text-white">{expanded ? "−" : "+"}</div>
+    </div>
+  );
+
+  return (
+    <section id={id} className="container mx-auto py-12" onClick={toggleExpanded}>
+      <div
+        className={`flex items-center transition-all duration-500 ${
+          align === "right" ? "flex-row-reverse" : "flex-row"
+        }`}
+      >
+        
+        <motion.div layout className="flex-1">
+          {expanded ? expandedLayout : collapsedLayout}
+        </motion.div>
+        {titleElement}
       </div>
     </section>
   );
 }
 
+// ------------------------
 // Main Teams component
+// ------------------------
 function Teams() {
-
-  // Data for each team section and its members
+  // Data for each subteam (using TeamMember components)
   const teamSectionsData = [
     {
       id: "software",
@@ -521,13 +588,14 @@ function Teams() {
     ],
   };
 
-  // Shuffle the team sections (excluding the coach) if desired
+  // Optionally shuffle team sections (excluding the coach)
   const shuffledTeamSections = [...teamSectionsData].sort(
     () => Math.random() - 0.5
   );
+
   return (
     <>
-      {/* Hero Section with team25.webp as the background */}
+      {/* Hero Section */}
       <div className="relative w-full h-screen bg-cover bg-no-repeat bg-top-0">
         <Image
           src={team25}
@@ -538,10 +606,8 @@ function Teams() {
           style={{ transform: "translateY(-10%)" }}
           priority
         />
-        {/* Optional overlay for improved text contrast */}
-        <div className="absolute inset-0 bg-black opacity-50" style={{ transform: "translateY(-10%)" }} ></div>
         <div className="relative z-10 flex items-center justify-center h-full">
-          <h1 className="text-4xl text-white font-bold">
+          <h1 className="text-4xl font-bold text-black">
             <Image
               src={we_are_tdsr}
               alt="We are TDSR"
@@ -553,17 +619,17 @@ function Teams() {
       </div>
 
       {/* Introduction Section */}
-      <section className="container mx-auto py-12" data-aos="fade-up">
+      <section className="container mx-auto py-12">
         <div className="text-center">
-          <h1 className="text-3xl font-bold">
-            Meet our <span className="text-[var(--green2)]">/team</span>
+          <h1 className="text-3xl font-bold text-black">
+            Meet our <span className="text-black">/team</span>
           </h1>
-          <h2 className="mt-4 text-lg text-gray-700">
+          <h2 className="mt-4 text-lg text-black">
             We are Top Dutch Solar Racing, a driven student team from Groningen.
             What makes us unique is that we are the only team in the Netherlands
-            whose members come from different levels of education (MBO, HBO,
-            WO). Together we are building a solar-powered car from scratch with
-            the goal of winning the Bridgestone World Solar Challenge.
+            whose members come from different levels of education (MBO, HBO, WO).
+            Together we are building a solar-powered car from scratch with the goal
+            of winning the Bridgestone World Solar Challenge.
           </h2>
         </div>
       </section>
@@ -571,34 +637,36 @@ function Teams() {
       {/* Navigation Bar */}
       <NavigationMenu sections={navSections} />
 
-{/* Render all team sections wrapped in Tailwind-styled div containers */}
-{shuffledTeamSections.map((section) => (
-  <div
-    key={section.id}
-    className="w-4/5 mx-auto my-24 p-6 bg-gray-200 rounded-3xl"
-  >
-    <TeamSection
-      id={section.id}
-      preEmphasis={section.preEmphasis}
-      emphasis={section.emphasis}
-      postEmphasis={section.postEmphasis}
-      members={section.members}
-    />
-  </div>
-))}
+      {/* Render each team cluster with alternating alignment */}
+      {shuffledTeamSections.map((section, idx) => (
+        <div
+          key={section.id}
+          className={`w-3/5 my-24 p-6 bg-[var(--background)] rounded-3xl ${
+            idx % 2 === 0 ? "ml-0 mr-auto" : "mr-0 ml-auto"
+          }`}
+        >
+          <TeamCluster
+            id={section.id}
+            preEmphasis={section.preEmphasis}
+            emphasis={section.emphasis}
+            postEmphasis={section.postEmphasis}
+            members={section.members}
+            align={idx % 2 === 0 ? "left" : "right"}
+          />
+        </div>
+      ))}
 
-{/* Render the coach section wrapped in a Tailwind-styled div container */}
-<div className="w-3/5 mx-auto my-8 p-6 bg-gray-200 rounded-lg shadow-sm">
-  <TeamSection
-    id={coachSection.id}
-    preEmphasis={coachSection.preEmphasis}
-    emphasis={coachSection.emphasis}
-    postEmphasis={coachSection.postEmphasis}
-    members={coachSection.members}
-  />
-</div>
-
-
+      {/* Render the coach cluster (centered) */}
+      <div className="w-3/5 mx-auto my-8 p-6 bg-[var(--background)] rounded-lg shadow-sm">
+        <TeamCluster
+          id={coachSection.id}
+          preEmphasis={coachSection.preEmphasis}
+          emphasis={coachSection.emphasis}
+          postEmphasis={coachSection.postEmphasis}
+          members={coachSection.members}
+          align="left"
+        />
+      </div>
     </>
   );
 }
