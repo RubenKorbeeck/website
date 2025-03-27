@@ -32,7 +32,13 @@ const pins = [
 ];
 
 // Interactive Pin component that toggles its tooltip on click.
-const Pin = ({ top, left, text }) => {
+interface PinProps {
+  top: number;
+  left: number;
+  text: string;
+}
+
+const Pin: React.FC<PinProps> = ({ top, left, text }) => {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ top, left }} className="absolute z-30">
@@ -58,7 +64,7 @@ const CarRevealDesktop = () => {
   const [isMouseInside, setIsMouseInside] = useState(false);
 
   // Update the mask position based on mouse movement over the container.
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -66,7 +72,7 @@ const CarRevealDesktop = () => {
   };
 
   // The container's style uses greenfalcon as the background.
-  const containerStyle = {
+  const containerStyle: React.CSSProperties = {
     position: "relative",
     width: "100vw",
     height: "100vh",
@@ -142,8 +148,8 @@ const CarRevealDesktop = () => {
             return (
               <Pin
                 key={pin.id}
-                top={pin.top}
-                left={pin.left}
+                top={(parseFloat(pin.top) / 100) * window.innerHeight}
+                left={(parseFloat(pin.left) / 100) * window.innerWidth}
                 text={pin.text}
               />
             );

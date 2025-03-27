@@ -56,24 +56,27 @@ const logos = [
 export default function Supporters() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const scrollStart = window.innerHeight * 1.1;
+  const scrollStart = typeof window !== "undefined" ? window.innerHeight * 1.1 : 0;
+
 
   useEffect(() => {
-    let scrollbarInstance = null;
+    let scrollbarInstance: Scrollbar | null = null;
     // Poll for the scrollbar instance every 100ms
     const interval = setInterval(() => {
       const scrollContainer = document.querySelector("#scroll-container");
       if (scrollContainer) {
-        scrollbarInstance = Scrollbar.get(scrollContainer);
+        scrollbarInstance = Scrollbar.get(scrollContainer as HTMLElement) ?? null;
         if (scrollbarInstance) {
-          const handleScrollbarScroll = ({ offset }) => {
+          const handleScrollbarScroll = ({ offset }: { offset: { y: number } }) => {
             setScrollY(offset.y);
           };
           scrollbarInstance.addListener(handleScrollbarScroll);
           clearInterval(interval);
           // Cleanup: remove listener when the component unmounts
           return () => {
-            scrollbarInstance.removeListener(handleScrollbarScroll);
+            if (scrollbarInstance) {
+              scrollbarInstance.removeListener(handleScrollbarScroll);
+            }
           };
         }
       }

@@ -7,8 +7,8 @@ const ScrollProgressBar = () => {
 
   // Update scroll progress based on the Smooth Scrollbar offset.
   useEffect(() => {
-    let scrollbarInstance = null;
-    const updateScrollProgressFromOffset = ({ offset }) => {
+    let scrollbarInstance: Scrollbar | null = null;
+    const updateScrollProgressFromOffset = ({ offset }: { offset: { y: number } }) => {
       const scrollTop = offset.y;
       // Use the scroll container to determine the total scrollable height.
       const scrollContainer = document.querySelector("#scroll-container");
@@ -24,7 +24,10 @@ const ScrollProgressBar = () => {
     const interval = setInterval(() => {
       const scrollContainer = document.querySelector("#scroll-container");
       if (scrollContainer) {
-        scrollbarInstance = Scrollbar.get(scrollContainer);
+        const instance = Scrollbar.get(scrollContainer as HTMLElement);
+        if (instance) {
+          scrollbarInstance = instance;
+        }
         if (scrollbarInstance) {
           scrollbarInstance.addListener(updateScrollProgressFromOffset);
           // Set the initial progress.
@@ -43,10 +46,10 @@ const ScrollProgressBar = () => {
   }, []);
 
   // Helper to scroll to a given percentage using Smooth Scrollbar.
-  const scrollToPercentage = (percentage) => {
+  const scrollToPercentage = (percentage: number): void => {
     const scrollContainer = document.querySelector("#scroll-container");
     if (scrollContainer) {
-      const scrollbarInstance = Scrollbar.get(scrollContainer);
+      const scrollbarInstance = Scrollbar.get(scrollContainer as HTMLElement);
       if (scrollbarInstance) {
         const containerHeight = scrollContainer.scrollHeight;
         const clientHeight = scrollContainer.clientHeight;
@@ -57,14 +60,8 @@ const ScrollProgressBar = () => {
     }
   };
 
-  // Clicking on the progress bar background scrolls to the clicked position.
-  const handleClick = (event) => {
-    const progressBar = event.currentTarget;
-    const clickY = event.clientY - progressBar.getBoundingClientRect().top;
-    const progressBarHeight = progressBar.clientHeight;
-    const scrollPercentage = (clickY / progressBarHeight) * 100;
-    scrollToPercentage(scrollPercentage);
-  };
+
+
 
   // Markers with fixed percentages.
   const markers = [
@@ -90,7 +87,7 @@ const ScrollProgressBar = () => {
               top: `calc(${marker.percentage}% - 9px)`, // Center the marker vertically.
               transform: "translateY(50%) translateX(30%)",
             }}
-            onClick={(e) => {
+            onClick={() => {
               scrollToPercentage(marker.percentage);
               scrollToPercentage(marker.percentage);
             }}

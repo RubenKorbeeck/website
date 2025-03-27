@@ -69,21 +69,23 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    let scrollbarInstance = null;
+    let scrollbarInstance: Scrollbar | null = null;
     // Poll for the scrollbar instance every 100ms
     const interval = setInterval(() => {
       const scrollContainer = document.querySelector("#scroll-container");
       if (scrollContainer) {
-        scrollbarInstance = Scrollbar.get(scrollContainer);
+        scrollbarInstance = Scrollbar.get(scrollContainer as HTMLElement) || null;
         if (scrollbarInstance) {
-          const handleScrollbarScroll = ({ offset }) => {
+          const handleScrollbarScroll = ({ offset }: { offset: { y: number } }) => {
             setScrollY(offset.y);
           };
           scrollbarInstance.addListener(handleScrollbarScroll);
           clearInterval(interval);
           // Cleanup: remove listener when the component unmounts
           return () => {
-            scrollbarInstance.removeListener(handleScrollbarScroll);
+            if (scrollbarInstance) {
+              scrollbarInstance.removeListener(handleScrollbarScroll);
+            }
           };
         }
       }

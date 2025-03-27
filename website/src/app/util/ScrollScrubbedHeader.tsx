@@ -43,7 +43,10 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
     const interval = setInterval(() => {
       const scrollContainer = document.querySelector("#scroll-container");
       if (scrollContainer) {
-        scrollbarInstance = Scrollbar.get(scrollContainer);
+        const instance = Scrollbar.get(scrollContainer as HTMLElement);
+        if (instance) {
+          scrollbarInstance = instance;
+        }
         if (scrollbarInstance) {
           scrollbarInstance.addListener(handleScrollbarScroll);
           // Run once with the current offset.

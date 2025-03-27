@@ -110,7 +110,17 @@ const navSections = [
 
 
 // Team member component using Next.js Image and Tailwind classes
-function TeamMember({ name, role, pic, pic_alt, link }) {
+import { StaticImageData } from "next/image";
+
+interface TeamMemberProps {
+  name: string;
+  role: string;
+  pic: StaticImageData;
+  pic_alt: StaticImageData;
+  link: string;
+}
+
+function TeamMember({ name, role, pic, link }: TeamMemberProps) {
   return (
     <div className="flex flex-col items-center m-4 text-gray-700">
       <a href={link} target="_blank" rel="noreferrer" className="group">
@@ -131,12 +141,17 @@ function TeamMember({ name, role, pic, pic_alt, link }) {
 }
 
 // Navigation bar component with Tailwind styling
-function NavigationMenu({ sections }) {
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
+interface Section {
+  id: string;
+  name: string;
+}
+
+function NavigationMenu({ sections }: { sections: Section[] }) {
+  const scrollToSection = (id: string): void => {
+    const element: HTMLElement | null = document.getElementById(id);
     if (element) {
-      const yOffset = -200; // Adjust as needed
-      const yPosition =
+      const yOffset: number = -200; // Adjust as needed
+      const yPosition: number =
         element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: yPosition, behavior: "smooth" });
     }
@@ -165,7 +180,15 @@ function NavigationMenu({ sections }) {
 }
 
 // Team section component using Tailwind grid and text utilities
-function TeamSection({ id, preEmphasis, emphasis, postEmphasis, members }) {
+interface TeamSectionProps {
+  id: string;
+  preEmphasis: string;
+  emphasis: string;
+  postEmphasis: string;
+  members: React.ReactNode[];
+}
+
+function TeamSection({ id, preEmphasis, emphasis, postEmphasis, members }: TeamSectionProps) {
   const numMembers = members.length;
 
   return (

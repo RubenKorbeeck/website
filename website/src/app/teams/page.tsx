@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { Navbar } from "../util/navbar";
 import Footer from "../util/footer";
 import Teams from "./teams";
@@ -9,7 +9,7 @@ export default function HomePage() {
   // State to track if the <Stories> section is in view.
 
   useEffect(() => {
-      const scrollContainer = document.querySelector('#scroll-container');
+      const scrollContainer = document.querySelector('#scroll-container') as HTMLElement;
       if (scrollContainer) {
         const scrollbar = Scrollbar.init(scrollContainer, {
           damping: 0.08, // Lower values yield a longer glide effect
