@@ -113,7 +113,9 @@ export function Navbar() {
         {/* Center Section: Small Logo */}
         <div className="z-50 flex">
           <div className="w-32 transition-all duration-500 linear opacity-100">
-            <Image src={TDSR_logo} alt="TDSR logo" className="w-full" priority />
+            <Link href="/">
+              <Image src={TDSR_logo} alt="TDSR logo" className="w-full" priority />
+            </Link>
           </div>
         </div>
 

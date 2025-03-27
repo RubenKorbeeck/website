@@ -63,6 +63,42 @@ export function CarRevealButton({ onClick }: CarRevealButtonProps) {
   );
 }
 
+const HamburgerButton = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => (
+  <div className="flex w-16 justify-end">
+    <button className="block focus:outline-none z-50" onClick={() => setIsOpen(!isOpen)}>
+      <div className="space-y-2">
+        <span className="block w-8 h-1 bg-white rounded-2xl"></span>
+        <span className="block w-8 h-1 bg-white rounded-2xl"></span>
+        <span className="block w-8 h-1 bg-white rounded-2xl"></span>
+      </div>
+    </button>
+  </div>
+);
+
+// Navbar Link Component
+const NavLink = ({ href, children, onClick }: { href: string, children: React.ReactNode, onClick: () => void }) => (
+  <Link
+    href={href}
+    className="w-full text-center md:text-left hover:text-gray-300"
+    onClick={onClick}
+  >
+    {children}
+  </Link>
+);
+
+const NavbarMenu = ({ onClick }: { onClick: () => void }) => (
+  <div className="fixed md:absolute inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-80 h-screen bg-[var(--background)] z-40">
+    <div className="flex flex-col items-center md:items-start pt-20 p-4 space-y-4">
+      <NavLink href="/" onClick={onClick}>Home</NavLink>
+      <NavLink href="/about" onClick={onClick}>About Us</NavLink>
+      <NavLink href="/green-falcon" onClick={onClick}>Cars</NavLink>
+      <NavLink href="/challenges" onClick={onClick}>Challenges</NavLink>
+      <NavLink href="/teams" onClick={onClick}>Team</NavLink>
+      <NavLink href="/partners" onClick={onClick}>Partners</NavLink>
+    </div>
+  </div>
+);
+
 export function Navbar() {
   const [scrollY, setScrollY] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -125,18 +161,7 @@ export function Navbar() {
         </div>
 
         {/* Right Section: Hamburger Menu */}
-        <div className="flex w-16 justify-end">
-          <button
-            className="block focus:outline-none z-50"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <div className="space-y-2">
-              <span className="block w-8 h-1 bg-white"></span>
-              <span className="block w-8 h-1 bg-white"></span>
-              <span className="block w-8 h-1 bg-white"></span>
-            </div>
-          </button>
-        </div>
+        <HamburgerButton isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
 
       {/* Mobile menu overlay (if you want no background here as well, remove the bg class) */}
@@ -145,22 +170,7 @@ export function Navbar() {
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex flex-col items-center md:items-start pt-20 p-4 space-y-4">
-          <Link
-            href="/"
-            className="w-full text-center md:text-left hover:text-gray-300"
-            onClick={() => setIsOpen(false)}
-          >
-            Home
-          </Link>
-          <Link
-            href="/teams"
-            className="w-full text-center md:text-left hover:text-gray-300"
-            onClick={() => setIsOpen(false)}
-          >
-            Teams
-          </Link>
-        </div>
+        {isOpen && <NavbarMenu onClick={() => setIsOpen(false)} />}
       </div>
     </header>
   );

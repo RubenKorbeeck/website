@@ -42,8 +42,8 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
     // Poll for the scrollbar instance every 100ms in case it's not immediately available.
     const interval = setInterval(() => {
       const scrollContainer = document.querySelector("#scroll-container");
-      if (scrollContainer) {
-        scrollbarInstance = Scrollbar.get(scrollContainer);
+      if (scrollContainer && scrollContainer instanceof HTMLElement) {
+        scrollbarInstance = Scrollbar.get(scrollContainer) || null;
         if (scrollbarInstance) {
           scrollbarInstance.addListener(handleScrollbarScroll);
           // Run once with the current offset.
