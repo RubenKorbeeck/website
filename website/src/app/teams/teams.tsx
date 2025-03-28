@@ -1,8 +1,9 @@
-"use client"; // This directive makes the component a Client Component
-import React from "react";
-import Image from "next/image";
+"use client";
 
-// import team pics
+import React, { useState } from "react";
+import Image, { type StaticImageData } from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+
 import Willy from "../../pictures/team_photos_25_webp/willy.webp";
 import Tom from "../../pictures/team_photos_25_webp/tom.webp";
 import Julliette from "../../pictures/team_photos_25_webp/julliette.webp";
@@ -31,36 +32,35 @@ import Timo from "../../pictures/team_photos_25_webp/timo.webp";
 import Yannick from "../../pictures/team_photos_25_webp/yannick.webp";
 import Erik from "../../pictures/team_photos_25_webp/erik.webp";
 
-import Willy_alt from "../../pictures/team_photos_25_webp_small/willy.webp";
-import Tom_alt from "../../pictures/team_photos_25_webp_small/tom.webp";
-import Julliette_alt from "../../pictures/team_photos_25_webp_small/julliette.webp";
-import Daan_alt from "../../pictures/team_photos_25_webp_small/daan.webp";
-import Egbert_alt from "../../pictures/team_photos_25_webp_small/egbert.webp";
-import Etjen_alt from "../../pictures/team_photos_25_webp_small/etjen.webp";
-import Jort_alt from "../../pictures/team_photos_25_webp_small/jort.webp";
-import Mariza_alt from "../../pictures/team_photos_25_webp_small/mariza.webp";
-import Timo_J_alt from "../../pictures/team_photos_25_webp_small/timo_j.webp";
-import Anthi_alt from "../../pictures/team_photos_25_webp_small/anthi.webp";
-import Cala_alt from "../../pictures/team_photos_25_webp_small/cala.webp";
-import Gratas_alt from "../../pictures/team_photos_25_webp_small/gratas.webp";
-import Jayden_alt from "../../pictures/team_photos_25_webp_small/jayden.webp";
-import Leon_alt from "../../pictures/team_photos_25_webp_small/leon.webp";
-import Lorenzo_alt from "../../pictures/team_photos_25_webp_small/lorenzo.webp";
-import Merijn_alt from "../../pictures/team_photos_25_webp_small/merijn.webp";
-import Mohammed_alt from "../../pictures/team_photos_25_webp_small/mohammed.webp";
-import Nienke_alt from "../../pictures/team_photos_25_webp_small/nienke.webp";
-import Julian_alt from "../../pictures/team_photos_25_webp_small/julian.webp";
-import Rolf_alt from "../../pictures/team_photos_25_webp_small/rolf.webp";
-import Ruben_alt from "../../pictures/team_photos_25_webp_small/ruben.webp";
-import Steven_alt from "../../pictures/team_photos_25_webp_small/steven.webp";
-import Sander_alt from "../../pictures/team_photos_25_webp_small/sander.webp";
-import Stijn_alt from "../../pictures/team_photos_25_webp_small/stijn.webp";
-import Timo_alt from "../../pictures/team_photos_25_webp_small/timo.webp";
-import Yannick_alt from "../../pictures/team_photos_25_webp_small/yannick.webp";
-import Erik_alt from "../../pictures/team_photos_25_webp_small/erik.webp";
-
 import we_are_tdsr from "../../pictures/teamphoto/we_are_25.svg";
 import team25 from "../../pictures/teamphoto/team25.webp";
+
+import electronics from "../../pictures/teamSections/electro.jpg";
+import operations from "../../pictures/teamSections/logistics.jpg";
+import aerodynamics from "../../pictures/teamSections/aero.jpg";
+import mechanics from "../../pictures/teamSections/mechie.jpg";
+import strategy from "../../pictures/teamSections/strategy.jpg";
+import software from "../../pictures/teamSections/software.jpg";
+import management from "../../pictures/teamSections/management.jpg";
+import communication from "../../pictures/teamSections/comms.jpg";
+import acquisitions from "../../pictures/teamSections/acquisitions.jpg";
+import structural from "../../pictures/teamSections/structural.jpg";
+import mentor from "../../pictures/teamSections/mentor.jpg";
+
+const sectionImages: Record<string, StaticImageData> = {
+  software,
+  management,
+  operations,
+  communication,
+  acquisitions,
+  aerodynamics,
+  mechanics,
+  structural,
+  strategy,
+  electronics,
+  mentor,
+};
+
 
 // get team linkedin links
 const linkErik = "https://www.linkedin.com/in/erik-westerhoff-452b1111/";
@@ -94,23 +94,7 @@ const linkDaan = "";
 const linkEtjen = "https://www.linkedin.com/in/etjenreme/";
 const linkNienke = "";
 
-const navSections = [
-  { id: "management", name: "Management Team" },
-  { id: "software", name: "Software Team" },
-  { id: "operations", name: "Operations Team" },
-  { id: "communication", name: "Communication Team" },
-  { id: "acquisitions", name: "Acquisitions Team" },
-  { id: "aerodynamics", name: "Aerodynamics Team" },
-  { id: "mechanics", name: "Mechanics Team" },
-  { id: "structural", name: "Structural Team" },
-  { id: "strategy", name: "Strategy Team" },
-  { id: "electronics", name: "Electronics Team" },
-  { id: "coach", name: "Team Coach" },
-];
-
-
-// Team member component using Next.js Image and Tailwind classes
-function TeamMember({ name, role, pic, pic_alt, link }) {
+function TeamMember({ name, role, pic, link }: { name: string; role: string; pic: StaticImageData; link: string }) {
   return (
     <div className="flex flex-col items-center m-4 text-gray-700">
       <a href={link} target="_blank" rel="noreferrer" className="group">
@@ -124,91 +108,39 @@ function TeamMember({ name, role, pic, pic_alt, link }) {
           />
         </div>
         <h3 className="mt-2 text-xl font-semibold text-center group-hover:text-[var(--green2)]">{name}</h3>
-      <p className="text-md text-center group-hover:text-[var(--green2)]">{role}</p>
+        <p className="text-md text-center group-hover:text-[var(--green2)]">{role}</p>
       </a>
     </div>
   );
 }
 
-// Navigation bar component with Tailwind styling
-function NavigationMenu({ sections }) {
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const yOffset = -200; // Adjust as needed
-      const yPosition =
-        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: yPosition, behavior: "smooth" });
-    }
-  };
-
+function TeamSection({ members }: { members: React.ReactNode[] }) {
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex justify-around items-center mb-4">
-        <h1 className="text-3xl font-bold">
-          Find us with a <span className="text-[var(--green2)]">/click</span>
-        </h1>
-      </div>
-      <div className="flex flex-wrap justify-center">
-        {sections.map((section) => (
-          <button
-            key={section.id}
-            onClick={() => scrollToSection(section.id)}
-            className="px-6 py-4 m-2 bg-[var(--green2)] text-white rounded-xl hover:bg-blue-600 transition"
-          >
-            {section.name}
-          </button>
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {members.map((member, index) => (
+        <div
+          key={index}
+          className={`flex justify-center items-center ${index % 2 === 0 ? "justify-start" : "justify-end"}`}
+        >
+          {member}
+        </div>
+      ))}
     </div>
   );
 }
 
-// Team section component using Tailwind grid and text utilities
-function TeamSection({ id, preEmphasis, emphasis, postEmphasis, members }) {
-  const numMembers = members.length;
-
-  return (
-    <section id={id} className="container mx-auto py-12">
-      <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-black">
-          {preEmphasis}
-          <span className="text-[var(--green2)]">{emphasis}</span>
-          {postEmphasis}
-        </h1>
-      </div>
-      {/* Dynamically adjust grid layout */}
-      <div className={`grid grid-cols-1 ${numMembers >= 2 ? "md:grid-cols-2" : ""} gap-8`}>
-        {members.map((member, index) => (
-          <div
-            key={index}
-            className={`flex justify-center items-center ${
-              index % 2 === 0 ? 'justify-start' : 'justify-end'
-            }`}
-          >
-            {member}
-          </div>
-        ))}
-
-        {/* {numMembers > 2 && (
-          <div className="col-span-2 flex justify-center items-center">
-            {members[2]}
-          </div>
-        )} */}
-      </div>
-    </section>
-  );
-}
-
-// Main Teams component
 function Teams() {
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
-  // Data for each team section and its members
+  const toggleSection = (id: string) => {
+    setExpandedSection(expandedSection === id ? null : id);
+  };
+
   const teamSectionsData = [
     {
       id: "software",
       preEmphasis: "The ",
-      emphasis: "software ",
+      emphasis: "Software ",
       postEmphasis: "team",
       members: [
         <TeamMember
@@ -216,7 +148,6 @@ function Teams() {
           name="Ruben Korbeeck"
           role="Software & Electrical Engineer"
           pic={Ruben}
-          pic_alt={Ruben_alt}
           link={linkRuben}
         />,
         <TeamMember
@@ -224,7 +155,6 @@ function Teams() {
           name="Julian Mounir"
           role="Software & Electrical Engineer"
           pic={Julian}
-          pic_alt={Julian_alt}
           link={linkJulian}
         />,
       ],
@@ -232,7 +162,7 @@ function Teams() {
     {
       id: "management",
       preEmphasis: "The ",
-      emphasis: "management ",
+      emphasis: "Management ",
       postEmphasis: "team",
       members: [
         <TeamMember
@@ -240,7 +170,6 @@ function Teams() {
           name="Daan Willem Boonstra"
           role="Team Manager"
           pic={Willy}
-          pic_alt={Willy_alt}
           link={linkWilly}
         />,
         <TeamMember
@@ -248,7 +177,6 @@ function Teams() {
           name="Tom Noordanus"
           role="Chief Engineer"
           pic={Tom}
-          pic_alt={Tom_alt}
           link={linkTom}
         />,
         <TeamMember
@@ -256,7 +184,6 @@ function Teams() {
           name="Julliette Evers"
           role="Marketing Manager"
           pic={Julliette}
-          pic_alt={Julliette_alt}
           link={linkJulliette}
         />,
         <TeamMember
@@ -264,7 +191,6 @@ function Teams() {
           name="Cala Gonzalez"
           role="Technical Manager"
           pic={Cala}
-          pic_alt={Cala_alt}
           link={linkCala}
         />,
       ],
@@ -272,7 +198,7 @@ function Teams() {
     {
       id: "operations",
       preEmphasis: "The ",
-      emphasis: "operations ",
+      emphasis: "Operations ",
       postEmphasis: "team",
       members: [
         <TeamMember
@@ -280,7 +206,6 @@ function Teams() {
           name="Mariza Christodoulou"
           role="Operations Officer"
           pic={Mariza}
-          pic_alt={Mariza_alt}
           link={linkMariza}
         />,
       ],
@@ -288,7 +213,7 @@ function Teams() {
     {
       id: "communication",
       preEmphasis: "The ",
-      emphasis: "communication ",
+      emphasis: "Communication ",
       postEmphasis: "team",
       members: [
         <TeamMember
@@ -296,7 +221,6 @@ function Teams() {
           name="Timo Hoogewoonink"
           role="Communications and Media Officer"
           pic={Timo}
-          pic_alt={Timo_alt}
           link={linkTimo}
         />,
         <TeamMember
@@ -304,7 +228,6 @@ function Teams() {
           name="Anthi Georgiadou"
           role="Communications and Media Officer"
           pic={Anthi}
-          pic_alt={Anthi_alt}
           link={linkAnthi}
         />,
         <TeamMember
@@ -312,7 +235,6 @@ function Teams() {
           name="Nienke de Wit"
           role="Communications and Media Officer - Parttime"
           pic={Nienke}
-          pic_alt={Nienke_alt}
           link={linkNienke}
         />,
       ],
@@ -320,7 +242,7 @@ function Teams() {
     {
       id: "acquisitions",
       preEmphasis: "The ",
-      emphasis: "acquisitions ",
+      emphasis: "Acquisitions ",
       postEmphasis: "team",
       members: [
         <TeamMember
@@ -328,7 +250,6 @@ function Teams() {
           name="Stijn Rekers"
           role="Partner Relations"
           pic={Stijn}
-          pic_alt={Stijn_alt}
           link={linkStijn}
         />,
         <TeamMember
@@ -336,7 +257,6 @@ function Teams() {
           name="Jort Frankena"
           role="Partner Relations"
           pic={Jort}
-          pic_alt={Jort_alt}
           link={linkJort}
         />,
       ],
@@ -344,7 +264,7 @@ function Teams() {
     {
       id: "aerodynamics",
       preEmphasis: "The ",
-      emphasis: "aerodynamics ",
+      emphasis: "Aerodynamics ",
       postEmphasis: "team",
       members: [
         <TeamMember
@@ -352,7 +272,6 @@ function Teams() {
           name="Egbert Menno Kuipers"
           role="Aerodynamics Engineer & Structural Engineer"
           pic={Egbert}
-          pic_alt={Egbert_alt}
           link={linkEgbert}
         />,
         <TeamMember
@@ -360,7 +279,6 @@ function Teams() {
           name="Cala Gonzalez"
           role="Aerodynamics Engineer"
           pic={Cala}
-          pic_alt={Cala_alt}
           link={linkCala}
         />,
         <TeamMember
@@ -368,7 +286,6 @@ function Teams() {
           name="Leon Westra"
           role="Aerodynamics Engineer & Development"
           pic={Leon}
-          pic_alt={Leon_alt}
           link={linkLeon}
         />,
       ],
@@ -376,7 +293,7 @@ function Teams() {
     {
       id: "mechanics",
       preEmphasis: "The ",
-      emphasis: "mechanics ",
+      emphasis: "Mechanics ",
       postEmphasis: "team",
       members: [
         <TeamMember
@@ -384,7 +301,6 @@ function Teams() {
           name="Merijn Blonk"
           role="Mechanical Engineer"
           pic={Merijn}
-          pic_alt={Merijn_alt}
           link={linkMerijn}
         />,
         <TeamMember
@@ -392,7 +308,6 @@ function Teams() {
           name="Sander Laskewitz"
           role="Mechanical Engineer"
           pic={Sander}
-          pic_alt={Sander_alt}
           link={linkSander}
         />,
         <TeamMember
@@ -400,7 +315,6 @@ function Teams() {
           name="Steven de Roos"
           role="Mechanical Engineer"
           pic={Steven}
-          pic_alt={Steven_alt}
           link={linkSteven}
         />,
         <TeamMember
@@ -408,7 +322,6 @@ function Teams() {
           name="Jayden de Boer"
           role="Mechanical Engineer"
           pic={Jayden}
-          pic_alt={Jayden_alt}
           link={linkJayden}
         />,
       ],
@@ -416,7 +329,7 @@ function Teams() {
     {
       id: "structural",
       preEmphasis: "The ",
-      emphasis: "structural ",
+      emphasis: "Structural ",
       postEmphasis: "team",
       members: [
         <TeamMember
@@ -424,7 +337,6 @@ function Teams() {
           name="Daan Bruger"
           role="Structural Engineer"
           pic={Daan}
-          pic_alt={Daan_alt}
           link={linkDaan}
         />,
         <TeamMember
@@ -432,7 +344,6 @@ function Teams() {
           name="Etjen Reme"
           role="Structural Engineer Intern"
           pic={Etjen}
-          pic_alt={Etjen_alt}
           link={linkEtjen}
         />,
       ],
@@ -440,7 +351,7 @@ function Teams() {
     {
       id: "strategy",
       preEmphasis: "The ",
-      emphasis: "strategy ",
+      emphasis: "Strategy ",
       postEmphasis: "team",
       members: [
         <TeamMember
@@ -448,7 +359,6 @@ function Teams() {
           name="Timo Jolman"
           role="Strategist"
           pic={Timo_J}
-          pic_alt={Timo_J_alt}
           link={linkTimoJ}
         />,
         <TeamMember
@@ -456,7 +366,6 @@ function Teams() {
           name="Lorenzo Zambelli"
           role="Strategist"
           pic={Lorenzo}
-          pic_alt={Lorenzo_alt}
           link={linkLorenzo}
         />,
       ],
@@ -464,7 +373,7 @@ function Teams() {
     {
       id: "electronics",
       preEmphasis: "The ",
-      emphasis: "electronics ",
+      emphasis: "Electronics ",
       postEmphasis: "team",
       members: [
         <TeamMember
@@ -472,7 +381,6 @@ function Teams() {
           name="Yannick Meijer"
           role="Electrical Engineer"
           pic={Yannick}
-          pic_alt={Yannick_alt}
           link={linkYannick}
         />,
         <TeamMember
@@ -480,7 +388,6 @@ function Teams() {
           name="Rolf Kok"
           role="Electrical Engineer"
           pic={Rolf}
-          pic_alt={Rolf_alt}
           link={linkRolf}
         />,
         <TeamMember
@@ -488,7 +395,6 @@ function Teams() {
           name="Gratas Kanord"
           role="Electrical Engineer"
           pic={Gratas}
-          pic_alt={Gratas_alt}
           link={linkGratas}
         />,
         <TeamMember
@@ -496,38 +402,30 @@ function Teams() {
           name="Mohammed Sharifpour"
           role="Electrical Engineer"
           pic={Mohammed}
-          pic_alt={Mohammed_alt}
           link={linkMohammed}
+        />,
+      ],
+    },
+    {
+      id: "mentor",
+      preEmphasis: "The ",
+      emphasis: "Mentor",
+      postEmphasis: "",
+      members: [
+        <TeamMember
+          key="Erik"
+          name="Erik Westerhoff"
+          role="Team Mentor"
+          pic={Erik}
+          link={linkErik}
         />,
       ],
     },
   ];
 
-  // Separate section for the coach/team mentor
-  const coachSection = {
-    id: "coach",
-    preEmphasis: "The ",
-    emphasis: "mentor",
-    postEmphasis: "",
-    members: [
-      <TeamMember
-        key="Erik"
-        name="Erik Westerhoff"
-        role="Team Mentor"
-        pic={Erik}
-        pic_alt={Erik_alt}
-        link={linkErik}
-      />,
-    ],
-  };
-
-  // Shuffle the team sections (excluding the coach) if desired
-  const shuffledTeamSections = [...teamSectionsData].sort(
-    () => Math.random() - 0.5
-  );
   return (
     <>
-      {/* Hero Section with team25.webp as the background */}
+      {/* Hero Section */}
       <div className="relative w-full h-screen bg-cover bg-no-repeat bg-top-0">
         <Image
           src={team25}
@@ -538,69 +436,55 @@ function Teams() {
           style={{ transform: "translateY(-10%)" }}
           priority
         />
-        {/* Optional overlay for improved text contrast */}
-        <div className="absolute inset-0 bg-black opacity-50" style={{ transform: "translateY(-10%)" }} ></div>
+        <div className="absolute inset-0 bg-black opacity-50" style={{ transform: "translateY(-10%)" }}></div>
         <div className="relative z-10 flex items-center justify-center h-full">
           <h1 className="text-4xl text-white font-bold">
-            <Image
-              src={we_are_tdsr}
-              alt="We are TDSR"
-              width={1200}
-              height={400}
-            />
+            <Image src={we_are_tdsr} alt="We are TDSR" width={1200} height={400} />
           </h1>
         </div>
       </div>
 
-      {/* Introduction Section */}
-      <section className="container mx-auto py-12" data-aos="fade-up">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold">
-            Meet our <span className="text-[var(--green2)]">/team</span>
-          </h1>
-          <h2 className="mt-4 text-lg text-gray-700">
-            We are Top Dutch Solar Racing, a driven student team from Groningen.
-            What makes us unique is that we are the only team in the Netherlands
-            whose members come from different levels of education (MBO, HBO,
-            WO). Together we are building a solar-powered car from scratch with
-            the goal of winning the Bridgestone World Solar Challenge.
-          </h2>
+      {/* Expandable Sections */}
+      {teamSectionsData.map((section) => (
+        <div key={section.id} className="w-4/5 mx-auto my-12">
+          {/* Clickable Banner */}
+          <div
+            onClick={() => toggleSection(section.id)}
+            className="cursor-pointer relative rounded-3xl overflow-hidden shadow-lg group"
+          >
+            <Image
+              src={sectionImages[section.id]}
+              alt={`${section.emphasis} banner`}
+              width={1200}
+              height={256}
+              className="w-full h-64 object-cover brightness-75 group-hover:brightness-90 transition rounded-3xl"
+            />
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
+              <h2 className="text-3xl font-bold">{section.emphasis}</h2>
+              <p className="text-md">(Click to {expandedSection === section.id ? "hide" : "see"} members)</p>
+            </div>
+          </div>
+
+          {/* Reveal section */}
+          <AnimatePresence>
+  {expandedSection === section.id && (
+    <motion.div
+      initial={{ opacity: 0, scaleY: 0.95 }}
+      animate={{ opacity: 1, scaleY: 1 }}
+      exit={{ opacity: 0, scaleY: 0.95 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="origin-top overflow-hidden bg-gray-100 rounded-3xl mt-4 p-6"
+    >
+      <TeamSection members={section.members} />
+    </motion.div>
+  )}
+</AnimatePresence>
+
         </div>
-      </section>
-
-      {/* Navigation Bar */}
-      <NavigationMenu sections={navSections} />
-
-{/* Render all team sections wrapped in Tailwind-styled div containers */}
-{shuffledTeamSections.map((section) => (
-  <div
-    key={section.id}
-    className="w-4/5 mx-auto my-24 p-6 bg-gray-200 rounded-3xl"
-  >
-    <TeamSection
-      id={section.id}
-      preEmphasis={section.preEmphasis}
-      emphasis={section.emphasis}
-      postEmphasis={section.postEmphasis}
-      members={section.members}
-    />
-  </div>
-))}
-
-{/* Render the coach section wrapped in a Tailwind-styled div container */}
-<div className="w-3/5 mx-auto my-8 p-6 bg-gray-200 rounded-lg shadow-sm">
-  <TeamSection
-    id={coachSection.id}
-    preEmphasis={coachSection.preEmphasis}
-    emphasis={coachSection.emphasis}
-    postEmphasis={coachSection.postEmphasis}
-    members={coachSection.members}
-  />
-</div>
-
-
+      ))}
     </>
   );
 }
 
 export default Teams;
+
