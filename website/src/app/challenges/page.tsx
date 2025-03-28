@@ -1,113 +1,324 @@
 "use client";
+import React, { useState } from "react";
 import Image, { StaticImageData } from "next/image";
-import Link from "next/link";
-import { useState } from "react";
+
+// Import your images
 import imgMorocco from "../../pictures/challenges/imgMorocco.webp";
 import imgBWSC from "../../pictures/challenges/imgBWSC.webp";
 import imgBWSC23 from "../../pictures/challenges/imgBWSC23.webp";
 import imgIESC22 from "../../pictures/challenges/imgIESC22.webp";
 import imgIESC20 from "../../pictures/challenges/imgIESC20.webp";
 import imgIESC24 from "../../pictures/challenges/imgIESC24.webp";
+
 import { Navbar } from "../util/navbar";
 
-interface ChallengeItemProps {
+interface SubStory {
   title: string;
-  image: StaticImageData;
+  text: string;
+  dx: number; // horizontal offset from x=100
+  dy: number; // vertical offset from the challenge midpoint + some offset
+}
+
+interface Challenge {
+  id: number;
+  title: string;
   summary: string;
   fullText: string;
   align: "left" | "right";
+  image: StaticImageData;
   link?: string;
+  subStories?: SubStory[];
 }
 
-const ChallengeItem = ({ title, image, summary, fullText, align, link }: ChallengeItemProps) => {
-  const [expanded, setExpanded] = useState(false);
-  const isLeft = align === "left";
+// Base segment heights
+const collapsedHeight = 150;
+const expandedHeight = 300;
+// If sub-stories exist, we add extra space to avoid overlap
+const extraSubStorySpace = 400;
 
-  return (
-    <div className="relative w-full flex flex-col items-center">
-      <div className={`w-full mb-16 flex flex-col gap-4 ${isLeft ? 'items-start' : 'items-end'}`}>
-        <div className={`w-full max-w-xl ${isLeft ? 'ml-[10%]' : 'mr-[10%]'}`}>
-          <Image src={image} alt={title} className="rounded-xl shadow-lg w-full h-auto" />
-        </div>
-        <div className={`w-full max-w-xl text-white p-4 rounded-xl shadow-lg text-center ${isLeft ? 'ml-[15%]' : 'mr-[15%]'}`}>
-        <div className={`relative mt-8 bg-green-600 rounded ${isLeft ? 'self-start' : 'self-end'}`}>
-          <h2 className="text-xl font-bold text-white mb-2 text-center">{title}</h2>
-          </div>
-          <p className={`transition-max-height duration-1000 ease-in-out overflow-hidden ${expanded ? 'max-h-[1000px]' : 'max-h-20'}`}>{expanded ? fullText : summary}</p>
-          <div className="mt-4">
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="bg-green-600 text-white px-4 py-2 rounded-full font-bold hover:bg-green-700"
-            >
-              {expanded ? "Read Less" : "Read More"}
-            </button>
-            {link && (
-              <Link
-                href={link}
-                target="_blank"
-                className="ml-4 underline text-green-300 hover:text-green-500"
-              >
-                Watch Video
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  );
-};
+/**
+ * Builds the main timeline path in an SVG of width=200, with the center line at x=100.
+ * We start at y=50 for a little top margin.
+ */
+function buildTimelinePath(challenges: Challenge[], expandedStates: boolean[]) {
+  let path = "";
+  let currentY = 50; // start at y=50 for top spacing
+  const midpoints: number[] = [];
+
+  // Move to (100, 50)
+  path += `M 100 50`;
+
+  challenges.forEach((challenge, i) => {
+    const isExpanded = expandedStates[i];
+    // If expanded and has sub-stories, add extra vertical space
+    let segHeight = isExpanded ? expandedHeight : collapsedHeight;
+    if (isExpanded && challenge.subStories) {
+      segHeight += extraSubStorySpace;
+    }
+
+    const nextY = currentY + segHeight;
+    const yMid = (currentY + nextY) / 2;
+
+    if (isExpanded) {
+      // Larger offset for a more dramatic curve
+      const curveOffset = challenge.align === "left" ? -80 : 80;
+      // Organic S-curve: control points at quarter and three-quarter
+
+    } else {
+      // Straight line if collapsed
+      path += ` L 100 ${nextY}`;
+    }
+
+    midpoints.push(currentY);
+    currentY = nextY;
+  });
+
+  return { path, totalHeight: currentY, midpoints };
+}
+
+/**
+ * Builds small "branch" paths for sub-stories.
+ * We treat (100, yMid+30) as the anchor, so the branch starts slightly below the box midpoint.
+ */
+function buildSubStoryPaths(
+  challenges: Challenge[],
+  expandedStates: boolean[],
+  midpoints: number[]
+) {
+  const branchPaths: string[] = [];
+
+  challenges.forEach((challenge, i) => {
+    if (!expandedStates[i] || !challenge.subStories) return;
+    const yMid = midpoints[i];
+    // Start the branch a bit below the midpoint so it doesn't collide with the main box
+    const anchorY = yMid + 80;
+
+    challenge.subStories.forEach((sub) => {
+      const start = `M 100 ${anchorY}`;
+      const vertical = `L 100 ${anchorY + sub.dy}`;
+      const horizontal = `L ${100 + sub.dx} ${anchorY + sub.dy}`;
+      branchPaths.push(`${start} ${vertical} ${horizontal}`);
+    });
+  });
+
+  return branchPaths;
+}
 
 export default function Challenges() {
+  const [challenges] = useState<Challenge[]>([
+    {
+      id: 1,
+      title: "2024 iLumen European Solar Challenge",
+      image: imgIESC24,
+      summary:
+        "Team 2025 faced their first challenge at the iLumen European Solar Challenge (iESC)...",
+      fullText:
+        "Team 2025 faced their first challenge at the iLumen European Solar Challenge (iESC), delivering outstanding results...",
+      align: "left",
+      subStories: [
+        {
+          title: "YouTube/Blog",
+          text: "Check out our video or blog for more details!",
+          dx: 100, // to the right of x=100
+          dy: 100 + expandedHeight, // 100 below the anchor
+        },
+        {
+          title: "Extra Pic",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          dx: -100 - 160, // to the left of x=100
+          dy: 180 + expandedHeight,
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: "2023 Bridgestone World Solar Challenge",
+      image: imgBWSC23,
+      summary:
+        "Team 2023 embarked on their first major race at the Bridgestone World Solar Challenge in Australia...",
+      fullText:
+        "Team 2023 embarked on their first major race at the Bridgestone World Solar Challenge in Australia...",
+      align: "right",
+    },
+    {
+      id: 3,
+      title: "2022 iLumen European Solar Challenge",
+      image: imgIESC22,
+      summary: "In 2022 we participated at the iESC for the second time...",
+      fullText:
+        "In 2022 we participated at the iESC for the second time. In cooperation with some members of the Team 2019...",
+      align: "left",
+      link: "https://www.youtube.com/watch?v=W7xF7Cq42t8",
+    },
+    {
+      id: 4,
+      title: "2021 Moroccan Solar Challenge",
+      image: imgMorocco,
+      summary:
+        "When the Bridgestone World Solar Challenge was cancelled in 2021...",
+      fullText:
+        "When the Bridgestone World Solar Challenge was cancelled in February 2021...",
+      align: "right",
+    },
+    {
+      id: 5,
+      title: "2020 iLumen European Solar Challenge",
+      image: imgIESC20,
+      summary:
+        "The iLumen European Solar Challenge is a 24-hour endurance race held at Circuit Zolder...",
+      fullText:
+        "The iLumen European Solar Challenge is held every two years at Circuit Zolder in Belgium...",
+      align: "left",
+    },
+    {
+      id: 6,
+      title: "2019 Bridgestone World Solar Challenge",
+      image: imgBWSC,
+      summary:
+        "In 2019, we participated in the World Solar Challenge for the very first time...",
+      fullText:
+        "In 2019, we participated in the World Solar Challenge for the very first time...",
+      align: "right",
+    },
+  ]);
+
+  // Track which challenges are expanded
+  const [expandedStates, setExpandedStates] = useState<boolean[]>(
+    new Array(challenges.length).fill(false)
+  );
+
+  const toggleExpand = (idx: number) => {
+    setExpandedStates((prev) =>
+      prev.map((state, i) => (i === idx ? !state : state))
+    );
+  };
+
+  // Build main path + sub-story paths
+  const { path, totalHeight, midpoints } = buildTimelinePath(
+    challenges,
+    expandedStates
+  );
+  const branchPaths = buildSubStoryPaths(challenges, expandedStates, midpoints);
+
   return (
-    <section className="relative min-h-screen px-4 pt-28 pb-12 bg-black text-white">
-      <div className="flex flex-col items-center relative w-full z-10">
-        <div className="absolute top+20 w-10 bg-green-600 h-full z-0 rounded" />
-        <Navbar />
-        <ChallengeItem
-          title="2024 iLumen European Solar Challenge"
-          image={imgIESC24}
-          summary="Team 2025 faced their first challenge at the iLumen European Solar Challenge (iESC)..."
-          fullText="Team 2025 faced their first challenge at the iLumen European Solar Challenge (iESC), and with incredible determination and high motivation, they delivered outstanding results. Alongside the 27 team members came our 12 alumni from Team '23. Combining all of our expertise and curiosity to gain our National Champion title as well as Green Thunder ending as 4th in Europe, including 3rd Team in Europe. Heavily credited to our speed, not only on the tracks but in the pit box. Due to fastest hot lap and fastest pit-box we got Pole Position from qualifying, leading to us to push again in the race. Getting the fastest hot lap during the 24hr race itself! This achievement reflects the team's perseverance and passion. Pushing through challenges before and during the race, bringing our team together."
-          align="left"
+    <section
+      className="relative w-full bg-black text-white"
+      style={{ minHeight: `${totalHeight + 100}px` }}
+    >
+      <Navbar />
+
+      {/* Main timeline SVG. Using width=200 for more horizontal room. */}
+      <svg
+        width="200"
+        height={totalHeight + 100}
+        viewBox={`0 0 200 ${totalHeight + 100}`}
+        className="absolute top-0 left-1/2 -translate-x-1/2 z-0"
+      >
+        {/* Main timeline path */}
+        <path
+          d={path}
+          fill="none"
+          stroke="#22C55E"
+          strokeWidth="5"
+          strokeLinecap="round"
         />
-        <ChallengeItem
-          title="2023 Bridgestone World Solar Challenge"
-          image={imgBWSC23}
-          summary="Team 2023 embarked on their first major race at the Bridgestone World Solar Challenge in Australia..."
-          fullText="Team 2023 embarked on their first major race at the Bridgestone World Solar Challenge in Australia. With unwavering determination and innovative technology, the team delivered outstanding results, securing 6th place internationally and 4th in qualifiers. This incredible achievement is a testament to the team's resilience, technical expertise, and passion for sustainable energy."
-          align="right"
-        />
-        <ChallengeItem
-          title="2022 iLumen European Solar Challenge"
-          image={imgIESC22}
-          summary="In 2022 we participated at the iESC for the second time..."
-          fullText="In 2022 we participated at the iESC for the second time. In cooperation with some members of the Team 2019 and 2021 we were able to drive the Green Lightning to the 5th place! This was an amazing experience for us, Team 2023, to gain experience and a lot of learning outcomes for future challenges."
-          align="left"
-          link="https://www.youtube.com/watch?v=W7xF7Cq42t8"
-        />
-        <ChallengeItem
-          title="2021 Moroccan Solar Challenge"
-          image={imgMorocco}
-          summary="When the Bridgestone World Solar Challenge was cancelled in 2021, we had to come up with an alternative..."
-          fullText="When the Bridgestone World Solar Challenge was cancelled in February 2021, we had to come up with an alternative race to showcase our new solar car, Green Spirit. The result was the Solar Challenge Morocco 2021. This new race led us 2500 km through the Middle-Atlas and Sahara desert. The route included a height difference of 8 km and a 10° climbing slope, pushing our car to new limits. Driving in Morocco also required extreme focus due to the curvy, mountainous roads."
-          align="right"
-        />
-        <ChallengeItem
-          title="2020 iLumen European Solar Challenge"
-          image={imgIESC20}
-          summary="The iLumen European Solar Challenge is a 24-hour endurance race held at Circuit Zolder..."
-          fullText="The iLumen European Solar Challenge is being held every two years at Circuit Zolder in Belgium. This 24-hour endurance race allows a maximum of two solar cars per team. In 2020, we participated for the first time and managed to win third place in collaboration with Team 2019. Circuit Zolder, a former Formula 1 track, challenged our car with sharp corners and long straights."
-          align="left"
-        />
-        <ChallengeItem
-          title="2019 Bridgestone World Solar Challenge"
-          image={imgBWSC}
-          summary="In 2019, we participated in the World Solar Challenge for the very first time..."
-          fullText="In 2019, we participated in the World Solar Challenge for the very first time. It was an amazing journey through the Australian outback, from Darwin to Adelaide. With our car Green Lightning, we camped, raced, and grew closer as a team. We learned about pit strategies, time management, and working under pressure. The experience laid the foundation for our future races."
-          align="right"
-        />
-      </div>
+        {/* Branch lines for sub-stories */}
+        {branchPaths.map((bp, idx) => (
+          <path
+            key={idx}
+            d={bp}
+            fill="none"
+            stroke="#22C55E"
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
+        ))}
+      </svg>
+
+      {/* Challenge boxes */}
+      {challenges.map((challenge, i) => {
+        const isExpanded = expandedStates[i];
+        const yMid = midpoints[i];
+        // The final segment might exceed totalHeight if we keep adding space
+        // so ensure we have enough container height (we did with +100 above).
+
+        // Adjust the box height if expanded
+        const boxHeight = isExpanded ? 300 : 150;
+        const topPosition = yMid;
+
+        // Position the box to the left or right of x=100 in the same scale as the SVG
+        // We'll do ~400px to the left for "left" align, 200px to the right for "right".
+        const horizontalStyle =
+          challenge.align === "left"
+            ? { left: "calc(50% - 400px)" }
+            : { left: "calc(50% + 200px)" };
+
+        return (
+          <div
+            key={challenge.id}
+            className="absolute w-80 p-4 bg-neutral-800 rounded-lg shadow-lg transition-all z-10"
+            style={{ top: topPosition, ...horizontalStyle }}
+          >
+            <h2 className="text-xl font-bold mb-3">{challenge.title}</h2>
+            <p className="text-base overflow-hidden">
+              {isExpanded ? challenge.fullText : challenge.summary}
+            </p>
+
+            {isExpanded && (
+              <div className="mt-4">
+                <Image
+                  src={challenge.image}
+                  alt={challenge.title}
+                  className="rounded shadow"
+                />
+              </div>
+            )}
+
+            {challenge.link && (
+              <a
+                href={challenge.link}
+                target="_blank"
+                className="underline text-green-300 hover:text-green-500 block mt-4"
+              >
+                Watch Video
+              </a>
+            )}
+
+            <button
+              onClick={() => toggleExpand(i)}
+              className="mt-4 bg-green-600 px-4 py-2 rounded hover:bg-green-700"
+            >
+              {isExpanded ? "Read Less" : "Read More"}
+            </button>
+          </div>
+        );
+      })}
+
+      {/* Sub-story boxes in the same container coordinate space */}
+      {challenges.map((challenge, i) => {
+        if (!expandedStates[i] || !challenge.subStories) return null;
+
+        const yMid = midpoints[i];
+        const anchorY = yMid + 30; // We used +30 in buildSubStoryPaths
+
+        return challenge.subStories.map((sub, idx2) => {
+          // The anchor is (100, anchorY) in the SVG space
+          // so subStory box is top: anchorY + sub.dy, left: calc(50% + sub.dx px).
+          const top = anchorY + sub.dy;
+          const left = `calc(50% + ${sub.dx}px)`;
+
+          return (
+            <div
+              key={idx2}
+              className="absolute bg-white text-black p-3 rounded shadow-md w-40"
+              style={{ top, left }}
+            >
+              <h3 className="font-bold mb-1">{sub.title}</h3>
+              <p className="text-sm">{sub.text}</p>
+            </div>
+          );
+        });
+      })}
     </section>
   );
 }
