@@ -1,5 +1,5 @@
 "use client";
-import ".././globals.css";
+import "../globals.css";
 import React from 'react';
 import Image from "next/image";
 

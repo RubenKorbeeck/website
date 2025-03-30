@@ -1,5 +1,5 @@
 "use client";
-import ".././globals.css";
+import "../globals.css";
 import React, { useState } from "react";
 import Image from "next/image";
 import greenfalcon from "../../pictures/car/greenfalcon.png"; // Now background
