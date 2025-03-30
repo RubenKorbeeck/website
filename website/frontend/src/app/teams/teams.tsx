@@ -104,7 +104,7 @@ function TeamMember({ name, role, pic, link }: { name: string; role: string; pic
             alt={name}
             layout="fill"
             objectFit="cover"
-            className="rounded-full"
+            className="rounded-3xl"
           />
         </div>
         <h3 className="mt-2 text-xl font-semibold text-center group-hover:text-[var(--green2)]">{name}</h3>
@@ -115,19 +115,42 @@ function TeamMember({ name, role, pic, link }: { name: string; role: string; pic
 }
 
 function TeamSection({ members }: { members: React.ReactNode[] }) {
+  const isOdd = members.length % 2 !== 0;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {members.map((member, index) => (
-        <div
-          key={index}
-          className={`flex justify-center items-center ${index % 2 === 0 ? "justify-start" : "justify-end"}`}
-        >
-          {member}
-        </div>
-      ))}
+      {members.map((member, index) => {
+        const isLast = index === members.length - 1;
+        const shouldCenter = isOdd && isLast;
+
+        // Always center on small screens
+        let alignmentClass = "justify-center";
+        let marginClass = "";
+
+        if (!shouldCenter) {
+          if (index % 2 === 0) {
+            alignmentClass += " md:justify-start";
+            marginClass = "md:ml-[5%]";
+          } else {
+            alignmentClass += " md:justify-end";
+            marginClass = "md:mr-[5%]";
+          }
+        } else {
+          alignmentClass += " md:justify-center md:col-span-2";
+        }
+
+        return (
+          <div key={index} className={`flex items-center ${alignmentClass}`}>
+            <div className={`w-full max-w-sm ${marginClass}`}>{member}</div>
+          </div>
+        );
+      })}
     </div>
   );
 }
+
+
+
 
 function Teams() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
@@ -444,13 +467,19 @@ function Teams() {
         </div>
       </div>
 
+      <h1 className="font-montserrat text-light2 text-center text-3xl font-bold mt-8">
+        Meet the people that brought our latest car to life!
+      </h1>
+
+
+
       {/* Expandable Sections */}
       {teamSectionsData.map((section) => (
         <div key={section.id} className="w-4/5 mx-auto my-12">
           {/* Clickable Banner */}
           <div
             onClick={() => toggleSection(section.id)}
-            className="cursor-pointer relative rounded-3xl overflow-hidden shadow-lg group"
+            className="cursor-pointer relative rounded-xl overflow-hidden shadow-lg group"
           >
             <Image
               src={sectionImages[section.id]}

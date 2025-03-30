@@ -8,9 +8,17 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        montserrat: ["var(--font-montserrat)", "sans-serif"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        dark: "#257226",
+        medium: "#009a17",
+        light: "#f2f2f2",
+        light1: "#75d780",
+        light2: "#00bb31",
       },
     },
   },

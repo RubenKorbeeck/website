@@ -11,6 +11,7 @@ import imgIESC20 from "../../pictures/challenges/imgIESC20.webp";
 import imgIESC24 from "../../pictures/challenges/imgIESC24.webp";
 
 import { Navbar } from "../util/navbar";
+import Footer from "../util/footer";
 
 interface SubStory {
   title: string;
@@ -201,6 +202,7 @@ export default function Challenges() {
   const branchPaths = buildSubStoryPaths(challenges, expandedStates, midpoints);
 
   return (
+    <div>      
     <section
       className="relative w-full bg-black text-white"
       style={{ minHeight: `${totalHeight + 100}px` }}
@@ -320,5 +322,7 @@ export default function Challenges() {
         });
       })}
     </section>
+    <Footer />
+    </div>
   );
 }
