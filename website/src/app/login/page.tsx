@@ -19,7 +19,7 @@ export default function LoginPage() {
     const data = await res.json();
     if (res.ok) {
     // ✅ redirect on successful login
-    window.location.href = '/editBlogs';
+    window.location.href = '/admin';
     } else {
     setResult(data.error);
     }
