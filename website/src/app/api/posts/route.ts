@@ -1,20 +1,20 @@
-import { prisma } from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
+import { writeFile } from 'fs/promises';
+import path from 'path';
+import { v4 as uuid } from 'uuid';
+
+
 
 export async function POST(req: NextRequest) {
-  const cookieStore = await cookies(); // ✅ await is required
+  const cookieStore = await cookies();      // ✅ FIXED
   const session = cookieStore.get('session');
-
   if (!session || session.value !== 'valid') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { title, content } = await req.json();
-
-  if (!title || !content) {
-    return NextResponse.json({ error: 'Missing title or content' }, { status: 400 });
-  }
+  const { title, content } = await req.json(); // ✅ use JSON
 
   const slug = title
     .toLowerCase()
@@ -22,15 +22,15 @@ export async function POST(req: NextRequest) {
     .replace(/[^\w-]/g, '');
 
   const post = await prisma.post.create({
-    data: { title, slug, content },
+    data: { title, content, slug },
   });
 
-  return NextResponse.json(post, { status: 200 });
+  return NextResponse.json(post);
 }
 
 export async function GET() {
   const posts = await prisma.post.findMany({
-    where: { published: true },
+    where: { },
     orderBy: { createdAt: 'desc' },
   });
 

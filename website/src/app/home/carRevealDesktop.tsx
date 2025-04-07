@@ -2,8 +2,8 @@
 import "../globals.css";
 import React, { useState } from "react";
 import Image from "next/image";
-import greenfalcon from "../../pictures/car/greenfalcon.png"; // Now background
-import greenThunder from "../../pictures/car/greenfalcon2.png"; // Now foreground
+import greenfalcon from "@/pictures/car/greenfalcon.png"; // Now background
+import greenThunder from "@/pictures/car/greenfalcon2.png"; // Now foreground
 import CountdownTimer from "../util/timer";
 
 // Constant for the mask radius (in pixels)
