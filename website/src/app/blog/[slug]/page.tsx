@@ -13,15 +13,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     where: { slug: params.slug },
   });
 
-  if (!post) {
+  const now = new Date();
+
+  if (
+    !post ||
+    !post.published ||
+    (post.publishAt && new Date(post.publishAt) > now)
+  ) {
     notFound();
   }
-  console.log('POST CONTENT:', post.content);
+
   return (
     <main className="max-w-2xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
       <p className="text-sm text-gray-500 mb-4">
-        {new Date(post.createdAt).toLocaleDateString()}
+        {new Date(post.publishAt).toLocaleDateString()}
       </p>
 
       <article>

@@ -5,7 +5,6 @@ import NewPostForm from './NewPostForm';
 import Link from 'next/link';
 import { DeletePostButton } from '@/app/util/DeletePostButton';
 
-
 export default async function AdminPage() {
   const cookieStore = await cookies();
   const session = cookieStore.get('session');
@@ -15,7 +14,10 @@ export default async function AdminPage() {
   }
 
   const posts = await prisma.post.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: [
+      { published: 'asc' },      // drafts first
+      { createdAt: 'desc' },     // newest first
+    ],
   });
 
   return (
@@ -29,10 +31,21 @@ export default async function AdminPage() {
         {posts.map((post) => (
           <li key={post.id} className="border p-4 rounded">
             <div className="font-semibold text-lg">{post.title}</div>
+
             <div className="text-sm text-gray-500">
-              {new Date(post.createdAt).toLocaleString()}
+              {post.publishAt
+                ? `Scheduled: ${new Date(post.publishAt).toLocaleString()}`
+                : `Created: ${new Date(post.createdAt).toLocaleString()}`}
             </div>
-            <div className="text-sm text-gray-700 italic mb-2">/{post.slug}</div>
+
+            <div className="flex items-center gap-2 text-sm text-gray-700 italic mb-2">
+              /{post.slug}
+              {!post.published && (
+                <span className="text-xs bg-gray-300 text-gray-800 px-2 py-0.5 rounded">
+                  Draft
+                </span>
+              )}
+            </div>
 
             <div className="flex gap-2">
               <Link

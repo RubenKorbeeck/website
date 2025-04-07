@@ -7,6 +7,7 @@ type Post = {
   title: string;
   slug: string;
   createdAt: string;
+  publishAt: string;
 };
 
 export default function BlogIndex() {
@@ -27,7 +28,9 @@ export default function BlogIndex() {
             <Link href={`/blog/${post.slug}`} className="text-blue-600 hover:underline">
               {post.title}
             </Link>
-            <p className="text-sm text-gray-500">{new Date(post.createdAt).toLocaleString()}</p>
+            <p className="text-sm text-gray-500 mb-4">
+              {new Date(post.publishAt ?? post.createdAt).toLocaleString()}
+            </p>
           </li>
         ))}
       </ul>

@@ -22,13 +22,20 @@ export async function GET(
 }
 
 export async function PUT(req: NextRequest, { params }: { params: { slug: string } }) {
-    const cookieStore = await cookies();      // ✅ FIXED
-    const session = cookieStore.get('session');
+  const cookieStore = await cookies();
+  const session = cookieStore.get('session');
+
   if (!session || session.value !== 'valid') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { title, content } = await req.json();
+  const body = await req.json();
+  const { title, content, published, publishAt } = body;
+
+  const newSlug = title
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]/g, '');
 
   try {
     const updated = await prisma.post.update({
@@ -36,16 +43,16 @@ export async function PUT(req: NextRequest, { params }: { params: { slug: string
       data: {
         title,
         content,
-        slug: title
-          .toLowerCase()
-          .replace(/\s+/g, '-')
-          .replace(/[^\w-]/g, ''),
+        slug: newSlug,
+        published: published ?? false,
+        publishAt: publishAt ? new Date(publishAt) : null,
       },
     });
 
     return NextResponse.json(updated);
   } catch (err) {
-    return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+    console.error('❌ Failed to update post:', err);
+    return NextResponse.json({ error: 'Post not found or update failed' }, { status: 404 });
   }
 }
 
