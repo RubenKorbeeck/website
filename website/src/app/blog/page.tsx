@@ -1,4 +1,5 @@
-"use client";
+'use client';
+
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -16,24 +17,35 @@ export default function BlogIndex() {
   useEffect(() => {
     fetch('/api/posts')
       .then((res) => res.json())
-      .then(setPosts);
+      .then(setPosts)
+      .catch((err) => console.error("Failed to load posts", err));
   }, []);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Blog</h1>
-      <ul className="space-y-4">
+    <div className="container mx-auto px-4 py-8 bg-gray-50 min-h-screen">
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-12">Our Blog</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {posts.map((post) => (
-          <li key={post.id}>
-            <Link href={`/blog/${post.slug}`} className="text-blue-600 hover:underline">
-              {post.title}
-            </Link>
+          <div
+            key={post.id}
+            className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow duration-300"
+          >
+            <h2 className="text-2xl text-black font-semibold mb-2">
+              <Link href={`/blog/${post.slug}`}>
+                {post.title}
+              </Link>
+            </h2>
             <p className="text-sm text-gray-500 mb-4">
               {new Date(post.publishAt ?? post.createdAt).toLocaleString()}
             </p>
-          </li>
+            <p className="text-gray-700 mb-4">
+            <Link href={`/blog/${post.slug}`}>
+                Read More
+            </Link>
+          </p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
