@@ -59,21 +59,23 @@ export default function Supporters() {
   const scrollStart = window.innerHeight * 1.1;
 
   useEffect(() => {
-    let scrollbarInstance = null;
+    let scrollbarInstance: Scrollbar | null = null;
     // Poll for the scrollbar instance every 100ms
     const interval = setInterval(() => {
       const scrollContainer = document.querySelector("#scroll-container");
-      if (scrollContainer) {
-        scrollbarInstance = Scrollbar.get(scrollContainer);
+      if (scrollContainer && scrollContainer instanceof HTMLElement) {
+        scrollbarInstance = Scrollbar.get(scrollContainer) || null;
         if (scrollbarInstance) {
-          const handleScrollbarScroll = ({ offset }) => {
+          const handleScrollbarScroll = ({ offset }: { offset: { x: number; y: number } }) => {
             setScrollY(offset.y);
           };
           scrollbarInstance.addListener(handleScrollbarScroll);
           clearInterval(interval);
           // Cleanup: remove listener when the component unmounts
           return () => {
-            scrollbarInstance.removeListener(handleScrollbarScroll);
+            if (scrollbarInstance) {
+              scrollbarInstance.removeListener(handleScrollbarScroll);
+            }
           };
         }
       }

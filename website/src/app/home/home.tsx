@@ -40,7 +40,7 @@ export default function HomePage() {
 
   // Initialize Smooth Scrollbar for inertial scrolling
   useEffect(() => {
-    const scrollContainer = document.querySelector('#scroll-container');
+    const scrollContainer = document.querySelector('#scroll-container') as HTMLElement;
     if (scrollContainer) {
       const scrollbar = Scrollbar.init(scrollContainer, {
         damping: 0.08, // Lower values yield a longer glide effect

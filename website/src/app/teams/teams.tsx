@@ -453,25 +453,32 @@ function Teams() {
         <Image
           src={team25}
           alt="Team Background"
+
           layout="fill"
           objectFit="cover"
           quality={100}
           style={{ transform: "translateY(-10%)" }}
           priority
         />
-        <div className="absolute inset-0 bg-black opacity-50" style={{ transform: "translateY(-10%)" }}></div>
+        <div
+          className="absolute inset-0 bg-black opacity-50"
+          style={{ transform: "translateY(-10%)" }}
+        ></div>
         <div className="relative z-10 flex items-center justify-center h-full">
           <h1 className="text-4xl text-white font-bold">
-            <Image src={we_are_tdsr} alt="We are TDSR" width={1200} height={400} />
+            <Image
+              src={we_are_tdsr}
+              alt="We are TDSR"
+              width={1200}
+              height={400}
+            />
           </h1>
         </div>
       </div>
 
-      <h1 className="font-montserrat text-light2 text-center text-3xl font-bold mt-8">
-        Meet the people that brought our latest car to life!
+      <h1 className="font-montserrat text-light2 text-center text-3xl font-bold mt-8 mx-auto">
+        MEET THE PEOPLE THAT BROUGHT OUR LATEST CAR TO LIFE!
       </h1>
-
-
 
       {/* Expandable Sections */}
       {teamSectionsData.map((section) => (
@@ -490,30 +497,36 @@ function Teams() {
             />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
               <h2 className="text-3xl font-bold">{section.emphasis}</h2>
-              <p className="text-md">(Click to {expandedSection === section.id ? "hide" : "see"} members)</p>
+              <span
+                className={`text-3xl mt-2 transition-transform duration-300 ${
+                  expandedSection === section.id ? "rotate-180" : ""
+                }`}
+              >
+                ↓
+              </span>
+
             </div>
           </div>
 
-          {/* Reveal section */}
+          {/* Reveal Section with Smooth Transition */}
           <AnimatePresence>
-  {expandedSection === section.id && (
-    <motion.div
-      initial={{ opacity: 0, scaleY: 0.95 }}
-      animate={{ opacity: 1, scaleY: 1 }}
-      exit={{ opacity: 0, scaleY: 0.95 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="origin-top overflow-hidden bg-gray-100 rounded-3xl mt-4 p-6"
-    >
-      <TeamSection members={section.members} />
-    </motion.div>
-  )}
-</AnimatePresence>
-
+            {expandedSection === section.id && (
+              <motion.div
+                key="content"
+                initial={{ opacity: 0, scaleY: 0.95 }}
+                animate={{ opacity: 1, scaleY: 1 }}
+                exit={{ opacity: 0, scaleY: 0.95 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="origin-top overflow-hidden bg-gray-100 rounded-3xl mt-4 p-6"
+              >
+                <TeamSection members={section.members} />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       ))}
     </>
   );
-}
+};
 
 export default Teams;
-

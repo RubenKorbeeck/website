@@ -1,18 +1,19 @@
 "use client";
-import "../globals.css";
-import { useState, useEffect } from "react";
-import Link from "next/link";
+
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import TDSR_logo from "../../pictures/tdsr-full-logo.svg";
 import Scrollbar from "smooth-scrollbar";
+import NavbarMenu from "./menu";
 
 interface CarRevealButtonProps {
   onClick?: () => void;
 }
 
 /**
- * A red, oval-shaped button that displays "CAR REVEAL LIVE"
- * with a small arrow pointing to the top-right.
+ * A red, oval-shaped button that displays "LIVE"
+ * along with a small arrow.
  */
 export function CarRevealButton({ onClick }: CarRevealButtonProps) {
   return (
@@ -63,9 +64,18 @@ export function CarRevealButton({ onClick }: CarRevealButtonProps) {
   );
 }
 
-const HamburgerButton = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => (
+const HamburgerButton = ({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => (
   <div className="flex w-16 justify-end">
-    <button className="block focus:outline-none z-50" onClick={() => setIsOpen(!isOpen)}>
+    <button
+      className="block focus:outline-none z-50"
+      onClick={() => setIsOpen(!isOpen)}
+    >
       <div className="space-y-2">
         <span className="block w-8 h-1 bg-white rounded-2xl"></span>
         <span className="block w-8 h-1 bg-white rounded-2xl"></span>
@@ -75,51 +85,32 @@ const HamburgerButton = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: Re
   </div>
 );
 
-// Navbar Link Component
-const NavLink = ({ href, children, onClick }: { href: string, children: React.ReactNode, onClick: () => void }) => (
-  <Link
-    href={href}
-    className="w-full text-center md:text-left hover:text-gray-300"
-    onClick={onClick}
-  >
-    {children}
-  </Link>
-);
-
-const NavbarMenu = ({ onClick }: { onClick: () => void }) => (
-  <div className="fixed md:absolute inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-80 h-screen bg-[var(--background)] z-40">
-    <div className="flex flex-col items-center md:items-start pt-20 p-4 space-y-4">
-      <NavLink href="/" onClick={onClick}>Home</NavLink>
-      <NavLink href="/about" onClick={onClick}>About Us</NavLink>
-      <NavLink href="/green-falcon" onClick={onClick}>Cars</NavLink>
-      <NavLink href="/challenges" onClick={onClick}>Challenges</NavLink>
-      <NavLink href="/teams" onClick={onClick}>Team</NavLink>
-      <NavLink href="/partners" onClick={onClick}>Partners</NavLink>
-    </div>
-  </div>
-);
-
 export function Navbar() {
   const [scrollY, setScrollY] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    let scrollbarInstance = null;
-    // Poll for the scrollbar instance every 100ms
+    let scrollbarInstance: Scrollbar | null = null;
     const interval = setInterval(() => {
       const scrollContainer = document.querySelector("#scroll-container");
       if (scrollContainer) {
-        scrollbarInstance = Scrollbar.get(scrollContainer);
+        scrollbarInstance =
+          Scrollbar.get(scrollContainer as HTMLElement) ?? null;
         if (scrollbarInstance) {
-          const handleScrollbarScroll = ({ offset }) => {
+          const handleScrollbarScroll = ({
+            offset,
+          }: {
+            offset: { x: number; y: number };
+          }) => {
             setScrollY(offset.y);
           };
           scrollbarInstance.addListener(handleScrollbarScroll);
           clearInterval(interval);
-          // Cleanup: remove listener when the component unmounts
           return () => {
-            scrollbarInstance.removeListener(handleScrollbarScroll);
+            if (scrollbarInstance) {
+              scrollbarInstance.removeListener(handleScrollbarScroll);
+            }
           };
         }
       }
@@ -127,7 +118,6 @@ export function Navbar() {
     return () => clearInterval(interval);
   }, []);
 
-  // Update scrolled state based on scrollY
   useEffect(() => {
     if (scrollY > 100) {
       setScrolled(true);
@@ -139,12 +129,12 @@ export function Navbar() {
   return (
     <header className="fixed top-0 z-50 w-full text-white">
       <div className="flex items-center bg-transparent justify-between p-4">
-        {/* Left Section: CarRevealButton */}
+        {/* Left Section: CarReveal Button */}
         <div className="z-50 w-16">
           <CarRevealButton />
         </div>
 
-        {/* Center Section: Small Logo, visible when scrolled or when the menu is open */}
+        {/* Center Section: Logo */}
         <div className="z-50 flex">
           <div
             className={`w-32 transition-all duration-500 linear ${
@@ -164,14 +154,18 @@ export function Navbar() {
         <HamburgerButton isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
 
-      {/* Mobile menu overlay (if you want no background here as well, remove the bg class) */}
+      {/* Mobile menu overlay */}
       <div
-        className={`fixed md:absolute bg-[var(--background)] inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-80 h-screen z-40 transform transition-transform duration-300 ${
+        className={`md:absolute bg-[var(--background)] inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-screen h-screen z-40 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
+        style ={{
+          transition: "transform 1s"}}
       >
         {isOpen && <NavbarMenu onClick={() => setIsOpen(false)} />}
       </div>
     </header>
   );
 }
+
+export default Navbar;
