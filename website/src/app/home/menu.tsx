@@ -72,7 +72,7 @@ const NavbarMenu = ({ onClick }: NavbarMenuProps) => {
           ABOUT US
         </NavLink>
         <NavLink
-          href="/green-falcon"
+          href="/cars"
           onClick={onClick}
           onMouseEnter={() => setActiveBg("/pictures/cars.png")}
         >
