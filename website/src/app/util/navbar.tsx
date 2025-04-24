@@ -1,94 +1,76 @@
 "use client";
-import "../globals.css";
-import { useState } from "react";
-import Link from "next/link";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Scrollbar from "smooth-scrollbar";
+import NavbarMenu from "./menu";
 import TDSR_logo from "../../pictures/tdsr-full-logo.svg";
-
 interface CarRevealButtonProps {
   onClick?: () => void;
 }
-
-// Function for the button's style
-const getCarRevealButtonStyle = () => ({
-  background: 'linear-gradient(to top right, var(--red), var(--red), var(--orange))',
-  color: 'white',
-  border: 'none',
-  borderRadius: '9999px', // Oval/pill shape
-  padding: '0.5rem 1rem',
-  display: 'inline-flex',
-  alignItems: 'center',
-  fontWeight: 'bold',
-  cursor: 'pointer',
-});
-
-// CarRevealButton Component
+/**
+ * A red, oval-shaped button that displays "LIVE"
+ * along with a small arrow.
+ */
 export function CarRevealButton({ onClick }: CarRevealButtonProps) {
   return (
-    <button onClick={onClick} style={getCarRevealButtonStyle()}>
+    <button
+      onClick={onClick}
+      style={{
+        background:
+          'linear-gradient(to top right, var(--red), var(--red), var(--orange))',
+        color: "white",
+        border: "none",
+        borderRadius: "9999px",
+        padding: "0.5rem 1rem",
+        display: "inline-flex",
+        alignItems: "center",
+        fontWeight: "bold",
+        cursor: "pointer",
+      }}
+    >
       LIVE
-      <span style={{ marginLeft: '8px', display: 'inline-flex' }}>
-        <LiveButton />
+      <span style={{ marginLeft: "8px", display: "inline-flex" }}>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{
+            transform: "rotate(0deg)",
+          }}
+        >
+          <path
+            d="M4 12L12 4"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M4 4H12V12"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </span>
     </button>
   );
 }
-
-// ArrowIcon Component
-const LiveButton = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    style={{ transform: 'rotate(0deg)' }}
-  >
-    <path
-      d="M4 12L12 4"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M4 4H12V12"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-// Navbar Menu Items Component
-const NavbarMenu = ({ onClick }: { onClick: () => void }) => (
-  <div className="fixed md:absolute inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-80 h-screen bg-[var(--background)] z-40">
-    <div className="flex flex-col items-center md:items-start pt-20 p-4 space-y-4">
-      <NavLink href="/" onClick={onClick}>Home</NavLink>
-      <NavLink href="/about" onClick={onClick}>About Us</NavLink>
-      <NavLink href="/teams" onClick={onClick}>Team</NavLink>
-      <NavLink href="/green-falcon" onClick={onClick}>Cars</NavLink>
-      <NavLink href="/partners" onClick={onClick}>Partners</NavLink>
-    </div>
-  </div>
-);
-
-// Navbar Link Component
-const NavLink = ({ href, children, onClick }: { href: string, children: React.ReactNode, onClick: () => void }) => (
-  <Link
-    href={href}
-    className="w-full text-center md:text-left hover:text-gray-300"
-    onClick={onClick}
-  >
-    {children}
-  </Link>
-);
-
-// Hamburger Button Component
-const HamburgerButton = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => (
+const HamburgerButton = ({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => (
   <div className="flex w-16 justify-end">
-    <button className="block focus:outline-none z-50" onClick={() => setIsOpen(!isOpen)}>
+    <button
+      className="block focus:outline-none z-50"
+      onClick={() => setIsOpen(!isOpen)}
+    >
       <div className="space-y-2">
         <span className="block w-8 h-1 bg-white rounded-2xl"></span>
         <span className="block w-8 h-1 bg-white rounded-2xl"></span>
@@ -97,40 +79,80 @@ const HamburgerButton = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: Re
     </button>
   </div>
 );
-
-// Navbar Component
 export function Navbar() {
+  const [scrollY, setScrollY] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    let scrollbarInstance: Scrollbar | null = null;
+    const interval = setInterval(() => {
+      const scrollContainer = document.querySelector("#scroll-container");
+      if (scrollContainer) {
+        scrollbarInstance =
+          Scrollbar.get(scrollContainer as HTMLElement) ?? null;
+        if (scrollbarInstance) {
+          const handleScrollbarScroll = ({
+            offset,
+          }: {
+            offset: { x: number; y: number };
+          }) => {
+            setScrollY(offset.y);
+          };
+          scrollbarInstance.addListener(handleScrollbarScroll);
+          clearInterval(interval);
+          return () => {
+            if (scrollbarInstance) {
+              scrollbarInstance.removeListener(handleScrollbarScroll);
+            }
+          };
+        }
+      }
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    setScrolled(scrollY > 100);
+  }, [scrollY]);
   return (
-    <header className="fixed top-0 left-0 w-full z-50 text-white">
-      <div className="flex items-center justify-between p-4">
-        {/* Left Section: CarRevealButton */}
+    <header className="fixed top-0 z-50 w-full text-white">
+      <div className="flex items-center bg-transparent justify-between p-4">
+        {/* Left Section: CarReveal Button */}
         <div className="z-50 w-16">
           <CarRevealButton />
         </div>
-
-        {/* Center Section: Small Logo */}
+        {/* Center Section: Logo */}
         <div className="z-50 flex">
-          <div className="w-32 transition-all duration-500 linear opacity-100">
-            <Link href="/">
-              <Image src={TDSR_logo} alt="TDSR logo" className="w-full" priority />
-            </Link>
+          <div
+            className={`w-32 transition-all duration-500 ${
+              scrolled || isOpen ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Image
+              src={TDSR_logo}
+              alt="TDSR logo"
+              className="w-full"
+              priority
+            />
           </div>
         </div>
-
-        {/* Hamburger Button */}
+        {/* Right Section: Hamburger Menu */}
         <HamburgerButton isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
-
-      {/* Navbar Menu */}
+      {/* Mobile menu overlay */}
       <div
-        className={`fixed md:absolute bg-[var(--background)] inset-0 md:inset-auto md:top-0 md:right-0 w-full md:w-80 h-screen z-40 transform transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`
+          md:absolute
+          bg-[var(--background)]
+          inset-0 md:inset-auto md:top-0 md:right-0
+          w-full md:w-screen h-screen z-40
+          transform transition-transform duration-[1s] ease-in-out
+          ${isOpen ? "translate-x-0" : "translate-x-full"}
+        `}
       >
-        {isOpen && <NavbarMenu onClick={() => setIsOpen(false)} />}
+        {/* Always mounted so we can slide it out */}
+        <NavbarMenu onClick={() => setIsOpen(false)} />
       </div>
     </header>
   );
 }
+export default Navbar;
