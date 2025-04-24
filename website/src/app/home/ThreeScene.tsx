@@ -53,9 +53,9 @@ function Scene({ currentIndex, wheelCoverPosFL, wheelCoverPosRR, onAnimStart, on
   const anim = useRef({ isAnimating: false, startTime: 0, duration: 2 })
   // Wheel cover animation state
   const [wheelPosLocalFL, setWheelPosLocalFL] = useState(() => new THREE.Vector3(...wheelCoverPosFL))
-  const wheelAnimFL = useRef({ isAnimating: false, startTime: 0, duration: 0.3, startPos: new THREE.Vector3(), targetPos: new THREE.Vector3() })
+  const wheelAnimFL = useRef({ isAnimating: false, startTime: 0, duration: 0.2, startPos: new THREE.Vector3(), targetPos: new THREE.Vector3() })
   const [wheelPosLocalRR, setWheelPosLocalRR] = useState(() => new THREE.Vector3(...wheelCoverPosRR))
-  const wheelAnimRR = useRef({ isAnimating: false, startTime: 0, duration: 0.3, startPos: new THREE.Vector3(), targetPos: new THREE.Vector3() })
+  const wheelAnimRR = useRef({ isAnimating: false, startTime: 0, duration: 0.2, startPos: new THREE.Vector3(), targetPos: new THREE.Vector3() })
  
   // Camera zoom animation
   useEffect(() => {
@@ -235,7 +235,7 @@ export default function ThreeScene() {
       <div
   style={{ position: 'absolute', ...descStyle }}
   className={
-    `max-w-xs p-4 bg-gray-800 bg-opacity-75 text-white rounded-xl shadow-lg text-lg font-sans transition-opacity duration-500 ` +
+    `max-w-xs p-4 bg-gray-400 bg-opacity-0 text-white rounded-xl shadow-lg text-lg font-sans transition-opacity duration-500 ` +
     (descVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2')
   }
 >

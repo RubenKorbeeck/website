@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@react-three/drei": "^10.0.7",
     "autoprefixer": "^10.4.20",
     "clsx": "^2.1.1",
     "postcss": "^8.5.2",
