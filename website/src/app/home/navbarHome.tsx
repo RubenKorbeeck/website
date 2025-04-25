@@ -92,6 +92,7 @@ export function Navbar() {
 
   useEffect(() => {
     let scrollbarInstance: Scrollbar | null = null;
+    // Poll for the scrollbar instance every 100ms
     const interval = setInterval(() => {
       const scrollContainer = document.querySelector("#scroll-container");
       if (scrollContainer) {
@@ -108,6 +109,9 @@ export function Navbar() {
           scrollbarInstance.addListener(handleScrollbarScroll);
           clearInterval(interval);
           return () => {
+            if (scrollbarInstance) {
+              scrollbarInstance.removeListener(handleScrollbarScroll);
+            }
             if (scrollbarInstance) {
               scrollbarInstance.removeListener(handleScrollbarScroll);
             }

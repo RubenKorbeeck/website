@@ -4,7 +4,7 @@ import Scrollbar from 'smooth-scrollbar';
 const InertiaScrollComponent = () => {
   useEffect(() => {
     // Initialize Smooth Scrollbar on the client-side
-    const scrollContainer = document.querySelector('#scroll-container');
+    const scrollContainer = document.querySelector('#scroll-container') as HTMLElement;
     if (scrollContainer) {
       const scrollbar = Scrollbar.init(scrollContainer, {
         damping: 0.08, // Lower values give a longer inertia effect

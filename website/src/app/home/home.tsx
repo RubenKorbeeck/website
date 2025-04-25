@@ -10,6 +10,9 @@ import Supporters from "./sponsors";
 import ImageScroller from "./bottomPage";
 import Footer from "../util/footer";
 import Scrollbar from "smooth-scrollbar";
+import dynamic from 'next/dynamic';
+
+const ThreeScene = dynamic(() => import('./ThreeScene'), { ssr: false });
 
 export default function HomePage() {
   // State to track if the <Stories> section is in view.
@@ -63,7 +66,10 @@ export default function HomePage() {
       <Navbar />
       <div id="scroll-container" style={{ height: "100vh", overflow: "hidden" }}>
         <div>
+            <div>
+
           
+        </div>
           {/* LandPage Section */}
           <div className="relative row-start-2 items-center">
             <LandPage />
@@ -71,7 +77,7 @@ export default function HomePage() {
           {/* CarReveal Section */}
           <div className="row-start-3 overflow-hidden">
             <CarRevealMobile />
-            <CarRevealDesktop />
+            <ThreeScene />
           </div>
           {/* Stories Section */}
           <div ref={storiesRef} className="row-start-4">

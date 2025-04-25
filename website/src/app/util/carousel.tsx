@@ -24,14 +24,13 @@ function TeamScroll() {
 
   const portraitsList = portraits.map((portrait, index) => {
     return (
-      <div className="slide" key={portrait}>
+      <div className="slide" key={index}>
         <img
-         src={portrait}
+         src={portrait.src}
          alt="Portrait"
          className="portrait"
          width={isSmallScreen ? "200rem" : "350rem"}
          loading="eager"
-         effect="blur"
         />
       </div>
     );
