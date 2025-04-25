@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import LandPage from "./landpage";
-import { Navbar } from "./navbarHome";
+import { Navbar } from "../util/navbar";
 import CarRevealMobile from "./carRevealMobile";
 import CarRevealDesktop from "./carRevealDesktop";
 import Stories from "./stories";

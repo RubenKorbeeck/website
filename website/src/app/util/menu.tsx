@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 interface NavLinkProps {
   href: string;
@@ -18,9 +19,13 @@ const NavLink = ({
 }: NavLinkProps) => (
   <Link
     href={href}
-    className="w-1/3 text-center hover:text-light2"
     onClick={onClick}
     onMouseEnter={onMouseEnter}
+    className="
+      w-1/3 text-center
+      text-white hover:text-light2
+      transition-colors duration-200
+    "
   >
     {children}
   </Link>
@@ -30,13 +35,25 @@ interface NavbarMenuProps {
   onClick: () => void;
 }
 
+const slideOut = {
+  hidden: { x: 0, opacity: 1 },
+  exit:   { x: "-100%", opacity: 0 },
+};
+
 const NavbarMenu = ({ onClick }: NavbarMenuProps) => {
-  // State to store the currently active background image URL.
   const [activeBg, setActiveBg] = useState("");
 
   return (
-    <div className="fixed md:absolute md:inset-auto md:top-0 md:right-0 w-screen h-screen pt-36 bg-black relative overflow-hidden">
-      {/* Background overlay that slides in from the left */}
+    <motion.div
+      // No “initial” or “animate” needed — we only care about exit
+      variants={slideOut}
+      initial="hidden"
+      exit="exit"
+      transition={{ type: "tween", ease: "easeInOut", duration: 0.6 }}
+      onMouseLeave={() => setActiveBg("")}
+      className="fixed inset-0 w-screen h-screen pt-36 relative overflow-hidden"
+    >
+      {/* Background overlay that slides in on hover */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-all ease-in-out"
         style={{
@@ -44,19 +61,14 @@ const NavbarMenu = ({ onClick }: NavbarMenuProps) => {
             ? `url(${activeBg})`
             : "url('/pictures/transparent.png')",
           transform: activeBg ? "translateX(0)" : "translateX(-100%)",
-          opacity: activeBg ? 0.6 : 0,
-          // Updated transition duration and easing for smoother, slower transitions.
-          transition: "transform 1.5s ease-in-out, opacity 1.5s ease-in-out",
+          opacity: activeBg ? 0.5 : 0,
+          transition: "transform 1s ease-in-out, opacity 1s ease-in-out",
           willChange: "transform, opacity",
         }}
-      ></div>
+      />
 
-      {/* Container for navigation links with spacing preserved */}
-      <div
-        className="font-bold font-montserrat relative z-10 flex flex-col text-3xl items-center text-center p-4 space-y-6"
-        // Reset the active background only when the entire container is left.
-        onMouseLeave={() => setActiveBg("")}
-      >
+      {/* Nav links */}
+      <div className="relative z-10 flex flex-col items-center space-y-6 p-4 text-3xl font-bold font-montserrat text-center">
         <NavLink
           href="/"
           onClick={onClick}
@@ -93,14 +105,35 @@ const NavbarMenu = ({ onClick }: NavbarMenuProps) => {
           TEAM
         </NavLink>
         <NavLink
+          href="/blogs"
+          onClick={onClick}
+          onMouseEnter={() => setActiveBg("/pictures/blogs.png")}
+        >
+          BLOGS
+        </NavLink>
+        <NavLink
           href="/partners"
           onClick={onClick}
           onMouseEnter={() => setActiveBg("/pictures/partners.png")}
         >
           PARTNERS
         </NavLink>
+        <NavLink
+          href="/contact"
+          onClick={onClick}
+          onMouseEnter={() => setActiveBg("/pictures/contact.png")}
+        >
+          CONTACT
+        </NavLink>
+        <NavLink
+          href="/faq"
+          onClick={onClick}
+          onMouseEnter={() => setActiveBg("/pictures/faq.png")}
+        >
+          FAQ
+        </NavLink>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
