@@ -1,7 +1,13 @@
+"use client";
+import React from "react";
+
+import ThreeCarScene from "./threeCarScene";
+
 export default function Home() {
+
     return (
-      <main style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-        <h1>Welcome car</h1>
-      </main>
+      <div>
+        <ThreeCarScene/>
+      </div>
     );
   }
