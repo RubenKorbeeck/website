@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useRef, useState, useEffect } from 'react';
-import MarkdownRenderer from '@/app/util/MarkdownRenderer';
+import MarkdownRenderer from '../util/MarkdownRenderer';
 
 export default function NewPostForm() {
   const [title, setTitle] = useState('');

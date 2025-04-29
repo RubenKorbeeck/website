@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import NewPostForm from './NewPostForm';
 import Link from 'next/link';
-import { DeletePostButton } from '@/app/util/DeletePostButton';
+import { DeletePostButton } from '../util/DeletePostButton';
 
 export default async function AdminPage() {
   const cookieStore = await cookies();

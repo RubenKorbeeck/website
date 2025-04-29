@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
-import MarkdownRenderer from '@/app/util/MarkdownRenderer';
+import MarkdownRenderer from '../../util/MarkdownRenderer';
 
 type BlogPostPageProps = {
   params: {

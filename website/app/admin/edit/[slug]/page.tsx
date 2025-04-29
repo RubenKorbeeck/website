@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import MarkdownRenderer from '@/app/util/MarkdownRenderer';
+import MarkdownRenderer from '../../../util/MarkdownRenderer';
 
 function getLocalDateTimeString() {
   const now = new Date();
