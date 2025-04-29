@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function GreenFalcon() {
   return (
-    <div className="min-h-screen bg-black text-white font-sans">
+    <div className="min-h-screen bg-[var(--background)] text-white font-sans">
 
       {/* Hero Section */}
       <section className="relative text-center">

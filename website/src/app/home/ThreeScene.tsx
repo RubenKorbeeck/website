@@ -128,9 +128,9 @@ function Scene({ currentIndex, wheelCoverPosFL, wheelCoverPosRR, onAnimStart, on
 
   return (
     <>
-      <ambientLight intensity={0.8} />
+      <ambientLight intensity={2.8} />
       <directionalLight
-        intensity={3.6}
+        intensity={4.6}
         position={[0, 50, 5]}
         color="#ffffff"
       />

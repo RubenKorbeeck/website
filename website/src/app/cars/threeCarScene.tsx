@@ -1,5 +1,6 @@
 // ThreeCarScene.tsx
 import React, { Suspense, useRef, useState, useCallback, useEffect } from 'react'
+
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useGLTF, MeshReflectorMaterial } from '@react-three/drei'
@@ -22,7 +23,7 @@ const carData = [
 ]
 
 // Loads and displays each GLTF model with tinting
-function SolarCar({ url, tint = 1, position = [0, -2, 0] }: { url: string; tint?: number; position?: [number, number, number] }) {
+function SolarCar({ url, tint = 1, position = [0, -2, 0] , scale = 1, rotate = 0}: { url: string; tint?: number; position?: [number, number, number]; scale?: number;  rotate?: number;}) {
   const { scene } = useGLTF(url) as { scene: THREE.Group }
   const ref = useRef<THREE.Group>(null)
 
@@ -44,8 +45,9 @@ function SolarCar({ url, tint = 1, position = [0, -2, 0] }: { url: string; tint?
     <primitive
       ref={ref}
       object={scene.clone()}
-      scale={[3000, 3000, 3000]}
+      scale={[scale, scale, scale]}
       position={position}
+      rotation={[0, rotate, 0]}
     />
   )
 }
@@ -65,16 +67,10 @@ function Scene({ offsetZ }: { offsetZ: number }) {
       <directionalLight intensity={5.6} position={[0, 50, 5]} color="#ffffff" />
       <Suspense fallback={null}>
         <group ref={groupRef} position={[0, 0, 0]}>
-          <SolarCar url="/Ruben_GF_test_Body.glb" />
-          <SolarCar url="/Ruben_GF_test_Wheel_FL.glb" />
-          <SolarCar url="/Ruben_GF_test_Wheel_FR.glb" />
-          <SolarCar url="/Ruben_GF_test_Wheel_RR.glb" />
-          <SolarCar url="/Ruben_GF_test_Cover_FR.glb" />
-          <SolarCar url="/Ruben_GF_test_Cover_FL.glb" />
-          <SolarCar url="/Ruben_GF_test_Cover_RR.glb" />
-          <SolarCar url="/Ruben_GF_test_Body.glb" position={[0, 0, -200]} />
-          <SolarCar url="/Ruben_GF_test_Body.glb" position={[0, 0, -400]} />
-          <SolarCar url="/Ruben_GF_test_Body.glb" position={[0, 0, -600]} />
+          <SolarCar url="/GF.glb" position={[0, 0, 100]} scale={35} rotate={-Math.PI/2} />
+          <SolarCar url="/GT.glb" position={[0, 0, -100]}scale={35}  rotate={-Math.PI/2}/>
+          <SolarCar url="/GS.glb" position={[0, 0, -320]} scale={35}   rotate={-Math.PI/2}/>
+          <SolarCar url="/GL.glb" position={[0, 0, -520]} scale={35}  rotate={-Math.PI/2} />
         </group>
         <mesh rotation-x={-Math.PI / 2} position={[0, -2, 0]} receiveShadow>
           <planeGeometry args={[10000, 10000]} />
@@ -142,7 +138,7 @@ export default function ThreeCarScene() {
       <div style={{ width: '100%', height: '60vh', position: 'relative' }}>
         <Canvas
           shadows
-          camera={{ position: [60, 40, 80], fov: 75, near: 0.1, far: 1000 }}
+          camera={{ position: [120, 40, 100], fov: 40, near: 0.1, far: 1000 }}
         >
           <CameraController />
           <color attach="background" args={["#0a0a0a"]} />
@@ -153,29 +149,33 @@ export default function ThreeCarScene() {
         </Canvas>
 
         {/* Navigation Buttons */}
-        <div className="absolute bottom-16 w-full flex justify-center space-x-4">
-          {prevName && (
-            <button
-              className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              onClick={handlePrevious}
-            >
-              {prevName}
-            </button>
-          )}
-          {nextName && (
-            <button
-              className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              onClick={handleNext}
-            >
-              {nextName}
-            </button>
-          )}
-        </div>
+        <div className="absolute bottom-16 w-full flex justify-between px-8">
+  <div>
+    {prevName && (
+      <button
+        className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+        onClick={handlePrevious}
+      >
+        {prevName}
+      </button>
+    )}
+  </div>
+  <div>
+    {nextName && (
+      <button
+        className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+        onClick={handleNext}
+      >
+        {nextName}
+      </button>
+    )}
+  </div>
+</div>
       </div>
 
       {/* Description Panel Below */}
       <div
-        className="w-full px-6 py-4 bg-gray-900 bg-opacity-75 text-white text-center text-base mt-4"
+        className="w-full px-6 py-4 bg-[var(--background)] text-white text-center text-base mt-4"
         style={{
           opacity: descVisible ? 1 : 0,
           transition: `opacity ${descVisible ? FADE_IN : FADE_OUT}ms ease-in-out`
