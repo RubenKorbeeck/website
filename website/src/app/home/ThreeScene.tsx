@@ -2,10 +2,9 @@
 import React, { Suspense, useRef, useState, useCallback, useEffect } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
-import { useControls } from "leva";
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { MeshReflectorMaterial, Environment, Text, useHelper} from '@react-three/drei' 
-import { distance } from 'framer-motion'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { MeshReflectorMaterial, Text} from '@react-three/drei' 
+
 
 // Zoom targets with descriptions and positions
 const zoomTargets = [
@@ -16,24 +15,38 @@ const zoomTargets = [
   { position: new THREE.Vector3(0, 12, 200), lookAt: new THREE.Vector3(0, 0, 0), description: "Front: Green Falcon is perfectly designed for australia. A lot of research has been done to find the optimal shapes.", descStyle: { top: '5%', left: '10%' } }
 ]
 
-const easeInOutSine = t => -0.5 * (Math.cos(Math.PI * t) - 1)
+const easeInOutSine = (t: number): number => -0.5 * (Math.cos(Math.PI * t) - 1)
 
 // Loader component for GLTF models with configurable position
-function SolarCar({ url, tint = 1, position = [0, -2, 0] }) {
+function SolarCar({ url, tint = 1, position = [0, -2, 0] }: { url: string; tint?: number; position?: [number, number, number] }) {
   const gltf = useLoader(GLTFLoader, url)
-  const ref = useRef()
+  const ref = useRef<THREE.Object3D>(null)
   useFrame(() => {
-    if (ref.current) {
-      ref.current.traverse(child => {
-        if (child.isMesh) {
-          child.material.side = THREE.DoubleSide
-          child.material.color.setScalar(tint)
-          child.castShadow = true
-          child.receiveShadow = true
+    if (!ref.current) return;
+  
+    ref.current.traverse((child) => {
+      if (!((child as THREE.Mesh).isMesh)) return;
+  
+      const mesh = child as THREE.Mesh;
+      // normalize into an array
+      const materials = Array.isArray(mesh.material)
+        ? mesh.material
+        : [mesh.material];
+  
+      materials.forEach((mat) => {
+        // now `mat` is definitely a Material
+        mat.side = THREE.DoubleSide;
+  
+        // if it’s a StandardMaterial we can tint it
+        if (mat instanceof THREE.MeshStandardMaterial) {
+          mat.color.setScalar(tint);
         }
-      })
-    }
-  })
+      });
+  
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+    });
+  });
   return (
     <primitive
       ref={ref}
@@ -46,11 +59,19 @@ function SolarCar({ url, tint = 1, position = [0, -2, 0] }) {
 }
 
 // Main scene content: cars and reflective ground with animated camera and wheel cover
-function Scene({ currentIndex, wheelCoverPosFL, wheelCoverPosRR, onAnimStart, onAnimEnd }) {
+function Scene({ currentIndex, wheelCoverPosFL, wheelCoverPosRR, onAnimStart, onAnimEnd }: { currentIndex: number; wheelCoverPosFL: [number, number, number]; wheelCoverPosRR: [number, number, number]; onAnimStart: () => void; onAnimEnd: () => void }) {
   const { camera } = useThree()
   // Spotlight refs to aim at origin
 
-  const anim = useRef({ isAnimating: false, startTime: 0, duration: 2 })
+  const anim = useRef({
+    isAnimating: false,
+    startTime: 0,
+    duration: 2,
+    fromPos: new THREE.Vector3(),
+    fromQuat: new THREE.Quaternion(),
+    toPos: new THREE.Vector3(),
+    toQuat: new THREE.Quaternion(),
+  })
   // Wheel cover animation state
   const [wheelPosLocalFL, setWheelPosLocalFL] = useState(() => new THREE.Vector3(...wheelCoverPosFL))
   const wheelAnimFL = useRef({ isAnimating: false, startTime: 0, duration: 0.2, startPos: new THREE.Vector3(), targetPos: new THREE.Vector3() })
@@ -147,9 +168,6 @@ function Scene({ currentIndex, wheelCoverPosFL, wheelCoverPosRR, onAnimStart, on
           anchorX="center"
           anchorY="middle"
           depthOffset={-10}
-          bevelEnabled
-          bevelSize={1}
-          bevelThickness={5}
         >
           GREEN
         </Text>
@@ -161,9 +179,6 @@ function Scene({ currentIndex, wheelCoverPosFL, wheelCoverPosRR, onAnimStart, on
           anchorX="center"
           anchorY="middle"
           depthOffset={-10}
-          bevelEnabled
-          bevelSize={3}
-          bevelThickness={5}
         >
            FALCON
         </Text>
@@ -201,11 +216,13 @@ export default function ThreeScene() {
   const [description, setDescription] = useState(zoomTargets[0].description)
   const [descStyle, setDescStyle] = useState(zoomTargets[0].descStyle)
   const [descVisible, setDescVisible] = useState(true)
-  const [wheelCoverPosFL, setWheelCoverPosFL] = useState([0, -2, 0])
-  const [wheelCoverPosRR, setWheelCoverPosRR] = useState([0, -2, 0])
-  const handleZoom = useCallback(dir => {
+  const [wheelCoverPosFL, setWheelCoverPosFL] = useState<[number, number, number]>([0, -2, 0])
+  const [wheelCoverPosRR, setWheelCoverPosRR] = useState<[number, number, number]>([0, -2, 0])
+  
+
+  const handleZoom = useCallback((dir: number) => {
     setDescVisible(false)
-    setCurrentIndex(i => (i + dir + zoomTargets.length) % zoomTargets.length)
+    setCurrentIndex((i: number) => (i + dir + zoomTargets.length) % zoomTargets.length)
   }, [])
 
   const onAnimStart = () => {}

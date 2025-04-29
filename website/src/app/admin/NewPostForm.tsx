@@ -7,7 +7,6 @@ import MarkdownRenderer from '../util/MarkdownRenderer';
 export default function NewPostForm() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [published, setPublished] = useState(false); // ✅ NEW
   const [publishAt, setPublishAt] = useState('');    // ✅ NEW (datetime-local string)
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();

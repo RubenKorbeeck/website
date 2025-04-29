@@ -43,8 +43,7 @@ export async function POST(req: NextRequest) {
     });
 
     return response;
-  } catch (err: any) {
-    console.error('Login route crashed:', err);
+  } catch {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

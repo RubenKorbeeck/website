@@ -1,6 +1,5 @@
 // ThreeCarScene.tsx
 import React, { Suspense, useRef, useState, useCallback, useEffect } from 'react'
-
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useGLTF, MeshReflectorMaterial } from '@react-three/drei'
@@ -32,8 +31,16 @@ function SolarCar({ url, tint = 1, position = [0, -2, 0] , scale = 1, rotate = 0
       ref.current.traverse(child => {
         if ((child as THREE.Mesh).isMesh) {
           const mesh = child as THREE.Mesh
-          mesh.material.side = THREE.DoubleSide
-          mesh.material.color.setScalar(tint)
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach(mat => {
+              mat.side = THREE.DoubleSide
+            })
+          } else {
+            mesh.material.side = THREE.DoubleSide
+          }
+          if (mesh.material instanceof THREE.MeshStandardMaterial) {
+            mesh.material.color.setScalar(tint)
+          }
           mesh.castShadow = true
           mesh.receiveShadow = true
         }
@@ -105,7 +112,7 @@ function CameraController() {
 export default function ThreeCarScene() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [descVisible, setDescVisible] = useState(true)
-  const [displayDesc, setDisplayDesc] = useState<JSX.Element>(carData[0].description)
+  const [displayDesc, setDisplayDesc] = useState<React.ReactNode>(carData[0].description)
   const offsetZ = currentIndex * 200
 
   const handleNext = useCallback(() => {

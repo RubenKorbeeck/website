@@ -13,7 +13,16 @@ export default async function AdminPage() {
     redirect('/login');
   }
 
-  const posts = await prisma.post.findMany({
+  interface Post {
+    id: string;
+    title: string;
+    slug: string;
+    createdAt: string | Date;
+    publishAt?: string | Date | null;
+    published: boolean;
+  }
+
+  const posts: Post[] = await prisma.post.findMany({
     orderBy: [
       { published: 'asc' },      // drafts first
       { createdAt: 'desc' },     // newest first

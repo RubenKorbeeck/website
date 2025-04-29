@@ -21,25 +21,27 @@ export async function GET(
   return NextResponse.json(post);
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { slug: string } }) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get('session');
+export async function PUT(
+  req: NextRequest,
+  context: { params: Promise<{ slug: string }> }   // ← here!
+) {
+  const { slug } = await context.params   // ← await it just like GET/DELETE
 
+  const cookieStore = await cookies()
+  const session = cookieStore.get('session')
   if (!session || session.value !== 'valid') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const body = await req.json();
-  const { title, content, published, publishAt } = body;
-
+  const { title, content, published, publishAt } = await req.json()
   const newSlug = title
     .toLowerCase()
     .replace(/\s+/g, '-')
-    .replace(/[^\w-]/g, '');
+    .replace(/[^\w-]/g, '')
 
   try {
     const updated = await prisma.post.update({
-      where: { slug: params.slug },
+      where: { slug },
       data: {
         title,
         content,
@@ -47,14 +49,14 @@ export async function PUT(req: NextRequest, { params }: { params: { slug: string
         published: published ?? false,
         publishAt: publishAt ? new Date(publishAt) : null,
       },
-    });
-
-    return NextResponse.json(updated);
+    })
+    return NextResponse.json(updated)
   } catch (err) {
-    console.error('❌ Failed to update post:', err);
-    return NextResponse.json({ error: 'Post not found or update failed' }, { status: 404 });
+    console.error('❌ Failed to update post:', err)
+    return NextResponse.json({ error: 'Post not found or update failed' }, { status: 404 })
   }
 }
+
 
 export async function DELETE(
   req: NextRequest,
@@ -73,7 +75,7 @@ export async function DELETE(
   // ✅ Extract image URLs from post content
   const imageUrls = Array.from(
     post.content.matchAll(/!\[.*?\]\((\/uploads\/.*?)\)/g)
-  ).map((m) => m[1]);
+  ).map((m) => (m as RegExpMatchArray)[1]);
 
   // ✅ Delete each image file from /public/uploads
   for (const url of imageUrls) {

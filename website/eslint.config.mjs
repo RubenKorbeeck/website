@@ -9,8 +9,15 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
+export default [
+  // your existing Next.js / TS presets
   ...compat.extends("next/core-web-vitals", "next/typescript"),
-];
 
-export default eslintConfig;
+  // now turn off `no-var` in all .d.ts files
+  {
+    files: ["**/*.d.ts"],
+    rules: {
+      "no-var": "off",
+    },
+  },
+];

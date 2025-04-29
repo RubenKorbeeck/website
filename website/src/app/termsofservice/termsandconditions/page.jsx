@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Navbar } from "../../util/navbar";
+import Footer from '../../util/footer'
 
 export default function TermsAndConditions() {
   return (

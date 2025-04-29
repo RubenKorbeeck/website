@@ -1,15 +1,18 @@
-// /lib/prisma.ts
-import { PrismaClient } from '@prisma/client';
+// src/lib/prisma.ts
+import { PrismaClient } from '@prisma/client'
 
 declare global {
-  // Prevent multiple PrismaClient instances in development
-  var prisma: PrismaClient | undefined;
+  // Augment the globalThis type
+  // (no `var` needed any more)
+  interface GlobalThis {
+    prisma?: PrismaClient | undefined
+  }
 }
 
-export const prisma =
-  global.prisma ||
-  new PrismaClient({
-    log: ['query'], // optional: shows all DB queries in console
-  });
+// Use a globalThis cache instead of var
+const _prisma = globalThis.prisma ?? new PrismaClient({ log: ['query'] })
+if (process.env.NODE_ENV !== 'production') {
+  globalThis.prisma = _prisma
+}
 
-if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
+export const prisma = _prisma

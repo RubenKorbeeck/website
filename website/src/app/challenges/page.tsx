@@ -58,11 +58,10 @@ function buildTimelinePath(challenges: Challenge[], expandedStates: boolean[]) {
     }
 
     const nextY = currentY + segHeight;
-    const yMid = (currentY + nextY) / 2;
+    
 
     if (isExpanded) {
-      // Larger offset for a more dramatic curve
-      const curveOffset = challenge.align === "left" ? -80 : 80;
+
       // Organic S-curve: control points at quarter and three-quarter
 
     } else {
@@ -245,7 +244,6 @@ export default function Challenges() {
         // so ensure we have enough container height (we did with +100 above).
 
         // Adjust the box height if expanded
-        const boxHeight = isExpanded ? 300 : 150;
         const topPosition = yMid;
 
         // Position the box to the left or right of x=100 in the same scale as the SVG

@@ -10,7 +10,7 @@ export default function MarkdownRenderer({ content }: Props) {
     <div className="prose prose-img:rounded prose-img:shadow-lg max-w-none bg-white p-4 border rounded">
       <ReactMarkdown
         components={{
-          img: ({ node, ...props }) => (
+          img: ({ ...props }) => (
             <img {...props} alt={props.alt || ''} className="my-4 rounded max-w-full shadow-md" />
           ),
         }}

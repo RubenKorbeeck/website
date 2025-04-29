@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
-import { writeFile } from 'fs/promises';
-import path from 'path';
-import { v4 as uuid } from 'uuid';
+
 
 
 
@@ -35,7 +33,6 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-  const now = new Date();
 
   const posts = await prisma.post.findMany({
     where: {
