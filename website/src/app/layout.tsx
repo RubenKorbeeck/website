@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "@fontsource/montserrat"; // full family
 import { Montserrat } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -39,6 +40,7 @@ export default function RootLayout({
       >
         {children}
       </body>
+      <SpeedInsights/>
     </html>
   );
 }
