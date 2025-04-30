@@ -114,7 +114,7 @@ export function Navbar() {
     setScrolled(scrollY > 100);
   }, [scrollY]);
   return (
-    <header className="fixed top-0 z-50 w-full text-white">
+    <header className="fixed top-0 z-50 w-full text-white h-16">
       <div className="flex items-center bg-transparent justify-between p-4">
         {/* Left Section: CarReveal Button */}
         <div className="z-50 w-16">

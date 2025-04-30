@@ -156,7 +156,7 @@ export default function ThreeCarScene() {
         </Canvas>
 
         {/* Navigation Buttons */}
-        <div className="absolute bottom-16 w-full flex justify-between px-8 z-10">
+        <div className="absolute bottom-16 w-full flex justify-between px-8 z-60">
           <div>
             {prevName && (
               <button
