@@ -15,7 +15,7 @@ const ThreeScene = dynamic(() => import('./ThreeScene'), { ssr: false });
 
 export default function HomePage() {
   const [storiesInView, setStoriesInView] = useState(false);
-  const storiesRef = useRef<HTMLElement | null>(null);
+  const storiesRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
