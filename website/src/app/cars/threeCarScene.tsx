@@ -1,4 +1,4 @@
-// ThreeCarScene.tsx
+"use client";
 import React, { Suspense, useRef, useState, useCallback, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
@@ -75,9 +75,9 @@ function Scene({ offsetZ }: { offsetZ: number }) {
       <Suspense fallback={null}>
         <group ref={groupRef} position={[0, 0, 0]}>
           <SolarCar url="/GF.glb" position={[0, 0, 100]} scale={35} rotate={-Math.PI/2} />
-          <SolarCar url="/GT.glb" position={[0, 0, -100]}scale={35}  rotate={-Math.PI/2}/>
-          <SolarCar url="/GS.glb" position={[0, 0, -320]} scale={35}   rotate={-Math.PI/2}/>
-          <SolarCar url="/GL.glb" position={[0, 0, -520]} scale={35}  rotate={-Math.PI/2} />
+          <SolarCar url="/GT.glb" position={[0, 0, -100]} scale={35} rotate={-Math.PI/2}/>
+          <SolarCar url="/GS.glb" position={[0, 0, -320]} scale={35} rotate={-Math.PI/2}/>
+          <SolarCar url="/GL.glb" position={[0, 0, -520]} scale={35} rotate={-Math.PI/2} />
         </group>
         <mesh rotation-x={-Math.PI / 2} position={[0, -2, 0]} receiveShadow>
           <planeGeometry args={[10000, 10000]} />
@@ -115,6 +115,16 @@ export default function ThreeCarScene() {
   const [displayDesc, setDisplayDesc] = useState<React.ReactNode>(carData[0].description)
   const offsetZ = currentIndex * 200
 
+  // Detect phone vs desktop
+  const [isPhone, setIsPhone] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(pointer: coarse), (max-width: 768px)')
+    const update = (e: MediaQueryListEvent | MediaQueryList) => setIsPhone(e.matches)
+    update(mq)
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
   const handleNext = useCallback(() => {
     setCurrentIndex(i => Math.min(i + 1, carData.length - 1))
   }, [])
@@ -145,11 +155,14 @@ export default function ThreeCarScene() {
       <div style={{ width: '100%', height: '60vh', position: 'relative' }}>
         <Canvas
           shadows
-          camera={{ position: [120, 40, 100], fov: 40, near: 0.1, far: 1000 }}
+          camera={ isPhone
+            ? { position: [240, 80, 200], fov: 40, near: 0.1, far: 1000 }
+            : { position: [120, 40, 100], fov: 40, near: 0.1, far: 1000 }
+          }
         >
           <CameraController />
-          <color attach="background" args={["#0a0a0a"]} />
-          <fog attach="fog" args={["#0a0a0a", 0, 400]} />
+          <color attach="background" args={['#0a0a0a']} />
+          <fog attach="fog" args={['#0a0a0a', 0, 800]} />
           <group position={[0, -0.5, 0]}>
             <Scene offsetZ={offsetZ} />
           </group>
@@ -186,8 +199,7 @@ export default function ThreeCarScene() {
         style={{
           opacity: descVisible ? 1 : 0,
           transition: `opacity ${descVisible ? FADE_IN : FADE_OUT}ms ease-in-out`
-        }}
-      >
+        }}>
         {displayDesc}
       </div>
     </>
