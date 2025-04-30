@@ -15,12 +15,24 @@ const ThreeScene = dynamic(() => import('./ThreeScene'), { ssr: false });
 
 export default function HomePage() {
   const [storiesInView, setStoriesInView] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const storiesRef = useRef<HTMLDivElement | null>(null);
+  const scrollbarRef = useRef<Scrollbar | null>(null);
 
+  // 1️⃣ Detect desktop vs touch
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: fine)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // 2️⃣ IntersectionObserver for stories
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setStoriesInView(entry.isIntersecting),
-      { threshold: 0.80 }
+      { threshold: 0.8 }
     );
     if (storiesRef.current) observer.observe(storiesRef.current);
     return () => {
@@ -28,19 +40,17 @@ export default function HomePage() {
     };
   }, []);
 
+  // 3️⃣ Init / destroy Smooth Scrollbar only on desktop
   useEffect(() => {
-    // Only init on devices with a “fine” pointer (i.e. desktops with a mouse)
-    if (typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches) {
-      const scrollContainer = document.querySelector('#scroll-container') as HTMLElement;
-      if (scrollContainer) {
-        const scrollbar = Scrollbar.init(scrollContainer, { damping: 0.08 });
-        return () => {
-          scrollbar.destroy();
-        };
-      }
+    const container = document.querySelector('#scroll-container') as HTMLElement;
+    if (isDesktop && container) {
+      scrollbarRef.current = Scrollbar.init(container, { damping: 0.08 });
+      return () => {
+        scrollbarRef.current?.destroy();
+        scrollbarRef.current = null;
+      };
     }
-    // If no scrollbar was initialized, no cleanup necessary
-  }, []);
+  }, [isDesktop]);
 
   return (
     <div
@@ -51,31 +61,47 @@ export default function HomePage() {
       }}
     >
       <Navbar />
-      <div id="scroll-container" style={{ height: "100vh", overflow: "hidden" }}>
+
+      {/* 
+        4️⃣ Only hide overflow on desktop (to let the custom scrollbar work).
+           On touch devices, use auto so native swiping works.
+      */}
+      <div
+        id="scroll-container"
+        style={{
+          height: "100vh",
+          overflowY: isDesktop ? "hidden" : "auto",
+        }}
+      >
         {/* LandPage Section */}
         <div className="relative row-start-2 items-center">
           <LandPage />
         </div>
+
         {/* CarReveal Section */}
         <div className="row-start-3 overflow-hidden">
-          <CarRevealMobile />
           <ThreeScene />
         </div>
+
         {/* Stories Section */}
         <div ref={storiesRef} className="row-start-4">
           <Stories />
         </div>
+
         {/* Supporters Section */}
         <div className="row-start-5">
           <Supporters />
         </div>
+
         {/* ImageScroller Section */}
         <div className="row-start-6">
           <ImageScroller />
         </div>
+
         {/* Footer */}
         <Footer />
       </div>
+
       <ScrollProgressBar />
     </div>
   );
