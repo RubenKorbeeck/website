@@ -156,28 +156,28 @@ export default function ThreeCarScene() {
         </Canvas>
 
         {/* Navigation Buttons */}
-        <div className="absolute bottom-16 w-full flex justify-between px-8">
-  <div>
-    {prevName && (
-      <button
-        className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-        onClick={handlePrevious}
-      >
-        {prevName}
-      </button>
-    )}
-  </div>
-  <div>
-    {nextName && (
-      <button
-        className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-        onClick={handleNext}
-      >
-        {nextName}
-      </button>
-    )}
-  </div>
-</div>
+        <div className="absolute bottom-16 w-full flex justify-between px-8 z-10">
+          <div>
+            {prevName && (
+              <button
+                className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                onClick={handlePrevious}
+              >
+                {prevName}
+              </button>
+            )}
+          </div>
+          <div>
+            {nextName && (
+              <button
+                className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                onClick={handleNext}
+              >
+                {nextName}
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Description Panel Below */}
