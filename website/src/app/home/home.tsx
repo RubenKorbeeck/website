@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import LandPage from "./landpage";
 import { Navbar } from "../util/navbar";
-import CarRevealMobile from "./carRevealMobile";
 import Stories from "./stories";
 import ScrollProgressBar from "../util/sideBar";
 import Supporters from "./sponsors";
