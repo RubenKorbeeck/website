@@ -80,7 +80,7 @@ const tiers = [
     size: { width: 300, height: 200 },
     logos: [
       { src: hanze, label: "Hanze University of Applied Sciences" },
-      { src: rug, label: "University of Groningen" }
+      { src: rug, label: "University of Groningen" },
       { src: akkoordVanGroningen, label: "Akkoord van Groningen" },
       { src: provincieGroningen, label: "Provincie Groningen" }
     ],
