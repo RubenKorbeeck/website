@@ -80,9 +80,9 @@ const tiers = [
     size: { width: 300, height: 200 },
     logos: [
       { src: hanze, label: "Hanze University of Applied Sciences" },
-      { src: rug, label: "University of Groningen" },
-      { src: akkoordVanGroningen, label: "Akkoord van Groningen" },
-      { src: provincieGroningen, label: "Provincie Groningen" }
+      { src: rug, label: "University of Groningen" }
+      //{ src: akkoordVanGroningen, label: "Akkoord van Groningen" },
+      //{ src: provincieGroningen, label: "Provincie Groningen" }
     ],
   },
   {
@@ -109,10 +109,10 @@ const tiers = [
     size: { width: 140, height: 70 },
     logos: [
       { src: bionicSurfaces, label: "" },
-      { src: rdw, label: "" },
+      //{ src: rdw, label: "" },
       { src: sony, label: "" },
       { src: gemeenteAssen, label: "" },
-      { src: cableMasters, label: "" },
+      //{ src: cableMasters, label: "" },
       { src: pouwrent, label: "" },
       { src: rabobank, label: "" },
       { src: koopman, label: "" },
@@ -160,7 +160,7 @@ const tiers = [
       { src:fluctus, label: "" },
       { src:eurocircuits, label: "" },
       { src:makerspace, label: "" },
-      { src:tpee, label: "" },
+      //{ src:tpee, label: "" },
       { src:canon, label: "" },
       { src:stm, label: "" },
       { src:deBoer, label: "" },
