@@ -10,8 +10,8 @@ import Footer from "../util/footer";
 // Green Logos.
 import rug from "../../pictures/partners/rug.svg";
 import hanze from "../../pictures/partners/hanze.svg";
-//import akkoordVanGroningen from "../../pictures/partners/vanGroningen.svg";
-//import provincieGroningen from "../../pictures/partners/provincie-Groningen.svg";
+import akkoordVanGroningen from "../../pictures/partners/vangroningen.svg";
+import provincieGroningen from "../../pictures/partners/provincie-groningen.svg";
 
 // Platinum Logos.
 import oldenburgerFritom from "../../pictures/partners/oldernburg.svg";
@@ -22,10 +22,10 @@ import kampencare from "../../pictures/partners/kampencare.svg";
 
 // Gold Logos
 import bionicSurfaces from "../../pictures/partners/bionic.svg";
-//import rdw from "../../pictures/partners/rdw.svg";
+import rdw from "../../pictures/partners/RDW.svg";
 import sony from "../../pictures/partners/sony.svg";
 import gemeenteAssen from "../../pictures/partners/assen.svg";
-//import cableMasters from "../../pictures/partners/cableMasters.svg";
+import cableMasters from "../../pictures/partners/cablemasters.svg";
 import pouwrent from "../../pictures/partners/pouw.svg";
 import rabobank from "../../pictures/partners/rabobank.svg";
 import koopman from "../../pictures/partners/koopman.svg";
@@ -57,7 +57,7 @@ import bridgestone from "../../pictures/partners/bridgestone.svg";
 import fluctus from "../../pictures/partners/fluctus.svg";
 import eurocircuits from "../../pictures/partners/eurocircuits.svg";
 import makerspace from "../../pictures/partners/makerspace.svg";
-//import tpee from "../../pictures/partners/tpee.svg";
+import tpee from "../../pictures/partners/TPEE.svg";
 import canon from "../../pictures/partners/canon.svg";
 import stm from "../../pictures/partners/stm.svg";
 import deBoer from "../../pictures/partners/de-boer-bouwmanagement.svg";
@@ -81,8 +81,8 @@ const tiers = [
     logos: [
       { src: hanze, label: "Hanze University of Applied Sciences" },
       { src: rug, label: "University of Groningen" }
-      //{ src: akkoordVanGroningen, label: "Akkoord van Groningen" },
-      //{ src: provincieGroningen, label: "Provincie Groningen" }
+      { src: akkoordVanGroningen, label: "Akkoord van Groningen" },
+      { src: provincieGroningen, label: "Provincie Groningen" }
     ],
   },
   {
@@ -109,10 +109,10 @@ const tiers = [
     size: { width: 140, height: 70 },
     logos: [
       { src: bionicSurfaces, label: "" },
-      //{ src: rdw, label: "" },
+      { src: rdw, label: "" },
       { src: sony, label: "" },
       { src: gemeenteAssen, label: "" },
-      //{ src: cableMasters, label: "" },
+      { src: cableMasters, label: "" },
       { src: pouwrent, label: "" },
       { src: rabobank, label: "" },
       { src: koopman, label: "" },
@@ -160,7 +160,7 @@ const tiers = [
       { src:fluctus, label: "" },
       { src:eurocircuits, label: "" },
       { src:makerspace, label: "" },
-      //{ src:tpee, label: "" },
+      { src:tpee, label: "" },
       { src:canon, label: "" },
       { src:stm, label: "" },
       { src:deBoer, label: "" },
