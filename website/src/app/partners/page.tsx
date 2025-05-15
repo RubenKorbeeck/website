@@ -59,13 +59,13 @@ import eurocircuits from "../../pictures/partners/eurocircuits.svg";
 import makerspace from "../../pictures/partners/makerspace.svg";
 import tpee from "../../pictures/partners/TPEE.svg";
 import canon from "../../pictures/partners/canon.svg";
-import stm from "../../pictures/partners/stm.svg";
+import stm from "../../pictures/partners/STM.svg";
 import deBoer from "../../pictures/partners/de-boer-bouwmanagement.svg";
 import juk from "../../pictures/partners/juk-bronze.png";
-import folieTotaal from "../../pictures/partners/folieTotaal.png";
+import folieTotaal from "../../pictures/partners/folietotaal.png";
 import rtvNoord from "../../pictures/partners/rtvnoord.webp";
 import salomons from "../../pictures/partners/salomon.svg";
-import avitec from "../../pictures/partners/avitec.svg";
+import avitec from "../../pictures/partners/Avitec.svg";
 import tweb from "../../pictures/partners/tweb.svg";
 import gemeenteLeeuwarden from "../../pictures/partners/gemeente-leeuwarden.svg";
 
