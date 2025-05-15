@@ -10,8 +10,8 @@ import Footer from "../util/footer";
 // Green Logos.
 import rug from "../../pictures/partners/rug.svg";
 import hanze from "../../pictures/partners/hanze.svg";
-import akkoordVanGroningen from "../../pictures/partners/vanGroningen.svg";
-import provincieGroningen from "../../pictures/partners/provincie-Groningen.svg";
+//import akkoordVanGroningen from "../../pictures/partners/vanGroningen.svg";
+//import provincieGroningen from "../../pictures/partners/provincie-Groningen.svg";
 
 // Platinum Logos.
 import oldenburgerFritom from "../../pictures/partners/oldernburg.svg";
@@ -22,10 +22,10 @@ import kampencare from "../../pictures/partners/kampencare.svg";
 
 // Gold Logos
 import bionicSurfaces from "../../pictures/partners/bionic.svg";
-import rdw from "../../pictures/partners/rdw.svg";
+//import rdw from "../../pictures/partners/rdw.svg";
 import sony from "../../pictures/partners/sony.svg";
 import gemeenteAssen from "../../pictures/partners/assen.svg";
-import cableMasters from "../../pictures/partners/cableMasters.svg";
+//import cableMasters from "../../pictures/partners/cableMasters.svg";
 import pouwrent from "../../pictures/partners/pouw.svg";
 import rabobank from "../../pictures/partners/rabobank.svg";
 import koopman from "../../pictures/partners/koopman.svg";
@@ -57,7 +57,7 @@ import bridgestone from "../../pictures/partners/bridgestone.svg";
 import fluctus from "../../pictures/partners/fluctus.svg";
 import eurocircuits from "../../pictures/partners/eurocircuits.svg";
 import makerspace from "../../pictures/partners/makerspace.svg";
-import tpee from "../../pictures/partners/tpee.svg";
+//import tpee from "../../pictures/partners/tpee.svg";
 import canon from "../../pictures/partners/canon.svg";
 import stm from "../../pictures/partners/stm.svg";
 import deBoer from "../../pictures/partners/de-boer-bouwmanagement.svg";
