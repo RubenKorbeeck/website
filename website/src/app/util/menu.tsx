@@ -57,9 +57,7 @@ const NavbarMenu = ({ onClick }: NavbarMenuProps) => {
       <div
         className="absolute inset-0 bg-cover bg-center transition-all ease-in-out"
         style={{
-          backgroundImage: activeBg
-            ? `url(${activeBg})`
-            : "url('/pictures/transparent.png')",
+          backgroundImage: "url(${activeBg})",
           transform: activeBg ? "translateX(0)" : "translateX(-100%)",
           opacity: activeBg ? 0.5 : 0,
           transition: "transform 1s ease-in-out, opacity 1s ease-in-out",
