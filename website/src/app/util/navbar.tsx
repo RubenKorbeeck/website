@@ -4,9 +4,7 @@ import Image from "next/image";
 import Scrollbar from "smooth-scrollbar";
 import NavbarMenu from "./menu";
 import TDSR_logo from "../../pictures/tdsr-full-logo.svg";
-interface CarRevealButtonProps {
-  onClick?: () => void;
-}
+import Link from "next/link";
 
 interface NavbarProps {
   /**
@@ -19,54 +17,7 @@ interface NavbarProps {
  * A red, oval-shaped button that displays "LIVE"
  * along with a small arrow.
  */
-export function CarRevealButton({ onClick }: CarRevealButtonProps) {
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        background:
-          'linear-gradient(to top right, var(--red), var(--red), var(--orange))',
-        color: "white",
-        border: "none",
-        borderRadius: "9999px",
-        padding: "0.5rem 1rem",
-        display: "inline-flex",
-        alignItems: "center",
-        fontWeight: "bold",
-        cursor: "pointer",
-      }}
-    >
-      LIVE
-      <span style={{ marginLeft: "8px", display: "inline-flex" }}>
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{
-            transform: "rotate(0deg)",
-          }}
-        >
-          <path
-            d="M4 12L12 4"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M4 4H12V12"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </span>
-    </button>
-  );
-}
+
 const HamburgerButton = ({
   isOpen,
   setIsOpen,
@@ -134,24 +85,23 @@ export default function Navbar({
   return (
     <header className="fixed top-0 z-50 w-full text-white h-16">
       <div className="flex items-center bg-transparent justify-between p-4">
-        {/* Left Section: CarReveal Button */}
-        <div className="z-50 w-16">
-          <CarRevealButton />
-        </div>
-
+        {/* Left Section: Logo */}
+        <div className="z-50 flex w-16"/>
         {/* Center Section: Logo */}
-        <div className="z-50 flex">
+        <div className="z-50 flex items-center justify-center w-full">
           <div
             className={`w-32 transition-all duration-500 ${
               shouldShowLogo ? "opacity-100" : "opacity-0"
             }`}
           >
+            <Link href="/">
             <Image
               src={TDSR_logo}
               alt="TDSR logo"
               className="w-full"
               priority
             />
+            </Link>
           </div>
         </div>
 

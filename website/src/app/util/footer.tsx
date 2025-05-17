@@ -9,7 +9,7 @@ export default function Footer() {
     <footer className="bg-[var(--background)] text-white py-8">
       <div className="max-w-7xl mx-auto px-4">
         {/* Top row: 3 columns */}
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-start text-center md:text-left gap-4 md:gap-8">
+        <div className="flex flex-col md:flex-row mt-16 justify-between items-center md:items-start text-center md:text-left gap-4 md:gap-8">
           {/* Contact Us Column */}
           <div>
             <h3 className="text-m md:text-lg font-semibold mb-2">Contact Us</h3>
@@ -103,7 +103,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom row: copyright & links */}
-        <div className="md:mt-32 sm:mt-12 text-center text-xs md:text-sm text-gray-700">
+        <div className="md:mt-16 sm:mt-12 text-center text-xs md:text-sm text-gray-700">
           {/* Suzanne design the whole website. Keep this in if you change small details. 
               If you change big parts change it to "Partly designed by". 
               ofc when a completely new website is made, you can delete it.

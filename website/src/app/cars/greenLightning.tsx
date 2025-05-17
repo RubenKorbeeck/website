@@ -16,14 +16,14 @@ export default function GreenLightning() {
         <h2 className="text-center text-3xl mb-6">The specifications</h2>
         <div className="flex flex-wrap gap-4">
           <ul className="flex-1 min-w-[300px] list-none p-0">
-            <li className="mb-2"><strong>Year of Construction:</strong> 2023</li>
-            <li className="mb-2"><strong>Weight:</strong> 160 kg</li>
-            <li className="mb-2"><strong>Dimensions:</strong> 1.26 m × 1 m × 5 m</li>
-            <li className="mb-2"><strong>Top Speed:</strong> 130 km/h</li>
-            <li className="mb-2"><strong>Solar Cells Type:</strong> Tandem silicon-perovskite</li>
-            <li className="mb-2"><strong>Solar Area:</strong> 4 m²</li>
-            <li className="mb-2"><strong>Motor Power:</strong> 1 kW nominal, 15 kW peak</li>
-            <li className="mb-2"><strong>Motor Efficiency:</strong> 97.5 %</li>
+            <li className="mb-2"><strong>Year of Construction:</strong> 2019</li>
+            <li className="mb-2"><strong>Weight:</strong> 150 kg</li>
+            <li className="mb-2"><strong>Dimensions:</strong> 1.20 m × 1 m × 5 m</li>
+            <li className="mb-2"><strong>Top Speed:</strong> 140 km/h</li>
+            <li className="mb-2"><strong>Solar Cells Type:</strong> Single junction GaAs</li>
+            <li className="mb-2"><strong>Solar Area:</strong> 3.56 m²</li>
+            <li className="mb-2"><strong>Motor Power:</strong> 2 kW nominal, 15 kW peak</li>
+            <li className="mb-2"><strong>Motor Efficiency:</strong> 96 %</li>
           </ul>
           <img
             src="/path/to/specs-render.jpg"
@@ -45,7 +45,7 @@ export default function GreenLightning() {
             className="flex-1 min-w-[300px] max-w-md"
           />
           <p className="flex-1 min-w-[300px] p-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Green Lightning was the first Top Dutch solar car and was the result of two years of engineering, from 2017 until 2019
           </p>
         </div>
 
@@ -57,7 +57,7 @@ export default function GreenLightning() {
             className="flex-1 min-w-[300px] max-w-md"
           />
           <p className="flex-1 min-w-[300px] p-4">
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            The light, mono-hulled, carbon body has enough space for innovative parts that have been built from scratch.
           </p>
         </div>
 
@@ -69,7 +69,9 @@ export default function GreenLightning() {
             className="flex-1 min-w-[300px] max-w-md"
           />
           <p className="flex-1 min-w-[300px] p-4">
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Two examples of these custom parts are the four wheel steering system and composite leaf springs. 
+            By using the four wheel steering system, the solar car can drive at an angle,
+             which reduces aerodynamical resistance. The composite leaf springs contribute to the stability of the vehicle.
           </p>
         </div>
       </section>

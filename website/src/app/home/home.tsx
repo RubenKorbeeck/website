@@ -1,12 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import LandPage from "./landpage";
+import { useEffect, useState, useRef } from "react";
 import Navbar from "../util/navbar";
+import Footer from "../util/footer";
+import LandPage from "./landpage";
 import Stories from "./stories";
-import ScrollProgressBar from "../util/sideBar";
 import Supporters from "./sponsors";
 import ImageScroller from "./bottomPage";
-import Footer from "../util/footer";
 import Scrollbar from "smooth-scrollbar";
 import dynamic from "next/dynamic";
 
@@ -56,7 +55,7 @@ export default function HomePage() {
       className="relative"
       style={{
         transition: "background-color 1s ease",
-        backgroundColor: storiesInView ? "var(--foreground)" : "var(--background)",
+        backgroundColor: storiesInView ? "var(--background)" : "var(--background)",
       }}
     >
       <Navbar />
@@ -100,8 +99,6 @@ export default function HomePage() {
         {/* Footer */}
         <Footer />
       </div>
-
-      <ScrollProgressBar />
     </div>
   );
 }

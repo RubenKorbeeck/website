@@ -16,14 +16,14 @@ export default function GreenSpirit() {
         <h2 className="text-center text-3xl mb-6">The specifications</h2>
         <div className="flex flex-wrap gap-4">
           <ul className="flex-1 min-w-[300px] list-none p-0">
-            <li className="mb-2"><strong>Year of Construction:</strong> 2023</li>
-            <li className="mb-2"><strong>Weight:</strong> 160 kg</li>
-            <li className="mb-2"><strong>Dimensions:</strong> 1.26 m × 1 m × 5 m</li>
-            <li className="mb-2"><strong>Top Speed:</strong> 130 km/h</li>
-            <li className="mb-2"><strong>Solar Cells Type:</strong> Tandem silicon-perovskite</li>
+            <li className="mb-2"><strong>Year of Construction:</strong> 2021</li>
+            <li className="mb-2"><strong>Weight:</strong> 200 kg</li>
+            <li className="mb-2"><strong>Dimensions:</strong> 1.3 m × 1.1 m × 5 m</li>
+            <li className="mb-2"><strong>Top Speed:</strong> 110 km/h</li>
+            <li className="mb-2"><strong>Solar Cells Type:</strong> Silicon Heterojunction Cells</li>
             <li className="mb-2"><strong>Solar Area:</strong> 4 m²</li>
-            <li className="mb-2"><strong>Motor Power:</strong> 1 kW nominal, 15 kW peak</li>
-            <li className="mb-2"><strong>Motor Efficiency:</strong> 97.5 %</li>
+            <li className="mb-2"><strong>Motor Power:</strong> 1 kW nominal, 10 kW peak</li>
+            <li className="mb-2"><strong>Motor Efficiency:</strong> 97.8 %</li>
           </ul>
           <img
             src="/path/to/specs-render.jpg"
@@ -45,7 +45,9 @@ export default function GreenSpirit() {
             className="flex-1 min-w-[300px] max-w-md"
           />
           <p className="flex-1 min-w-[300px] p-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            With the Bridgestone World Solar Challenge 2021 being cancelled, 
+            there was an uncertainty whether or not to build a solar car. Luckily,
+             a large group of teams put their heads together and managed to organize the Moroccan Solar Challenge 2021!
           </p>
         </div>
 
@@ -57,7 +59,8 @@ export default function GreenSpirit() {
             className="flex-1 min-w-[300px] max-w-md"
           />
           <p className="flex-1 min-w-[300px] p-4">
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+           Racing in this challenge was our beloved Green Spirit, the second Top Dutch solar car.
+            It is a 4-wheeled mono-hull solar car, hand-build from scratch with carbon and glass fibre.
           </p>
         </div>
 
@@ -69,7 +72,8 @@ export default function GreenSpirit() {
             className="flex-1 min-w-[300px] max-w-md"
           />
           <p className="flex-1 min-w-[300px] p-4">
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+           With an 100% self-made electrical system and a nearly 100% self developed mechanical system, 
+           we put all our knowledge and skills into this car.
           </p>
         </div>
       </section>

@@ -83,7 +83,7 @@ export default function FAQContent() {
           <p className="mt-1">
             We welcome collaboration with sponsors and partners who share our vision for sustainable innovation. Sponsorship packages include branding
             exposure on the vehicle, promotional materials, and hospitality during events. For inquiries, please contact us at{' '}
-            <a href="mailto:sponsor@topdutchsolarracing.nl" className="underline text-white">
+            <a href="mailto:sponsor@topdutchsolarracing.nl" className="underline text-white hover:text-[var(--green2)]">
               sponsor@topdutchsolarracing.nl
             </a>.
           </p>
@@ -104,14 +104,29 @@ export default function FAQContent() {
                 href="https://www.topdutchsolarracing.nl"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline text-white"
+                className="underline text-white hover:text-[var(--green2)]"
               >
                 www.topdutchsolarracing.nl
               </a>
             </li>
-            <li>LinkedIn: Top Dutch Solar Racing</li>
-            <li>Instagram: @topdutchsolarracing</li>
-            <li>Twitter: @TD_SolarRacing</li>
+            <li>
+              LinkedIn:{' '}
+              <a href="https://www.linkedin.com/company/solarracing/?originalSubdomain=nl" className="text-white hover:text-[var(--green2)] ">
+              Top Dutch Solar Racing
+              </a>
+            </li>
+            <li>Instagram:{' '} 
+              <a href="https://www.instagram.com/topdutchsolarracing/?hl=en"  className="text-white hover:text-[var(--green2)] ">
+              @topdutchsolarracing
+              </a>
+            </li>
+
+            <li>
+              Twitter:{' '} 
+              <a href="https://twitter.com/tdsolarracing" className="text-white hover:text-[var(--green2)] ">
+               @TD_SolarRacing
+              </a> 
+            </li>
           </ul>
         </div>
 
@@ -122,7 +137,7 @@ export default function FAQContent() {
           </h2>
           <p className="mt-1">
             For general inquiries, please reach out to our communications manager at{' '}
-            <a href="mailto:info@topdutchsolarracing.nl" className="underline text-white">
+            <a href="mailto:info@topdutchsolarracing.nl" className="text-white underline hover:text-[var(--green2)] ">
               info@topdutchsolarracing.nl
             </a>.
             We will respond to your message as promptly as possible.

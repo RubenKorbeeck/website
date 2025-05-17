@@ -9,7 +9,7 @@ const ScrollScrubbedHeader = dynamic(
 export default function Home() {
   return (
     <div>
-      <ScrollScrubbedHeader start={0.0} end={0.3} threshold={390} />
+      <ScrollScrubbedHeader start={0.0} end={0.3} threshold={300} />
       {/* Other content goes here */}
     </div>
   );

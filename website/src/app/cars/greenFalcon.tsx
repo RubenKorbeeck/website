@@ -16,14 +16,14 @@ export default function GreenFalcon() {
         <h2 className="text-center text-3xl mb-6">The specifications</h2>
         <div className="flex flex-wrap gap-4">
           <ul className="flex-1 min-w-[300px] list-none p-0">
-            <li className="mb-2"><strong>Year of Construction:</strong> 2023</li>
-            <li className="mb-2"><strong>Weight:</strong> 160 kg</li>
-            <li className="mb-2"><strong>Dimensions:</strong> 1.26 m × 1 m × 5 m</li>
-            <li className="mb-2"><strong>Top Speed:</strong> 130 km/h</li>
+            <li className="mb-2"><strong>Year of Construction:</strong> 2025</li>
+            <li className="mb-2"><strong>Weight:</strong> 150 kg</li>
+            <li className="mb-2"><strong>Dimensions:</strong> 2 m × 1. m × 4.5 m</li>
+            <li className="mb-2"><strong>Top Speed:</strong> 160 km/h</li>
             <li className="mb-2"><strong>Solar Cells Type:</strong> Tandem silicon-perovskite</li>
-            <li className="mb-2"><strong>Solar Area:</strong> 4 m²</li>
-            <li className="mb-2"><strong>Motor Power:</strong> 1 kW nominal, 15 kW peak</li>
-            <li className="mb-2"><strong>Motor Efficiency:</strong> 97.5 %</li>
+            <li className="mb-2"><strong>Solar Area:</strong> 6 m²</li>
+            <li className="mb-2"><strong>Motor Power:</strong> 1 kW nominal, 16.5 kW peak</li>
+            <li className="mb-2"><strong>Motor Efficiency:</strong> 98.5 %</li>
           </ul>
           <img
             src="/path/to/specs-render.jpg"

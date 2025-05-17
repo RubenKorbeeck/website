@@ -45,7 +45,7 @@ export default function GreenThunder() {
             className="flex-1 min-w-[300px] max-w-md"
           />
           <p className="flex-1 min-w-[300px] p-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Green Thunder is the third iteration of their innovative solar cars, following the successful Green Lightning and Green Spirit models.
           </p>
         </div>
 
@@ -57,7 +57,10 @@ export default function GreenThunder() {
             className="flex-1 min-w-[300px] max-w-md"
           />
           <p className="flex-1 min-w-[300px] p-4">
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            The car incorporates the speed and efficiency demonstrated by Green Lightning, 
+            which managed to secure a pole position start and a fourth-place finish at the team`&aposs debut in the 
+            2019 Bridgestone World Solar Challenge. Furthermore,
+             it builds on the resilience and reliability shown by Green Spirit, the team`&aposs second solar car that was revealed in 2021.
           </p>
         </div>
 

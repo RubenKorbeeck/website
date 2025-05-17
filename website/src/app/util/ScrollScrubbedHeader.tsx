@@ -69,7 +69,7 @@ const ScrollScrubbedHeader: React.FC<ScrollScrubbedHeaderProps> = ({
   );
 
   // Interpolate the style values based on normalizedProgress.
-  const currentHeight = 100 - (100 - 20) * normalizedProgress; // from 100vh to 20vh.
+  const currentHeight = 100 - (100 - 40) * normalizedProgress; // from 100vh to 20vh.
   const currentWidth = 75 - (75 - 0) * normalizedProgress; // from 75% to 0%.
   const currentOpacity = Math.max(1 - 2 * normalizedProgress, 0);
   const currentTranslateY = -150 * normalizedProgress; // from 0px to -150px.

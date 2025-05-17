@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState, useRef} from "react";
 import Image, { StaticImageData } from "next/image";
 import Navbar from "../util/navbar";
 import Footer from "../util/footer";
-
+import Scrollbar from "smooth-scrollbar";
 // Import logos
 //import boikon from "../../pictures/partners/boikon.svg";
 
@@ -68,6 +68,8 @@ import salomons from "../../pictures/partners/salomon.svg";
 import avitec from "../../pictures/partners/Avitec.svg";
 import tweb from "../../pictures/partners/tweb.svg";
 import gemeenteLeeuwarden from "../../pictures/partners/gemeente-leeuwarden.svg";
+
+
 
 
 const tiers = [
@@ -176,10 +178,36 @@ const tiers = [
 ];
 
 export default function PartnerPage() {
+      const [isDesktop, setIsDesktop] = useState(false);
+      const scrollbarRef = useRef<Scrollbar | null>(null);
+      // 1️⃣ Detect desktop vs touch
+      useEffect(() => {
+        const mq = window.matchMedia("(pointer: fine)");
+        const update = () => setIsDesktop(mq.matches);
+        update();
+        mq.addEventListener("change", update);
+        return () => mq.removeEventListener("change", update);
+      }, []);
+    
+      // 3️⃣ Init / destroy Smooth Scrollbar only on desktop
+      useEffect(() => {
+        const container = document.querySelector('#scroll-container') as HTMLElement;
+        if (isDesktop && container) {
+          scrollbarRef.current = Scrollbar.init(container, { damping: 0.08 });
+          return () => {
+            scrollbarRef.current?.destroy();
+            scrollbarRef.current = null;
+          };
+        }
+      }, [isDesktop]);
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white font-light">
       <Navbar showLogoImmediately/>
-      <main className="flex flex-col items-center">
+      <div
+        id="scroll-container"
+        className="flex flex-col items-center overflow-y-auto" // Ensure scroll is enabled
+        style={{ height: "100vh" }} // Make sure container height is set for scrolling
+      >
         {tiers.map((tier, index) => (
           <PartnerSection
             key={index}
@@ -191,8 +219,9 @@ export default function PartnerPage() {
             logos={tier.logos}
           />
         ))}
-      </main>
-      <Footer />
+        <Footer />
+      </div>
+      
     </div>
   );
 }

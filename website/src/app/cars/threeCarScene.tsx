@@ -33,13 +33,16 @@ function SolarCar({ url, tint = 1, position = [0, -2, 0] , scale = 1, rotate = 0
           const mesh = child as THREE.Mesh
           if (Array.isArray(mesh.material)) {
             mesh.material.forEach(mat => {
-              mat.side = THREE.DoubleSide
-            })
+              mat.side = THREE.DoubleSide;
+              if (mat instanceof THREE.MeshStandardMaterial) {
+                mat.color.setScalar(tint);
+              }
+            });
           } else {
-            mesh.material.side = THREE.DoubleSide
-          }
-          if (mesh.material instanceof THREE.MeshStandardMaterial) {
-            mesh.material.color.setScalar(tint)
+            mesh.material.side = THREE.DoubleSide;
+            if (mesh.material instanceof THREE.MeshStandardMaterial) {
+              mesh.material.color.setScalar(tint);
+            }
           }
           mesh.castShadow = true
           mesh.receiveShadow = true
@@ -74,22 +77,22 @@ function Scene({ offsetZ }: { offsetZ: number }) {
       <directionalLight intensity={5.6} position={[0, 50, 5]} color="#ffffff" />
       <Suspense fallback={null}>
         <group ref={groupRef} position={[0, 0, 0]}>
-          <SolarCar url="/GF.glb" position={[0, 0, 100]} scale={35} rotate={-Math.PI/2} />
+          <SolarCar url="/GF_compressed.glb" position={[0, 0, 0]} scale={3000} rotate={0} />
           <SolarCar url="/GT.glb" position={[0, 0, -100]} scale={35} rotate={-Math.PI/2}/>
           <SolarCar url="/GS.compressed.glb" position={[0, 0, -320]} scale={35} rotate={-Math.PI/2}/>
           <SolarCar url="/GL.compressed.glb" position={[0, 0, -520]} scale={35} rotate={-Math.PI/2} />
         </group>
-        <mesh rotation-x={-Math.PI / 2} position={[0, -2, 0]} receiveShadow>
-          <planeGeometry args={[10000, 10000]} />
+        <mesh rotation-x={-Math.PI / 2} position={[0, 0, 0]} receiveShadow>
+          <planeGeometry args={[400, 1000]} />
           <MeshReflectorMaterial
             blur={[300, 100]}
-            resolution={2048}
+            resolution={1024}
             mixBlur={1}
             mixStrength={80}
             roughness={1}
             depthScale={1.2}
             minDepthThreshold={0.4}
-            maxDepthThreshold={1.4}
+            maxDepthThreshold={0}
             color="#050505"
             metalness={0.5}
           />

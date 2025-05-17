@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from '../util/navbar';
+import Footer from "../util/footer";
+import Scrollbar from "smooth-scrollbar";
 
 // Extend Post type to include markdown content and extracted cover image URL
 type Post = {
@@ -19,6 +21,28 @@ export default function BlogIndex() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(6);
+  const [isDesktop, setIsDesktop] = useState(false);
+    const scrollbarRef = useRef<Scrollbar | null>(null);
+    // 1️⃣ Detect desktop vs touch
+    useEffect(() => {
+      const mq = window.matchMedia("(pointer: fine)");
+      const update = () => setIsDesktop(mq.matches);
+      update();
+      mq.addEventListener("change", update);
+      return () => mq.removeEventListener("change", update);
+    }, []);
+  
+    // 3️⃣ Init / destroy Smooth Scrollbar only on desktop
+    useEffect(() => {
+      const container = document.querySelector('#scroll-container') as HTMLElement;
+      if (isDesktop && container) {
+        scrollbarRef.current = Scrollbar.init(container, { damping: 0.08 });
+        return () => {
+          scrollbarRef.current?.destroy();
+          scrollbarRef.current = null;
+        };
+      }
+    }, [isDesktop]);
 
   useEffect(() => {
     fetch('/api/posts')
@@ -49,10 +73,16 @@ export default function BlogIndex() {
     return plain.length > length ? plain.slice(0, length) + '…' : plain;
   };
 
+  
+
   return (
     <div>
       <Navbar showLogoImmediately />
-      <div className="container mx-auto px-4 pt-32 py-8 bg-[var(--background)] min-h-screen">
+      <div 
+        id='scroll-container'
+        style={{ height: "100vh" }}
+        className='overflow-y-auto'>
+      <div className="container mx-auto px-4 pt-32 py-8 bg-[var(--background)] ">
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {loading
@@ -131,6 +161,9 @@ export default function BlogIndex() {
           </button>
         )}
       </div>
-    </div>
+      
+      <Footer />
+      </div>
+    </div>  
   );
-        }
+}

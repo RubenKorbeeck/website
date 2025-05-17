@@ -1,9 +1,8 @@
 "use client";
 import React, { Suspense, useRef, useState, useCallback, useEffect } from 'react';
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { MeshReflectorMaterial } from '@react-three/drei';
+import { useGLTF, MeshReflectorMaterial } from '@react-three/drei';
 
 // Zoom targets with descriptions, positions, and per-target mobile scaling
 const zoomTargets = [
@@ -53,47 +52,41 @@ const easeInOutSine = (t: number): number =>
   -0.5 * (Math.cos(Math.PI * t) - 1);
 
 // Loader component for GLTF models with configurable position
-type SolarCarProps = {
-  url: string;
-  tint?: number;
-  position?: [number, number, number];
-};
-function SolarCar({
-  url,
-  tint = 1,
-  position = [0, -2, 0],
-}: SolarCarProps) {
-  const gltf = useLoader(GLTFLoader, url);
-  const ref = useRef<THREE.Object3D>(null);
+function SolarCar({ url, tint = 1, position = [0, -2, 0] , scale = 1, rotate = 0}: { url: string; tint?: number; position?: [number, number, number]; scale?: number;  rotate?: number;}) {
+  const { scene } = useGLTF(url) as { scene: THREE.Group }
+  const ref = useRef<THREE.Group>(null)
 
   useFrame(() => {
-    if (!ref.current) return;
-    ref.current.traverse((child) => {
-      if (!((child as THREE.Mesh).isMesh)) return;
-      const mesh = child as THREE.Mesh;
-      const materials = Array.isArray(mesh.material)
-        ? mesh.material
-        : [mesh.material];
-      materials.forEach((mat) => {
-        mat.side = THREE.DoubleSide;
-        if (mat instanceof THREE.MeshStandardMaterial) {
-          mat.color.setScalar(tint);
+    if (ref.current) {
+      ref.current.traverse(child => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach(mat => {
+              mat.side = THREE.DoubleSide
+            })
+          } else {
+            mesh.material.side = THREE.DoubleSide
+          }
+          if (mesh.material instanceof THREE.MeshStandardMaterial) {
+            mesh.material.color.setScalar(tint)
+          }
+          mesh.castShadow = true
+          mesh.receiveShadow = true
         }
-      });
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-    });
-  });
+      })
+    }
+  })
 
   return (
     <primitive
       ref={ref}
-      object={gltf.scene.clone()}
-      scale={[3000, 3000, 3000]}
+      object={scene.clone()}
+      scale={[scale, scale, scale]}
       position={position}
-      rotation={[0, 0, 0]}
+      rotation={[0, rotate, 0]}
     />
-  );
+  )
 }
 
 // Main scene content with animated camera and wheel covers
@@ -250,14 +243,15 @@ function Scene({
       <Suspense fallback={null}>
 
         {/* Car Parts */}
-        <SolarCar url="/Ruben_GF_test_Body.glb" tint={1} />
-        <SolarCar url="/Ruben_GF_test_Wheel_FL.glb" tint={1} />
-        <SolarCar url="/Ruben_GF_test_Wheel_FR.glb" tint={1} />
-        <SolarCar url="/Ruben_GF_test_Wheel_RR.glb" tint={1} />
-        <SolarCar url="/Ruben_GF_test_Cover_FR.glb" tint={1} />
+        <SolarCar url="/GF_compressed.glb"  scale={3000}/>
+        <SolarCar url="/Ruben_GF_test_Wheel_FL_compressed.glb"  scale={3000} />
+        <SolarCar url="/Wheel_FR_compressed.glb"  scale={3000}/>
+        <SolarCar url="/Ruben_GF_test_Wheel_RR_compressed.glb"  scale={3000}/>
+        <SolarCar url="/Ruben_GF_test_Cover_FR.glb"  scale={3000}/>
         <SolarCar
           url="/Ruben_GF_test_Cover_FL.glb"
-          tint={1}
+
+          scale={3000}
           position={[
             wheelPosLocalFL.x,
             wheelPosLocalFL.y,
@@ -266,7 +260,8 @@ function Scene({
         />
         <SolarCar
           url="/Ruben_GF_test_Cover_RR.glb"
-          tint={1}
+
+          scale={3000}
           position={[
             wheelPosLocalRR.x,
             wheelPosLocalRR.y,
@@ -276,10 +271,10 @@ function Scene({
 
         {/* Reflective Ground */}
         <mesh rotation-x={-Math.PI / 2} position={[0, -2, 0]} receiveShadow>
-          <planeGeometry args={[10000, 10000]} />
+          <planeGeometry args={[1000, 1000]} />
           <MeshReflectorMaterial
             blur={[300, 100]}
-            resolution={2048}
+            resolution={1024}
             mixBlur={1}
             mixStrength={80}
             roughness={1}
