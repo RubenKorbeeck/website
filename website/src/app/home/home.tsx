@@ -6,25 +6,14 @@ import LandPage from "./landpage";
 import Stories from "./stories";
 import Supporters from "./sponsors";
 import ImageScroller from "./bottomPage";
-import Scrollbar from "smooth-scrollbar";
 import dynamic from "next/dynamic";
+import ScrollContainer from "../util/ScrollContainer";
 
 const ThreeScene = dynamic(() => import('./ThreeScene'), { ssr: false });
 
 export default function HomePage() {
   const [storiesInView, setStoriesInView] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
   const storiesRef = useRef<HTMLDivElement | null>(null);
-  const scrollbarRef = useRef<Scrollbar | null>(null);
-
-  // 1️⃣ Detect desktop vs touch
-  useEffect(() => {
-    const mq = window.matchMedia("(pointer: fine)");
-    const update = () => setIsDesktop(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
 
   // 2️⃣ IntersectionObserver for stories
   useEffect(() => {
@@ -38,20 +27,7 @@ export default function HomePage() {
     };
   }, []);
 
-  // 3️⃣ Init / destroy Smooth Scrollbar only on desktop
-  useEffect(() => {
-    const container = document.querySelector('#scroll-container') as HTMLElement;
-    if (container) {
-      scrollbarRef.current = Scrollbar.init(container, { damping: 0.08 });
-      return () => {
-        scrollbarRef.current?.destroy();
-        scrollbarRef.current = null;
-      };
-    }
-  }, [isDesktop]);
-
-
-
+  
 
   return (
     <div
@@ -67,15 +43,7 @@ export default function HomePage() {
         4️⃣ Only hide overflow on desktop (to let the custom scrollbar work).
            On touch devices, use auto so native swiping works.
       */}
-      <div
-        id="scroll-container"
-        style={{
-          height: "100vh",
-          overflowY: isDesktop ? "hidden" : "auto", // Allow native scroll on mobile
-          touchAction: isDesktop ? "none" : "auto", // Disable touch actions on desktop to allow native scrolling on mobile
-          scrollBehavior: 'smooth',  // Add this to enable smooth scrolling on mobile (native)
-        }}
-      >
+      <ScrollContainer>
         {/* LandPage Section */}
         <div className="relative row-start-2 items-center">
           <LandPage />
@@ -103,7 +71,7 @@ export default function HomePage() {
 
         {/* Footer */}
         <Footer />
-      </div>
+      </ScrollContainer>
     </div>
   );
 }

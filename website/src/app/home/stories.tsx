@@ -94,21 +94,21 @@ const Stories = () => {
           }`}
         >
           {/* Image container */}
-          <div className="relative md:w-1/2 w-1/2 max-w-xs h-auto overflow-hidden flex items-center justify-center">
+          <div className="relative md:w-1/2 w-1/2 max-w-xs h-auto overflow-hidden flex items-center justify-center invisible md:visible">
             <Image
               src={story.image}
               alt={story.name}
               width={200} // Adjust width as needed
               height={200} // Adjust height as needed
-              className="rounded-2xl object-cover"
+              className="rounded-2xl object-cover "
             />
           </div>
 
           {/* Text content */}
           <div className="p-8 md:pl-0 text-center md:text-left md:w-2/3">
-            <h2 className="text-2xl text-white font-bold mb-4 italic">{story.quote}</h2>
-            <h2 className="text-xl text-white font-bold mb-4">{story.name}</h2>
-            <h2 className="text-xl text-white font-bold mb-4">{story.jobTitle}</h2>
+            <h2 className="md:text-2xl sm:text-xl text-white font-bold mb-4 italic">{story.quote}</h2>
+            <h2 className="md:text-xl sm:text-lg text-white font-bold mb-4">{story.name}</h2>
+            <h2 className="md:text-xl sm:text-lg text-white font-bold mb-4">{story.jobTitle}</h2>
           </div>
         </div>
       ))}

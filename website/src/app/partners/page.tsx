@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState, useRef} from "react";
+import React from "react";
 import Image, { StaticImageData } from "next/image";
 import Navbar from "../util/navbar";
 import Footer from "../util/footer";
-import Scrollbar from "smooth-scrollbar";
+import ScrollContainer from "../util/ScrollContainer";
 // Import logos
 //import boikon from "../../pictures/partners/boikon.svg";
 
@@ -178,49 +178,25 @@ const tiers = [
 ];
 
 export default function PartnerPage() {
-      const [isDesktop, setIsDesktop] = useState(false);
-      const scrollbarRef = useRef<Scrollbar | null>(null);
-      // 1️⃣ Detect desktop vs touch
-      useEffect(() => {
-        const mq = window.matchMedia("(pointer: fine)");
-        const update = () => setIsDesktop(mq.matches);
-        update();
-        mq.addEventListener("change", update);
-        return () => mq.removeEventListener("change", update);
-      }, []);
-    
-      // 3️⃣ Init / destroy Smooth Scrollbar only on desktop
-      useEffect(() => {
-        const container = document.querySelector('#scroll-container') as HTMLElement;
-        if (container) {
-          scrollbarRef.current = Scrollbar.init(container, { damping: 0.08 });
-          return () => {
-            scrollbarRef.current?.destroy();
-            scrollbarRef.current = null;
-          };
-        }
-      }, [isDesktop]);
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white font-light">
       <Navbar showLogoImmediately/>
-      <div
-        id="scroll-container"
-        className="flex flex-col items-center overflow-y-auto" // Ensure scroll is enabled
-        style={{ height: "100vh" }} // Make sure container height is set for scrolling
-      >
-        {tiers.map((tier, index) => (
-          <PartnerSection
-            key={index}
-            title={tier.title}
-            gradient={tier.gradient}
-            opacity={tier.opacity}
-            columns={tier.columns}
-            size={tier.size}
-            logos={tier.logos}
-          />
-        ))}
-        <Footer />
-      </div>
+      <ScrollContainer>
+        <div className="flex flex-col items-center">
+          {tiers.map((tier, index) => (
+            <PartnerSection
+              key={index}
+              title={tier.title}
+              gradient={tier.gradient}
+              opacity={tier.opacity}
+              columns={tier.columns}
+              size={tier.size}
+              logos={tier.logos}
+            />
+          ))}
+          <Footer />
+        </div>
+      </ScrollContainer>
       
     </div>
   );

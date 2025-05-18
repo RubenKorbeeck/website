@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import Navbar from "../util/navbar";
@@ -9,7 +9,7 @@ import Carrousel from "../home/bottomPage";
 import Development from "../../pictures/aboutus/Development.webp";
 import Sustainability from "../../pictures/aboutus/Sustainability.webp";
 import Unity from "../../pictures/aboutus/Unity.webp";
-import Scrollbar from "smooth-scrollbar";
+import ScrollContainer from "../util/ScrollContainer";
 
 // Load Montserrat font and assign to CSS variable for Tailwind
 const montserrat = Montserrat({
@@ -20,36 +20,12 @@ const montserrat = Montserrat({
 
 // Home page component for Top Dutch Solar Racing
 const Home: React.FC = () => {
-   const [isDesktop, setIsDesktop] = useState(false);
-    const scrollbarRef = useRef<Scrollbar | null>(null);
-    // 1️⃣ Detect desktop vs touch
-    useEffect(() => {
-      const mq = window.matchMedia("(pointer: fine)");
-      const update = () => setIsDesktop(mq.matches);
-      update();
-      mq.addEventListener("change", update);
-      return () => mq.removeEventListener("change", update);
-    }, []);
-  
-    // 3️⃣ Init / destroy Smooth Scrollbar only on desktop
-    useEffect(() => {
-      const container = document.querySelector('#scroll-container') as HTMLElement;
-      if (isDesktop && container) {
-        scrollbarRef.current = Scrollbar.init(container, { damping: 0.08 });
-        return () => {
-          scrollbarRef.current?.destroy();
-          scrollbarRef.current = null;
-        };
-      }
-    }, [isDesktop]);
+   
   
   return (
     <div className={`${montserrat.variable} relative bg-[var(--background)] min-h-screen`}>
       <Navbar showLogoImmediately />
-      <div
-        id="scroll-container" 
-        className="overflow-y-auto" // Ensure scroll is enabled
-        style={{ height: "100vh" }}>
+      <ScrollContainer>
         <main className="container mx-auto px-4 py-16 font-montserrat">
           {/* About Us Section */}
           <section className="mb-16">
@@ -115,7 +91,7 @@ const Home: React.FC = () => {
         </main>
         <Carrousel />
         <Footer />
-      </div>
+      </ScrollContainer>
     </div>
   );
 };
