@@ -53,7 +53,7 @@ const allStories = [
   { id: 18, quote: "''", name: "Nienke", jobTitle: "Logistics Manager", image: Nienke },
   { id: 19, quote: "'I want the AC on 28 degrees'", name: "Julian", jobTitle: "Software Engineer", image: Julian },
   { id: 20, quote: "''", name: "Rolf", jobTitle: "Electrical Engineer", image: Rolf },
-  { id: 21, quote: "''", name: "Ruben", jobTitle: "Software Engineer", image: Ruben },
+  { id: 21, quote: "'I develop the real-time software that guides our solar car to victory, one line of code at a time'", name: "Ruben", jobTitle: "Software Engineer", image: Ruben },
   { id: 22, quote: "''", name: "Steven", jobTitle: "Mechanical Engineer", image: Steven },
   { id: 23, quote: "''", name: "Sander", jobTitle: "Mechanical Engineer", image: Sander },
   { id: 24, quote: "''", name: "Stijn", jobTitle: "Partner Relations", image: Stijn },

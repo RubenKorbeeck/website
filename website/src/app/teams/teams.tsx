@@ -35,16 +35,16 @@ import Erik from "../../pictures/team_photos_25_webp/erik.webp";
 import we_are_tdsr from "../../pictures/teamphoto/we_are_25.svg";
 import team25 from "../../pictures/teamphoto/team25.webp";
 
-import electronics from "../../pictures/teamSections/electro.jpg";
-import operations from "../../pictures/teamSections/logistics.jpg";
+import electronics from "../../pictures/teamSections/ELEC.jpg";
+import operations from "../../pictures/teamSections/LOG.jpg";
 import aerodynamics from "../../pictures/teamSections/aero.jpg";
-import mechanics from "../../pictures/teamSections/mechie.jpg";
-import strategy from "../../pictures/teamSections/strategy.jpg";
-import software from "../../pictures/teamSections/software.jpg";
-import management from "../../pictures/teamSections/management.jpg";
+import mechanics from "../../pictures/teamSections/mechies.jpg";
+import strategy from "../../pictures/teamSections/strat.jpg";
+import software from "../../pictures/teamSections/SOFT.jpg";
+import management from "../../pictures/teamSections/managemnet.jpg";
 import communication from "../../pictures/teamSections/comms.jpg";
-import acquisitions from "../../pictures/teamSections/acquisitions.jpg";
-import structural from "../../pictures/teamSections/structural.jpg";
+import acquisitions from "../../pictures/teamSections/ACQ.jpg";
+import structural from "../../pictures/teamSections/struct.jpg";
 import mentor from "../../pictures/teamSections/mentor.jpg";
 
 const sectionImages: Record<string, StaticImageData> = {
