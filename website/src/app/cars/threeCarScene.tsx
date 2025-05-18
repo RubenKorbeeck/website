@@ -77,10 +77,10 @@ function Scene({ offsetZ }: { offsetZ: number }) {
       <directionalLight intensity={5.6} position={[0, 50, 5]} color="#ffffff" />
       <Suspense fallback={null}>
         <group ref={groupRef} position={[0, 0, 0]}>
-          <SolarCar url="/GF_compressed.glb" position={[0, 0, 0]} scale={3000} rotate={0} />
-          <SolarCar url="/GT.glb" position={[0, 0, -100]} scale={35} rotate={-Math.PI/2}/>
-          <SolarCar url="/GS.compressed.glb" position={[0, 0, -320]} scale={35} rotate={-Math.PI/2}/>
-          <SolarCar url="/GL.compressed.glb" position={[0, 0, -520]} scale={35} rotate={-Math.PI/2} />
+          <SolarCar url="/GF_compressed.glb" position={[0, 0, 0]} scale={3327} rotate={0} />
+          <SolarCar url="/GT.glb" position={[0, 0, -90]} scale={35} rotate={-Math.PI/2}/>
+          <SolarCar url="/GS.compressed.glb" position={[0, 0, -290]} scale={35} rotate={-Math.PI/2}/>
+          <SolarCar url="/GL.compressed.glb" position={[0, 0, -490]} scale={35} rotate={-Math.PI/2} />
         </group>
         <mesh rotation-x={-Math.PI / 2} position={[0, 0, 0]} receiveShadow>
           <planeGeometry args={[400, 1000]} />
@@ -176,7 +176,7 @@ export default function ThreeCarScene() {
           <div>
             {prevName && (
               <button
-                className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className="px-6 py-2 bg-[var(--green3)]  text-white rounded-lg text-sm font-medium hover:bg-[var(--green2)]  focus:outline-none focus:ring-2 focus:ring-gray-500"
                 onClick={handlePrevious}
               >
                 {prevName}
@@ -186,7 +186,7 @@ export default function ThreeCarScene() {
           <div>
             {nextName && (
               <button
-                className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className="px-6 py-2 bg-[var(--green3)]  text-white rounded-lg text-sm font-medium hover:bg-[var(--green2)] focus:outline-none focus:ring-2 focus:ring-gray-500"
                 onClick={handleNext}
               >
                 {nextName}

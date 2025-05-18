@@ -27,8 +27,8 @@ const zoomTargets = [
     lookAt: new THREE.Vector3(-10, 0, 10),
     description:
       "Solar Deck: Green Falcon has one of the most efficient solar panels on the market. This makes Green Falcon generate more electricity with the same amount of sun.",
-    descStyle: { top: '5%', left: '20%' },
-    mobileScale: 1.8,
+    descStyle: { top: '15%', left: '20%' },
+    mobileScale: 1.3,
   },
   {
     position: new THREE.Vector3(-80, 12, -20),
@@ -356,40 +356,57 @@ export default function ThreeScene() {
           />
         </group>
       </Canvas>
-      {currentIndex === 0 && (
-        <div className="absolute top-20 left-20 z-20 text-white font-bold text-lg opacity-100 transition-opacity duration-500">
-          <h1 className="mb-4 lg:text-8xl md:text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-[var(--green1)]">
-            GREEN <br/>&nbsp;&nbsp;&nbsp;&nbsp;FALCON
-          </h1> 
+
+        <div
+          className={`
+            absolute top-40 md:top-20 left-20 z-20
+            text-white font-bold text-lg
+            transition-opacity duration-500 ease-in-out
+            ${currentIndex === 0 ? 'opacity-100' : 'opacity-0'}
+          `}
+        >
+          <h1 className="mb-4 text-4xl lg:text-8xl md:text-6xl font-extrabold leading-none tracking-tight text-[var(--green1)]">
+            GREEN <br />&nbsp;&nbsp;&nbsp;&nbsp;FALCON
+          </h1>
         </div>
-      )}
+      
 
       {/* Description Overlay */}
       <div
-         style={{
+        style={{
           position: 'absolute',
+          width: '30vw',
           ...(isPhone
-            ? { bottom: '5%', left: '50%', transform: 'translateX(-50%)' }
-            : descStyle)
+            ? {
+                bottom: '15%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '90vw',        // ← here’s the phone-only width
+                maxWidth: 'none',     // ← override any previous max-width
+              }
+            : descStyle),
         }}
-        className={
-          `max-w-xs p-4 bg-gray-400 bg-opacity-0 text-white rounded-xl shadow-lg text-lg font-sans transition-opacity duration-500 ` +
-          (descVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2')
-        }
+        className={`
+          p-4 bg-black bg-opacity-80 text-white
+          rounded-xl shadow-lg text-lg font-sans
+          transition-opacity duration-500 transform
+
+          ${descVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}
+        `}
       >
         {description}
       </div>
 
       {/* Controls */}
-      <div className="absolute bottom-5 w-full flex justify-center space-x-4">
+      <div className="absolute bottom-10 w-full flex justify-center space-x-4">
         <button
-          className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-transform transform hover:-translate-y-0.5"
+          className="px-6 py-2 bg-[var(--green3)] text-white rounded-lg text-sm font-medium hover:bg-[var(--green2)]focus:outline-none focus:ring-2 focus:ring-gray-500 transition-transform transform hover:-translate-y-0.5"
           onClick={() => handleZoom(-1)}
         >
           Previous
         </button>
         <button
-          className="px-6 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-transform transform hover:-translate-y-0.5"
+          className="px-6 py-2 bg-[var(--green3)] text-white rounded-lg text-sm font-medium hover:bg-[var(--green2)] focus:outline-none focus:ring-2 focus:ring-gray-500 transition-transform transform hover:-translate-y-0.5"
           onClick={() => handleZoom(1)}
         >
           Next

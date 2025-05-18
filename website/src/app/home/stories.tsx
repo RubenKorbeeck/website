@@ -85,7 +85,8 @@ const Stories = () => {
   }, []);
 
   return (
-    <div className="h-[100vh] max-h-[100vh] overflow-hidden flex flex-col items-center p-12 space-y-10">
+    <div className="h-[100vh] max-h-[100vh] flex flex-row items-center justify-center w-full">
+      <div className="h-[80vh] overflow-hidden flex flex-col items-center p-12 space-y-4 w-full">
       {selectedStories.map((story, index) => (
         <div
           key={story.id}
@@ -98,7 +99,7 @@ const Stories = () => {
             <Image
               src={story.image}
               alt={story.name}
-              width={200} // Adjust width as needed
+              width={180} // Adjust width as needed
               height={200} // Adjust height as needed
               className="rounded-2xl object-cover "
             />
@@ -119,6 +120,7 @@ const Stories = () => {
       >
         More stories
       </button>
+      </div>
     </div>
   );
 };
