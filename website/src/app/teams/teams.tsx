@@ -61,7 +61,7 @@ const sectionImages: Record<string, StaticImageData> = {
   mentor,
 };
 
-
+//commm
 // get team linkedin links
 const linkErik = "https://www.linkedin.com/in/erik-westerhoff-452b1111/";
 const linkWilly = "http://www.linkedin.com/in/daan-boonstra-";
