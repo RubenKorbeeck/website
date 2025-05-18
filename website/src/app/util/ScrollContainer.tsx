@@ -64,7 +64,7 @@ const ScrollContainer = ({ children }: { children: React.ReactNode }) => {
             maxOverscroll: 80,
           },
           mobile: {
-            speed: 0.001,
+            speed: 0.005,
           },
         },
       };
