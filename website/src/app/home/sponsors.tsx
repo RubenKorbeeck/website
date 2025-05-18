@@ -56,7 +56,7 @@ const logos = [
 export default function Supporters() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const scrollStart = typeof window !== "undefined" ? window.innerHeight * 1.1 : 0;
+  const scrollStart = typeof window !== "undefined" ? window.innerHeight * 0.9 : 0;
 
 
   useEffect(() => {

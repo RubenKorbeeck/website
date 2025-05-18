@@ -106,10 +106,10 @@ const Stories = () => {
           </div>
 
           {/* Text content */}
-          <div className="p-8 md:pl-0 text-center md:text-left md:w-2/3">
-            <h2 className="md:text-2xl sm:text-xl text-white font-bold mb-4 italic">{story.quote}</h2>
-            <h2 className="md:text-xl sm:text-lg text-white font-bold mb-4">{story.name}</h2>
-            <h2 className="md:text-xl sm:text-lg text-white font-bold mb-4">{story.jobTitle}</h2>
+          <div className="p-2 md:pl-0 text-center md:text-left md:w-2/3">
+            <h2 className="md:text-2xl sm:text-lg text-md text-white font-bold mb-2 italic">{story.quote}</h2>
+            <h2 className="md:text-xl sm:text-lg text-md text-white font-bold mb-2">{story.name}</h2>
+            <h2 className="md:text-xl sm:text-lg text-md text-white font-bold mb-2">{story.jobTitle}</h2>
           </div>
         </div>
       ))}
