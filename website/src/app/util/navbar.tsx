@@ -5,7 +5,6 @@ import Scrollbar from "smooth-scrollbar";
 import NavbarMenu from "./menu";
 import TDSR_logo from "../../pictures/tdsr-full-logo.svg";
 import Link from "next/link";
-
 interface NavbarProps {
   /**
    * If true, the logo will be shown immediately on mount,
@@ -83,10 +82,12 @@ export default function Navbar({
   const shouldShowLogo = showLogoImmediately || scrolled || isOpen;
 
   return (
-    <header className="fixed top-0 z-50 w-full text-white h-16">
+    <header className={`fixed top-0 w-full z-50 h-16 text-white `} >
       <div className="flex items-center bg-transparent justify-between p-4">
-        {/* Left Section: Logo */}
-        <div className="z-50 flex w-16"/>
+        {/* empty div because otherwise it's not centered and i'm too lazy to fix it*/}
+        <div className="z-50 w-16">
+        </div>
+
         {/* Center Section: Logo */}
         <div className="z-50 flex items-center justify-center w-full">
           <div
@@ -112,10 +113,10 @@ export default function Navbar({
       {/* Mobile menu overlay */}
       <div
         className={`
-          md:absolute
+          fixed 
           bg-[var(--background)]
-          inset-0 md:inset-auto md:top-0 md:right-0
-          w-full md:w-screen h-screen z-40
+          inset-0  md:top-0 md:right-0
+          w-full md:w-screen h-screen
           transform transition-transform duration-[1s] ease-in-out
           ${isOpen ? "translate-x-0" : "translate-x-full"}
         `}

@@ -22,7 +22,7 @@ const NavLink = ({
     onClick={onClick}
     onMouseEnter={onMouseEnter}
     className="
-      w-1/3 text-center
+      w-full sm:w-1/3 text-center
       text-white hover:text-light2
       transition-colors duration-200
     "

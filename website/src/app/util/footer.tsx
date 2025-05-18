@@ -110,7 +110,7 @@ export default function Footer() {
           */}
           <div className="mt-2">
             Website designed by:{" "}
-            <a href="#" className="hover:underline text-gray-400">
+            <a href="https://www.linkedin.com/in/suzanne-korbeeck-a5202a365/" className="hover:underline text-gray-400">
               Suzanne Korbeeck
             </a>
           </div>

@@ -41,7 +41,7 @@ export default function HomePage() {
   // 3️⃣ Init / destroy Smooth Scrollbar only on desktop
   useEffect(() => {
     const container = document.querySelector('#scroll-container') as HTMLElement;
-    if (isDesktop && container) {
+    if (container) {
       scrollbarRef.current = Scrollbar.init(container, { damping: 0.08 });
       return () => {
         scrollbarRef.current?.destroy();
@@ -49,6 +49,9 @@ export default function HomePage() {
       };
     }
   }, [isDesktop]);
+
+
+
 
   return (
     <div
@@ -68,7 +71,9 @@ export default function HomePage() {
         id="scroll-container"
         style={{
           height: "100vh",
-          overflowY: isDesktop ? "hidden" : "auto",
+          overflowY: isDesktop ? "hidden" : "auto", // Allow native scroll on mobile
+          touchAction: isDesktop ? "none" : "auto", // Disable touch actions on desktop to allow native scrolling on mobile
+          scrollBehavior: 'smooth',  // Add this to enable smooth scrolling on mobile (native)
         }}
       >
         {/* LandPage Section */}

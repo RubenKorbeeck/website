@@ -50,16 +50,18 @@ const logos = [
   { src: pouw,         top: "12%",  left: "4vw",  speed: 1.0, width: 100 },
   { src: rabobank,     top: "78%", left: "70vw", speed: 1.3, width: 100 },
 ];
+// Import logos
+// ... (your logos array as defined earlier)
 
 export default function Supporters() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const scrollStart = typeof window !== "undefined" ? window.innerHeight * 1.1 : 0;
 
-  // Handle smooth scrolling on desktop using smooth-scrollbar
+
   useEffect(() => {
     let scrollbarInstance: Scrollbar | null = null;
-
+    // Poll for the scrollbar instance every 100ms
     const interval = setInterval(() => {
       const scrollContainer = document.querySelector("#scroll-container");
       if (scrollContainer && scrollContainer instanceof HTMLElement) {
@@ -70,6 +72,7 @@ export default function Supporters() {
           };
           scrollbarInstance.addListener(handleScrollbarScroll);
           clearInterval(interval);
+          // Cleanup: remove listener when the component unmounts
           return () => {
             if (scrollbarInstance) {
               scrollbarInstance.removeListener(handleScrollbarScroll);
@@ -78,11 +81,9 @@ export default function Supporters() {
         }
       }
     }, 100);
-
     return () => clearInterval(interval);
   }, []);
 
-  // Handle resizing and set mobile state
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -92,18 +93,6 @@ export default function Supporters() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Adjust scroll for mobile and desktop
-  useEffect(() => {
-    if (isMobile) {
-      const handleScroll = () => {
-        setScrollY(window.scrollY);
-      };
-      window.addEventListener("scroll", handleScroll);
-
-      return () => window.removeEventListener("scroll", handleScroll);
-    }
-  }, [isMobile]);
-
   const adjustedScroll = Math.max(scrollY - scrollStart, 0);
 
   return (
@@ -111,38 +100,31 @@ export default function Supporters() {
       <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl md:text-2xl font-bold text-center">
         Thanks to all the supporters
       </h1>
-
-      <div
-        id="scroll-container"
-        className="relative w-full h-full overflow-y-auto"
-        style={{ height: "100vh" }} // Ensure scroll container takes the full height
-      >
-        {logos.map((logo, index) => {
-          const adjustedWidth = isMobile ? logo.width / 2 : logo.width;
-          return (
-            <div
-              key={index}
-              className="absolute"
+      {logos.map((logo, index) => {
+        const adjustedWidth = isMobile ? logo.width / 2 : logo.width;
+        return (
+          <div
+            key={index}
+            className="absolute"
+            style={{
+              top: `calc(${logo.top} + ${offset * logo.speed}px)`,
+              left: logo.left,
+              transform: `translateY(-${adjustedScroll * logo.speed}px)`,
+            }}
+          >
+            <Image
+              src={logo.src}
+              alt={`Supporter logo ${index + 1}`}
+              width={adjustedWidth}
+              height={adjustedWidth}
               style={{
-                top: `calc(${logo.top} + ${offset * logo.speed}px)`,
-                left: logo.left,
-                transform: `translateY(-${adjustedScroll * logo.speed}px)`,
+                objectFit: "contain",
+                filter: "brightness(0) invert(1)",
               }}
-            >
-              <Image
-                src={logo.src}
-                alt={`Supporter logo ${index + 1}`}
-                width={adjustedWidth}
-                height={adjustedWidth}
-                style={{
-                  objectFit: "contain",
-                  filter: "brightness(0) invert(1)",
-                }}
-              />
-            </div>
-          );
-        })}
-      </div>
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
