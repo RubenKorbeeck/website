@@ -192,7 +192,7 @@ export default function PartnerPage() {
       // 3️⃣ Init / destroy Smooth Scrollbar only on desktop
       useEffect(() => {
         const container = document.querySelector('#scroll-container') as HTMLElement;
-        if (isDesktop && container) {
+        if (container) {
           scrollbarRef.current = Scrollbar.init(container, { damping: 0.08 });
           return () => {
             scrollbarRef.current?.destroy();
